@@ -1,0 +1,25 @@
+[user]
+    name =
+    email =
+
+[core]
+    pager = less -FRSX
+    editor = vim
+
+[color]
+    ui = auto
+
+[merge]
+    tool = vimdiff
+
+[alias]
+    lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%cr, %an)%Creset %n%b'
+    st = status
+    ds = diff --staged
+    d  = diff
+    amend = commit --amend
+    co = checkout
+    ci = commit
+
+[help]
+#    autocorrect = 1
