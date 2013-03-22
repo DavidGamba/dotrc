@@ -24,7 +24,7 @@ shopt -s cmdhist            # save multi-line commands in history as single line
 shopt -s dotglob            # include dotfiles in pathname expansion
 shopt -s expand_aliases     # expand aliases
 shopt -s extglob            # enable extended pattern-matching features
-shopt -s histappend
+shopt -s histappend         # Make bash append rather than overwrite the history on disk
 shopt -s histverify         # edit a recalled history line before executing
 shopt -s histreedit         # reedit a history substitution line if it failed
 shopt -s hostcomplete       # attempt hostname expansion when @ is at the beginning of a word
@@ -38,10 +38,10 @@ export EDITOR="vim"
 export GIT_EDITOR="vim"
 export VISUAL="vim"
 export PAGER="less"
-export LESS="-I -j6 -M -F -X -R"
+export LESS="-I -j6 -M -R -F -X"
 export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
-LESSOPEN="|lesspipe.sh %s"
-export LESSOPEN
+#LESSOPEN="|lesspipe.sh %s"
+#export LESSOPEN
 
 # History Stuff
 export HISTTIMEFORMAT="%H:%M > "
@@ -53,8 +53,20 @@ export HISTCONTROl=ignoreboth
 #-------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------
-alias ls='ls -hF --color=auto'
-alias ll='ls -l'
+# Darwin = mac
+if [ `uname | grep Darwin` ]; then
+    # G is color in mac
+    alias ls='ls -GhF'
+    alias ll='ls -Gl'
+    alias la='ls -Gla'
+    alias l='ls -GCF'
+    alias chromium='/Applications/Chromium.app/Contents/MacOS/Chromium'
+else
+    alias ls='ls -hF --color=auto'
+    alias ll='ls -l --color=auto'
+    alias la='ls -la --color=auto'
+    alias l='ls -CF --color=auto'
+fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -62,16 +74,30 @@ alias egrep='egrep --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias pong='ping -c4 www.google.com' 
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# to run banshee behind a proxy
+alias banshee='dbus-launch banshee'
+alias nautilus='nautilus --no-desktop'
 
 #-------------------------------------------------------------
 # External
 #-------------------------------------------------------------
-if [ -d ${HOME}/.local_bash ]; then
-    source ${HOME}/.local_bash/bash_aliases
+if [ -f ${HOME}/local/bash_aliases ]; then
+    source ${HOME}/local/bash_aliases
 fi
 
 if [ -d ${HOME}/bin ]; then
     export PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d ${HOME}/opt/bin ]; then
+    export PATH="$HOME/opt/bin:$PATH"
+fi
+
+if [ -d ${HOME}/.cabal/bin ]; then
+    export PATH="$HOME/.cabal/bin:$PATH"
 fi
 
 if [ ! -f /etc/bash_completion.d/git ]; then
@@ -79,9 +105,21 @@ if [ ! -f /etc/bash_completion.d/git ]; then
 fi
 
 source ~/dotrc/bash_func/up
+source ~/dotrc/bash_func/extract
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
+fi
+
+if [ -d "/usr/lib/oracle/11.2" ]; then
+    if [ -d "/usr/lib/oracle/11.2/client" ]; then
+        export ORACLE_HOME="/usr/lib/oracle/11.2/client"
+    fi
+    if [ -d "/usr/lib/oracle/11.2/client64" ]; then
+        export ORACLE_HOME="/usr/lib/oracle/11.2/client64"
+    fi
+    export PATH="$PATH:$ORACLE_HOME/bin"
+    export LD_LIBRARY_PATH="$ORACLE_HOME/lib"
 fi
 
 #-------------------------------------------------------------
@@ -98,6 +136,7 @@ CYAN="\[\033[36;1m\]"
 WHITE="\[\033[37;1m\]"
 # insert \[ and \] around the ANSI escapes so that the shell knows not
 # to include them in the line wrapping calculation
+TERM_TITLE="\[\033]2; \h \w\007\]"
 
 function git_repo {
     PROMT_CHAR='$'
@@ -110,7 +149,7 @@ function smiley {
     [ $RET -ne 0 ] && echo -ne "\033[31;1m:("
 }
 PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; git_repo'
-PS1="${RESET}${CYAN}\h \w \$(smiley)${GREEN}\${GIT_BRANCH}"\
+PS1="${TERM_TITLE}${RESET}${GREEN}\h \w \$(smiley)${GREEN}\${GIT_BRANCH}"\
 "\n${BLUE}\${PROMT_CHAR} ${NORMAL}${RESET}"
 
 #-------------------------------------------------------------
@@ -138,3 +177,14 @@ for editor in vim vi editor ; do
         break
     fi
 done
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+    . /etc/bash_completion
+fi
+
+# Ruby stuff
+#PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
