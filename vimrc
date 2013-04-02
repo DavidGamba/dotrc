@@ -66,7 +66,8 @@
         set cursorline
     endif
 
-    set clipboard=unnamed " yanks everything to the * register
+    "set clipboard=unnamed " yanks everything to the * register PRIMARY clipboard
+    set clipboard=unnamedplus " yanks everything to the * register CLIPBOARD clipboard
     "set go+=a " the Visual selection is automatically copied to the clipborad
     "set clipboard+=unnamed " share windows clipboard
     "
