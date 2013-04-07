@@ -105,7 +105,6 @@ if [ ! -f /etc/bash_completion.d/git ]; then
 fi
 
 source ~/dotrc/bash_func/up
-source ~/dotrc/bash_func/extract
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
