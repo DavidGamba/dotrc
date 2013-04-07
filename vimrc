@@ -69,8 +69,7 @@
     "set clipboard=unnamed " yanks everything to the * register PRIMARY clipboard
     set clipboard=unnamedplus " yanks everything to the * register CLIPBOARD clipboard
     "set go+=a " the Visual selection is automatically copied to the clipborad
-    "set clipboard+=unnamed " share windows clipboard
-    "
+
     set wildmenu " turn on command line completion wild style
     " set wildchar
     set wildmode=longest:full,list
@@ -82,9 +81,6 @@
 
 
     set backspace=indent,eol,start "make backspace more flexible
-
-    set list " shows tabbed spaces
-    set listchars=tab:>-,trail:- " fill tabs with >---
 
     "hi User1 term=underline cterm=bold ctermfg=Cyan ctermbg=Blue guifg=#40ffff guibg=#0000aa
     set laststatus=2 " Always show the status line
@@ -110,7 +106,6 @@
 
     " Don't redraw while executing macros (good performance config)
     set lazyredraw
-
 "}
 
 " Searching {
@@ -173,13 +168,13 @@
 "}
 
 " Text Formatting {
+    set list " shows tabbed spaces
+    set listchars=tab:>-,trail:- " fill tabs with >---
+
     set expandtab " spaces instead of tabs
     autocmd filetype make set noexpandtab " except for makefiles
+
     set smarttab
-    " 1 tab = 4 spaces
-    set tabstop=4
-    set shiftwidth=4
-    set softtabstop=4
 
     set nostartofline
     set autoindent
@@ -366,6 +361,11 @@ command! -bar -range=% Rev <line1>,<line2>g/^/m<line1>-1
 "}
 
 " Programming Languages {
+    " 1 tab = 4 spaces
+    set tabstop=4
+    set shiftwidth=4
+    set softtabstop=4
+
     "include pod.vim syntax file with perl.vim"
     let perl_include_pod   = 1
     "highlight complex expressions such as @{[$x, $y]}"
