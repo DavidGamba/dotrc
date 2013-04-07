@@ -98,6 +98,7 @@
     " Sets the height of the command bar
     "set cmdheight=1
     set showcmd           " Show (partial) command in status line.
+    "set cmdheight=2       " Increase the cmdheight to avoid press enter prompt
     set showmode          " Show current mode
 
     " paste mode - this will avoid unexpected effects when you
@@ -282,7 +283,7 @@
 " Buffers and tabs {
     " use open tab when switching the buffer
     set switchbuf=useopen,usetab,newtab
-    set showtabline
+    set showtabline=1
 
     set winminheight=1
     set winminwidth=1
