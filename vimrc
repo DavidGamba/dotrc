@@ -386,7 +386,7 @@ command! -bar -range=% Rev <line1>,<line2>g/^/m<line1>-1
     " Make pod word bold B<<>>
     au filetype perl nnoremap <leader>b BiB<< <Esc>Ea >><Esc>
     au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
-    au filetype html,ruby set tabstop=2 | set shiftwidth=2 | set softtabstop=2
+    au filetype html,ruby,eruby set tabstop=2 | set shiftwidth=2 | set softtabstop=2
 "}
 
 " Comment/Uncomment lines {
