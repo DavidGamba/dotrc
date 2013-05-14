@@ -1,0 +1,3 @@
+== Wireless without ac power
+
+sudo iwconfig wlan0 power off

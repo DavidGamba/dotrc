@@ -1,0 +1,10 @@
+= using the same user
+
+log in as root, then start screen.
+Then type:
+
+    Ctrl+A :multiuser on
+
+Then with another user (root) on another terminal
+
+    screen -rx
