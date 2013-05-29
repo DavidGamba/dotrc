@@ -1,0 +1,13 @@
+== CD to iso
+
+readom dev=/dev/cdrom f=$HOME/my.iso
+
+== iso to CD
+
+If you want to record the ISO, then you should be using ‘wodim’, not ‘dd’, or any other horrible “solution”.
+
+wodim -v -eject /home/shamanstears/test.iso
+
+
+From comment found in this post:
+http://www.tech-recipes.com/rx/2769/ubuntu_how_to_create_iso_image_from_cd_dvd/
