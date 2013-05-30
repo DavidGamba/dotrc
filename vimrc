@@ -13,6 +13,7 @@
     set tm=500
 
     set history=500
+    set modeline " Enable footer of the type '# vim: set filetype=apache:'
 "}
 
 " Colors and fonts {
