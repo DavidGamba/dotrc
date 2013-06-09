@@ -105,6 +105,8 @@ if [ ! -f /etc/bash_completion.d/git ]; then
 fi
 
 source ~/dotrc/bash_func/up
+source ~/dotrc/bash_func/color_man.bash # Colored man pages
+source ~/dotrc/bash_func/ps1.bash       # Custom PS1
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
@@ -120,36 +122,6 @@ if [ -d "/usr/lib/oracle/11.2" ]; then
     export PATH="$PATH:$ORACLE_HOME/bin"
     export LD_LIBRARY_PATH="$ORACLE_HOME/lib"
 fi
-
-#-------------------------------------------------------------
-# PS1
-#-------------------------------------------------------------
-#colors
-RESET="\[\017\]"
-NORMAL="\[\033[0m\]"
-RED="\[\033[31;1m\]"
-GREEN="\[\033[32;1m\]"
-YELLOW="\[\033[33;1m\]"
-BLUE="\[\033[34;1m\]"
-CYAN="\[\033[36;1m\]"
-WHITE="\[\033[37;1m\]"
-# insert \[ and \] around the ANSI escapes so that the shell knows not
-# to include them in the line wrapping calculation
-TERM_TITLE="\[\033]2; \h \w\007\]"
-
-function git_repo {
-    PROMT_CHAR='$'
-    GIT_BRANCH=`git rev-parse --abbrev-ref HEAD 2>/dev/null` &&\
-        GIT_BRANCH=" $GIT_BRANCH" &&\
-        PROMT_CHAR='+'
-}
-function smiley {
-    [ $RET -eq 0 ] && echo -ne "\033[37;1m:)"
-    [ $RET -ne 0 ] && echo -ne "\033[31;1m:("
-}
-PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; git_repo'
-PS1="${TERM_TITLE}${RESET}${GREEN}\h \w \$(smiley)${GREEN}\${GIT_BRANCH}"\
-"\n${BLUE}\${PROMT_CHAR} ${NORMAL}${RESET}"
 
 #-------------------------------------------------------------
 # Define BROWSER and EDITOR
