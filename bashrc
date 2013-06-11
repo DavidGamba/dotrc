@@ -105,8 +105,8 @@ if [ ! -f /etc/bash_completion.d/git ]; then
 fi
 
 source ~/dotrc/bash_func/up
-source ~/dotrc/bash_func/color_man.bash # Colored man pages
-source ~/dotrc/bash_func/ps1.bash       # Custom PS1
+source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
+source ~/dotrc/bash_func/ps1.bash        # Custom PS1
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch

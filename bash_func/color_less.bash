@@ -1,5 +1,4 @@
-# Color man pages
-man() {
+set_less_color_env_vars() {
     local BLACK="30"
     local RED="31"
     local GREEN="32"
@@ -40,13 +39,12 @@ man() {
     # ue   End underlining
     # us   Start underlining
 
-    env \
-        LESS_TERMCAP_mb=$(printf "\e[${RED};${BOLD}m") \
-        LESS_TERMCAP_md=$(printf "\e[${CYAN};${BOLD}m") \
-        LESS_TERMCAP_me=$(printf "\e[${RESET}m") \
-        LESS_TERMCAP_se=$(printf "\e[${RESET}m") \
-        LESS_TERMCAP_so=$(printf "\e[${BLACK};${B_WHITE};${NORMAL}m") \
-        LESS_TERMCAP_ue=$(printf "\e[${RESET}m") \
-        LESS_TERMCAP_us=$(printf "\e[${GREEN};${BOLD}m") \
-            man "$@"
+    export LESS_TERMCAP_mb=$(printf "\e[${RED};${BOLD}m")
+    export LESS_TERMCAP_md=$(printf "\e[${CYAN};${BOLD}m")
+    export LESS_TERMCAP_me=$(printf "\e[${RESET}m")
+    export LESS_TERMCAP_se=$(printf "\e[${RESET}m")
+    export LESS_TERMCAP_so=$(printf "\e[${BLACK};${B_BLUE};${NORMAL}m")
+    export LESS_TERMCAP_ue=$(printf "\e[${RESET}m")
+    export LESS_TERMCAP_us=$(printf "\e[${GREEN};${BOLD}m")
 }
+set_less_color_env_vars
