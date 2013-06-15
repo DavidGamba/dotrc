@@ -12,6 +12,9 @@
   if has('autocmd')
     autocmd GUIEnter * set visualbell t_vb=
   endif
+  set guioptions-=m "remove menu bar
+  set guioptions-=T "remove toolbar
+  set guioptions-=r "remove right-hand scroll bar
   set history=256
   set number
   set encoding=utf8

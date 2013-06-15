@@ -2,13 +2,24 @@
 
 == Dependencies:
 
-On ubuntu it should be enough to install libx11-dev and libxtst-dev
+sudo apt-get build-dep vim
+sudo apt-get build-dep libx11-dev libxtst-dev
 
 == Configure
 
-    ./configure --with-features=huge \
-                --enable-gui=auto \
-                --with-x \
-                --enable-rubyinterp \
-                --enable-perlinterp \
-                --enable-fontset
+  make distclean
+
+  ./configure --with-compiledby="David Gamba <davidgamba@gambaeng.com>" \
+    --with-features=huge \
+    --enable-gui=auto \
+    --with-x \
+    --enable-rubyinterp \
+    --enable-perlinterp \
+    --enable-fontset \
+    --enable-cscope \
+    --enable-gtk2-check \
+    --enable-gnome-check
+
+  make
+
+  sudo make install
