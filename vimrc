@@ -232,22 +232,7 @@
     au filetype perl nnoremap <leader>b BiB<< <Esc>Ea >><Esc>
     au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
 
-" Comment/Uncomment lines {
-    " comment/uncomment blocks of code (in vmode)
-    au filetype * vmap <leader>c :s/^/#/gi<Enter>:nohlsearch<CR>
-    au filetype * vmap <leader>C :s/^#//gi<Enter>:nohlsearch<CR>
-
-    " comment/uncomment blocks of text for mail messages (in vmode)
-    au filetype mail vmap <leader>c :s/^/> /gi<Enter>:nohlsearch<CR>
-    au filetype mail vmap <leader>C :s/^> //gi<Enter>:nohlsearch<CR>
-
-    " comment/uncomment blocks of text for vim (in vmode)
-    au filetype vim vmap <leader>c :s/^/\"/gi<Enter>:nohlsearch<CR>
-    au filetype vim vmap <leader>C :s/^\"//gi<Enter>:nohlsearch<CR>
-
-    " comment/uncomment blocks of text for latex (in vmode)
-    au filetype tex,plaintex vmap <leader>c :s/^/\%/gi<Enter>:nohlsearch<CR>
-    au filetype tex,plaintex vmap <leader>C :s/^%//gi<Enter>:nohlsearch<CR>
+    au BufRead,BufNewFile *.txt,*.asciidoc,*.adoc,*.ad set filetype=asciidoc
 "}
 
 " Open link in web browser {
@@ -339,3 +324,10 @@ Bundle 'Townk/vim-autoclose'
 
 " Navigation
 Bundle "http://github.com/gmarik/vim-visual-star-search.git"
+
+" tComment
+Bundle "tComment"
+nnoremap // :TComment<CR>
+vnoremap // :TComment<CR>"
+nnoremap ,c :TComment<CR>
+vnoremap ,c :TComment<CR>"
