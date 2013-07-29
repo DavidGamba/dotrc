@@ -12,6 +12,7 @@ fi
 set -o vi                   # vi style
 set -o notify               # notify of completed background jobs immediately
 stty -ctlecho               # turn off control character echoing
+stty -ixon                  # Enable XON/XOFF flow control, allows passing Ctrl-S to vim
 setterm -regtabs 2          # set tab width of 4 (only works on TTY)
 
 # shell opts: see bash(1)

@@ -176,6 +176,10 @@
 " Command and Auto commands {
 " Sudo write
   comm! W exec 'w !sudo tee % > /dev/null' | e!
+  " Save with C-S
+  noremap <silent> <C-S>          :update<CR>
+  vnoremap <silent> <C-S>         <C-C>:update<CR>
+  inoremap <silent> <C-S>         <C-O>:update<CR>
 
   "Auto commands
   au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
