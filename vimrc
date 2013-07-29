@@ -4,7 +4,9 @@
   filetype plugin indent on      " Automatically detect file types.
   syntax on                      " enable syntax
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
-  colorscheme desert
+  set background=dark
+  set t_Co=256
+  colorscheme default
   set timeoutlen=250 " Time to wait after ESC (default causes an annoying delay)
   set synmaxcol=300  " Syntax coloring lines that are too long just slows down the world
   set lazyredraw     " Don't redraw while executing macros (good performance config)
