@@ -183,6 +183,10 @@
   vnoremap <silent> <C-S>         <C-C>:update<CR>
   inoremap <silent> <C-S>         <C-O>:update<CR>
 
+  " Keep visual selection after indentation in visual mode
+  vmap < <gv
+  vmap > >gv
+
   "Auto commands
   au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
   au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=markdown
@@ -238,7 +242,7 @@
     au filetype perl nnoremap <leader>b BiB<< <Esc>Ea >><Esc>
     au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
 
-    au BufRead,BufNewFile *.txt,*.asciidoc,*.adoc,*.ad set filetype=asciidoc
+    au BufRead,BufNewFile *.txt,*.asciidoc,*.adoc,*.ad set filetype=asciidoc | set textwidth=80
 "}
 
 " Open link in web browser {
