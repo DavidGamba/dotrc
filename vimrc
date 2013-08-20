@@ -116,6 +116,8 @@
   set wildmode=longest,full,list
   " Ignore compiled files
   set wildignore=*.o,*.*~,*.pyc
+  " Enter acts as C-y when there are drop down menu selections
+  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
   " Remove the Windows ^M - when the encodings gets messed up
   noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
