@@ -86,8 +86,8 @@ alias nautilus='nautilus --no-desktop'
 #-------------------------------------------------------------
 # External
 #-------------------------------------------------------------
-if [ -f ${HOME}/local/bash_aliases ]; then
-    source ${HOME}/local/bash_aliases
+if [ -f ${HOME}/local/bash_local ]; then
+    source ${HOME}/local/bash_local.bash
 fi
 
 if [ -d ${HOME}/bin ]; then
@@ -96,10 +96,6 @@ fi
 
 if [ -d ${HOME}/opt/bin ]; then
     export PATH="$HOME/opt/bin:$PATH"
-fi
-
-if [ -d ${HOME}/.cabal/bin ]; then
-    export PATH="$HOME/.cabal/bin:$PATH"
 fi
 
 if [ ! -f /etc/bash_completion.d/git ]; then
@@ -112,17 +108,6 @@ source ~/dotrc/bash_func/ps1.bash        # Custom PS1
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
-fi
-
-if [ -d "/usr/lib/oracle/11.2" ]; then
-    if [ -d "/usr/lib/oracle/11.2/client" ]; then
-        export ORACLE_HOME="/usr/lib/oracle/11.2/client"
-    fi
-    if [ -d "/usr/lib/oracle/11.2/client64" ]; then
-        export ORACLE_HOME="/usr/lib/oracle/11.2/client64"
-    fi
-    export PATH="$PATH:$ORACLE_HOME/bin"
-    export LD_LIBRARY_PATH="$ORACLE_HOME/lib"
 fi
 
 #-------------------------------------------------------------
