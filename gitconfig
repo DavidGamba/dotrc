@@ -5,6 +5,7 @@
 [core]
     pager = less -FRSX
     editor = vim
+    excludesfile = ~/.gitignore
 
 [color]
     ui = auto
@@ -14,7 +15,7 @@
 
 [alias]
     lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%cr, %an)%Creset %n%b'
-    st = status
+    st = status -s
     ds = diff --staged
     d  = diff
     amend = commit --amend
