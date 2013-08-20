@@ -341,6 +341,7 @@ Bundle 'gmarik/vundle'
 Bundle "jQuery"
 Bundle "rails.vim"
 Bundle 'vim-ruby/vim-ruby'
+Bundle 'scrooloose/syntastic'
 
 " Command-T
 Bundle "git://git.wincent.com/command-t.git"
