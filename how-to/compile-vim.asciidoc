@@ -15,6 +15,7 @@ sudo apt-get build-dep libx11-dev libxtst-dev
     --with-x \
     --enable-rubyinterp \
     --enable-perlinterp \
+    --enable-pythoninterp \
     --enable-fontset \
     --enable-cscope \
     --enable-gtk2-check \
