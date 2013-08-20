@@ -35,8 +35,8 @@
   set pastetoggle=<F2> "
 
   set list                     " shows tabbed spaces
-" set listchars=tab:>-,trail:- " fill tabs with >---
-  set listchars=tab:·\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+  " set listchars=tab:>-,trail:- " fill tabs with >---
+  set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
   set showmatch " show matching brackets
   set mat=2     " How many tenths of a second to blink when matching brackets
   set incsearch
