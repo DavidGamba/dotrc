@@ -230,9 +230,10 @@
 
 " Programming Languages {
     " check perl code with :make
-    au filetype perl set makeprg=perl\ -c\ %\ $*
-    au filetype perl set errorformat=%f:%l:%m
-    au filetype perl set autowrite
+    au filetype perl setlocal makeprg=perl\ -c\ %\ $*
+    au filetype perl setlocal errorformat=%f:%l:%m
+    au filetype perl setlocal autowrite
+    au filetype perl setlocal keywordprg=perldoc\ -f
 
     " Tidy selected lines (or entire file) with ,t:
     au filetype perl nnoremap <silent> ,t :%!perltidy -q<Enter>
@@ -243,6 +244,8 @@
     au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
 
     au BufRead,BufNewFile *.txt,*.asciidoc,*.adoc,*.ad set filetype=asciidoc | set textwidth=80
+
+    au filetype sh,bash setlocal keywordprg=help
 "}
 
 " Open link in web browser {
