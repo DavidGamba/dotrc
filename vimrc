@@ -30,10 +30,6 @@
 
   let g:mapleader = ","
 
-  " paste mode - this will avoid unexpected effects when you
-  " cut or copy some text from one window and paste it in Vim.
-  set pastetoggle=<F2> "
-
   set list                     " shows tabbed spaces
   " set listchars=tab:>-,trail:- " fill tabs with >---
   set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
@@ -60,7 +56,7 @@
 " StatusLine {
   set laststatus=2 " Always show the status line
   set statusline=                              " clear the statusline for when vimrc is reloaded"
-  "set statusline+=%{HasPaste()}                " Check if pastemode is on
+  set statusline+=%{HasPaste()}                " Check if pastemode is on
   set statusline+=%2*[%n%H%M%R%W]\             " flags and buf no
   set statusline+=%1*%y\                       " file type
   set statusline+=%*%F%r%h%w%1*\               " File name
@@ -116,9 +112,10 @@
   set textwidth=0
   set wildmenu " turn on command line completion wild style
   " set wildchar
-  set wildmode=longest:full,list
+  "set wildmode=longest:full,list
+  set wildmode=longest,full,list
   " Ignore compiled files
-  set wildignore=*.o,*~,*.pyc
+  set wildignore=*.o,*.*~,*.pyc
 
   " Remove the Windows ^M - when the encodings gets messed up
   noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -191,6 +188,7 @@
   au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
   au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=markdown
   au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
+  au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set textwidth=80
 
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif " restore position in file
 " }
@@ -242,8 +240,6 @@
     " Make pod word bold B<<>>
     au filetype perl nnoremap <leader>b BiB<< <Esc>Ea >><Esc>
     au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
-
-    au BufRead,BufNewFile *.txt,*.asciidoc,*.adoc,*.ad set filetype=asciidoc | set textwidth=80
 
     au filetype sh,bash setlocal keywordprg=help
 "}
