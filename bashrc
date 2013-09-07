@@ -92,6 +92,7 @@ fi
 
 if [ -d ${HOME}/bin ]; then
     export PATH="$HOME/bin:$PATH"
+    alias open="$HOME/bin/open"
 fi
 
 if [ -d ${HOME}/opt/bin ]; then
