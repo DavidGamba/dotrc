@@ -182,6 +182,8 @@
   vnoremap <silent> <C-S>         <C-C>:update<CR>
   inoremap <silent> <C-S>         <C-O>:update<CR>
 
+  inoremap <silent> <C-Z>         <C-O>:update<CR><C-C><C-Z>
+
   " Keep visual selection after indentation in visual mode
   vmap < <gv
   vmap > >gv
