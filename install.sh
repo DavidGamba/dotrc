@@ -44,19 +44,20 @@ function main()
 function create_link_for()
 {
   link=$1
-  if [[ ! -e "$HOME/.$link" && ! -L "$HOME/.$link" ]]; then
-    echo "creating link '.$link'"
+  dest=$2
+  if [[ ! -e "$link" && ! -L "$link" ]]; then
+    echo "creating link '$link'"
     set -x
-    ln -s $HOME/dotrc/$link $HOME/.$link
+    ln -s $dest $link
     set +x
   else
-    if [[ `readlink "$HOME/.$link"` != "$HOME/dotrc/$link" ]]; then
+    if [[ `readlink "$link"` != "$dest" ]]; then
       set -x
-      readlink $HOME/.$link
-      rm $HOME/.$link
+      readlink $link
+      rm $link
       set +x
       if [[ $? -eq 0 ]]; then
-        create_link_for $link
+        create_link_for $link $dest
       else
         return 1
       fi
@@ -66,13 +67,13 @@ function create_link_for()
 
 function install_dotrc()
 {
-  create_link_for 'bashrc'
-  create_link_for 'vimrc'
-  create_link_for 'vim'
-  create_link_for 'screenrc'
-  create_link_for 'perltidyrc'
-  create_link_for 'inputrc'
-  create_link_for 'gitignore'
+  create_link_for "$HOME/.bashrc"     "dotrc/bashrc"
+  create_link_for "$HOME/.vimrc"      "dotrc/vimrc"
+  create_link_for "$HOME/.vim"        "dotrc/vim"
+  create_link_for "$HOME/.screenrc"   "dotrc/screenrc"
+  create_link_for "$HOME/.perltidyrc" "dotrc/perltidyrc"
+  create_link_for "$HOME/.inputrc"    "dotrc/inputrc"
+  create_link_for "$HOME/.gitignore"  "dotrc/gitignore"
 
   cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
 
@@ -93,12 +94,16 @@ function install_bin()
   if [[ ! -d $HOME/bin/external ]]; then
     set -x
     mkdir $HOME/bin/external
-    git clone https://github.com/DavidGamba/grepp.git $HOME/bin/external/grepp
-    ln -s $HOME/bin/external/grepp/grepp $HOME/bin/grepp
-    git clone https://github.com/DavidGamba/todo.git $HOME/bin/external/todo
-    ln -s $HOME/bin/external/todo/todo $HOME/bin/todo
     set +x
   fi
+  if [[ ! -d $HOME/bin/external/grepp ]]; then
+    git clone https://github.com/DavidGamba/grepp.git $HOME/bin/external/grepp
+  fi
+  if [[ ! -d $HOME/bin/external/todo ]]; then
+    git clone https://github.com/DavidGamba/todo.git  $HOME/bin/external/todo
+  fi
+  create_link_for "$HOME/bin/grepp" "external/grepp/grepp"
+  create_link_for "$HOME/bin/todo"  "external/todo/todo"
   echo done installing bin!
 }
 
