@@ -72,6 +72,7 @@ function install_dotrc()
   create_link_for 'screenrc'
   create_link_for 'perltidyrc'
   create_link_for 'inputrc'
+  create_link_for 'gitignore'
 
   cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
 
