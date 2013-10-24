@@ -103,6 +103,12 @@ if [ ! -f /etc/bash_completion.d/git ]; then
     source ~/dotrc/bash_func/git-completion.bash
 fi
 
+if [ -e /usr/lib/jvm/JAVA_HOME ]; then
+  export JAVA_HOME=/usr/lib/jvm/JAVA_HOME
+elif [ -e /usr/java/default ]; then
+  export JAVA_HOME=/usr/java/default
+fi
+
 source ~/dotrc/bash_func/up
 source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
