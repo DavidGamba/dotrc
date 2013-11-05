@@ -49,7 +49,7 @@
   set nowb " No backup before overwriting
   set undofile
   set undodir=.
-  set viminfo^=%
+  set viminfo^=
   set tags=tags.ctags;/.
 "}
 
