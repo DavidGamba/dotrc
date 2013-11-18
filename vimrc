@@ -7,6 +7,9 @@
   set background=dark
   set t_Co=256
   colorscheme default
+  if &diff
+    colorscheme delek
+  endif
   set timeoutlen=250 " Time to wait after ESC (default causes an annoying delay)
   set synmaxcol=300  " Syntax coloring lines that are too long just slows down the world
   set lazyredraw     " Don't redraw while executing macros (good performance config)
@@ -47,8 +50,10 @@
   endif
   set nobackup
   set nowb " No backup before overwriting
-  set undofile
-  set undodir=.
+  if exists("+undofile")
+    set undofile
+    set undodir=.
+  endif
   set viminfo^=
   set tags=tags.ctags;/.
 "}
