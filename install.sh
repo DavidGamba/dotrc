@@ -74,6 +74,7 @@ function install_dotrc()
   create_link_for "$HOME/.perltidyrc" "dotrc/perltidyrc"
   create_link_for "$HOME/.inputrc"    "dotrc/inputrc"
   create_link_for "$HOME/.gitignore"  "dotrc/gitignore"
+  create_link_for "$HOME/.hgrc"       "dotrc/hgrc"
 
   cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
 
