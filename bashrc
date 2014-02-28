@@ -86,7 +86,7 @@ alias nautilus='nautilus --no-desktop'
 #-------------------------------------------------------------
 # External
 #-------------------------------------------------------------
-if [ -f ${HOME}/local/bash_local ]; then
+if [ -f ${HOME}/local/bash_local.bash ]; then
     source ${HOME}/local/bash_local.bash
 fi
 
