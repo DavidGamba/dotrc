@@ -155,6 +155,12 @@
   vnoremap `j :m'>+<cr>`<my`>mzgv`yo`z
   vnoremap `k :m'<-2<cr>`>my`<mzgv`yo`z
 
+  " yy copies a line, use Y for y$
+  nnoremap Y y$
+
+  " no more : for ex commands
+  nnoremap ; :
+
   exec "set <A-i>=\ei"
   imap <M-i> <ESC>I
   exec "set <A-a>=\ea"
@@ -167,13 +173,17 @@
   set winminheight=1
   set winminwidth=1
 
-  map <C-J> <C-W>j<C-W>_
-  map <C-K> <C-W>k<C-W>_
+  map <C-J> <C-W><C-J>
+  map <C-K> <C-W><C-K>
+  map <C-L> <C-W><C-L>
+  map <C-H> <C-W><C-H>
+  " map <C-J> <C-W>j<C-W>_
+  " map <C-K> <C-W>k<C-W>_
+  " map <C-H> :bn<CR>
+  " map <C-L> :bp<CR>
   nmap `h <C-W>h500<C-W>>
   nmap `l <C-W>l500<C-W>>
 
-  map <C-H> :bn<CR>
-  map <C-L> :bp<CR>
 
   command! -bar -range=% Reverse <line1>,<line2>g/^/m<line1>-1
   command! -bar -range=% Rev <line1>,<line2>g/^/m<line1>-1
@@ -182,6 +192,7 @@
 " Command and Auto commands {
 " Sudo write
   comm! W exec 'w !sudo tee % > /dev/null' | e!
+  noremap <leader>w :update<CR>
   " Save with C-S
   noremap <silent> <C-S>          :update<CR>
   vnoremap <silent> <C-S>         <C-C>:update<CR>
