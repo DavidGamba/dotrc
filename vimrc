@@ -58,35 +58,6 @@
   set tags=tags.ctags;/.
 "}
 
-" StatusLine {
-  set laststatus=2 " Always show the status line
-  set statusline=                              " clear the statusline for when vimrc is reloaded"
-  set statusline+=%{HasPaste()}                " Check if pastemode is on
-  set statusline+=%2*[%n%H%M%R%W]\             " flags and buf no
-  set statusline+=%1*%y\                       " file type
-  set statusline+=%*%F%r%h%w%1*\               " File name
-  set statusline+=%1*[line\ %l\/%L,%v]\        " possition information
-  set statusline+=%<\                          " cut
-  set statusline+=%=                           " cut to right
-  set statusline+=%*F2=paste\ F9=copy%1*\      " simple reminder text
-  set statusline+=%{v:register}\               " current register
-  set statusline+=%{&fileformat}               " file format
-  " Sets the height of the command bar
-  "set cmdheight=1
-  set showcmd           " Show (partial) command in status line.
-  "set cmdheight=2       " Increase the cmdheight to avoid press enter prompt
-  set showmode          " Show current mode
-  " paste mode - this will avoid unexpected effects when you
-  " cut or copy some text from one window and paste it in Vim.
-  set pastetoggle=<F2>
-  function! HasPaste()
-    if &paste
-      return 'PASTE MODE (F2) '
-    endif
-    return ''
-  endfunction
-" }
-
 " Text Formatting {
   set backspace=indent,eol,start "make backspace more flexible
 
@@ -94,7 +65,6 @@
   set tabstop=2
   set shiftwidth=2
   set softtabstop=2
-
 
   set expandtab                         " spaces instead of tabs
   autocmd filetype make set noexpandtab " except for makefiles
@@ -377,3 +347,9 @@ nnoremap // :TComment<CR>
 vnoremap // :TComment<CR>"
 nnoremap ,c :TComment<CR>
 vnoremap ,c :TComment<CR>"
+
+" Status line
+Bundle "t9md/vim-ezbar"
+set laststatus=2 " Always show the status line
+let g:ezbar_enable = 1
+
