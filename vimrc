@@ -326,31 +326,57 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 
+" Command-T
+Bundle "wincent/Command-T.git"
+let g:CommandTMatchWindowAtTop=1 " show window at top
+
+" Utility
+Bundle "tpope/vim-repeat"
+Bundle "tpope/vim-surround"
+"Bundle "autoclose.vim" http://www.vim.org/scripts/script.php?script_id=1849
+Bundle 'Townk/vim-autoclose'
+
+" Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
+Bundle 'tpope/vim-abolish.git'
+
+" tComment
+Bundle "tomtom/tcomment_vim"
+nnoremap ,c :TComment<CR>
+vnoremap ,c :TComment<CR>"
+
+" Moving around
+Bundle "Lokaltog/vim-easymotion"
+" n-character search motion
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n n:call HLNext(1)<cr>
+map  N N:call HLNext(1)<cr>
+
+function! HLNext (blinktime)
+    set invcursorline
+    redraw
+    exec 'sleep ' . float2nr(a:blinktime * 100) . 'm'
+    set invcursorline
+    redraw
+endfunction
+
 " Programming
 Bundle "jQuery"
 Bundle "rails.vim"
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'scrooloose/syntastic'
 
-" Command-T
-Bundle "git://git.wincent.com/command-t.git"
-let g:CommandTMatchWindowAtTop=1 " show window at top
-
-" Utility
-Bundle "surround.vim"
-"Bundle "autoclose.vim" http://www.vim.org/scripts/script.php?script_id=1849
-Bundle 'Townk/vim-autoclose'
+" provides ++
+Bundle 'nixon/vim-vmath'
+vmap <expr>  ++  VMATH_YankAndAnalyse()
+nmap         ++  vip++
 
 " Navigation
-Bundle "http://github.com/gmarik/vim-visual-star-search.git"
+Bundle "marik/vim-visual-star-search.git"
+Bundle "scrooloose/nerdtree.git"
 
-" tComment
-Bundle "tComment"
-nnoremap // :TComment<CR>
-vnoremap // :TComment<CR>"
-nnoremap ,c :TComment<CR>
-vnoremap ,c :TComment<CR>"
-
+" Coloring
+" Bundle "altercation/vim-colors-solarized.git"
 " Status line
 Bundle "t9md/vim-ezbar"
 set laststatus=2 " Always show the status line
