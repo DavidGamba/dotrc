@@ -101,6 +101,8 @@
   nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "}
 
+inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>gi
+
 " Navigation {
   " Make navigation more amenable to the long wrapping lines.
   noremap k gk
