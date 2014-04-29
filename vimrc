@@ -6,9 +6,10 @@
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
   set background=dark
   set t_Co=256
-  colorscheme default
+  colorscheme desert
+  hi Search ctermfg=160 ctermbg=232 cterm=Bold
   if &diff
-    colorscheme delek
+    colorscheme desert
   endif
   set timeoutlen=250 " Time to wait after ESC (default causes an annoying delay)
   set synmaxcol=300  " Syntax coloring lines that are too long just slows down the world
