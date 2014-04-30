@@ -1,17 +1,14 @@
 " Basics {
   set nocompatible               " be iMproved
   filetype off                   " required by Vundle!
-  filetype plugin indent on      " Automatically detect file types.
   syntax on                      " enable syntax
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
   set background=dark
-  set t_Co=256
   colorscheme desert
   hi Search ctermfg=160 ctermbg=232 cterm=Bold
   if &diff
     colorscheme desert
   endif
-  set timeoutlen=250 " Time to wait after ESC (default causes an annoying delay)
   set synmaxcol=300  " Syntax coloring lines that are too long just slows down the world
   set lazyredraw     " Don't redraw while executing macros (good performance config)
   set noerrorbells visualbell t_vb= " No annoying sournd on errors
@@ -21,11 +18,8 @@
   set guioptions-=m "remove menu bar
   set guioptions-=T "remove toolbar
   set guioptions-=r "remove right-hand scroll bar
-  set history=256
   set number
-  set encoding=utf8
   set fileencoding=utf8
-  set autoread  " Set to auto read when a file is changed from the outside
   set autowrite " write current file when changing buffers, e.g. :bn
   "set clipboard=unnamed " yanks everything to the * register PRIMARY clipboard
   set clipboard=unnamedplus " yanks everything to the * register CLIPBOARD clipboard
@@ -35,11 +29,9 @@
   let g:mapleader = ","
 
   set list                     " shows tabbed spaces
-  " set listchars=tab:>-,trail:- " fill tabs with >---
-  set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+  " set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
   set showmatch " show matching brackets
-  set mat=2     " How many tenths of a second to blink when matching brackets
-  set incsearch
+  " set mat=2     " How many tenths of a second to blink when matching brackets
   set hlsearch
   set ignorecase "set ignore case when searching
   set smartcase  " when searching try to be smart about cases
@@ -60,7 +52,6 @@
 "}
 
 " Text Formatting {
-  set backspace=indent,eol,start "make backspace more flexible
 
   " 1 tab = 2 spaces
   set tabstop=2
@@ -70,10 +61,7 @@
   set expandtab                         " spaces instead of tabs
   autocmd filetype make set noexpandtab " except for makefiles
 
-  set smarttab
-
   set nostartofline
-  set autoindent
   set smartindent
   " set cindent
   set nocopyindent
@@ -82,13 +70,9 @@
 
   set linebreak " Linebreak
 
-  set sidescroll=20 " The minimal number of columns to scroll horizontally if wrap=off
   set whichwrap=b,s,<,>
   set wrap
   set textwidth=0
-  set wildmenu " turn on command line completion wild style
-  " set wildchar
-  "set wildmode=longest:full,list
   set wildmode=longest,full,list
   " Ignore compiled files
   set wildignore=*.o,*.*~,*.pyc
@@ -345,7 +329,9 @@ Bundle 'gmarik/vundle'
 
 " My Bundles here:
 
-" Command-T
+" Sane defaults
+Bundle "tpope/vim-sensible"
+
 Bundle "wincent/Command-T.git"
 let g:CommandTMatchWindowAtTop=1 " show window at top
 
