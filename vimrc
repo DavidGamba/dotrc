@@ -5,7 +5,9 @@
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
   set background=dark
   colorscheme desert
+  " search highlight color
   hi Search ctermfg=160 ctermbg=232 cterm=Bold
+
   if &diff
     colorscheme desert
   endif
@@ -85,7 +87,19 @@
   nnoremap <silent> <F5> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl<CR>
 "}
 
-inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>gi
+" search/replace the word under the cursor
+nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
+" quickly edit vimrc
+nnoremap <leader>e :e $MYVIMRC<cr>
+" quickly reload vimrc
+nnoremap <leader>r :source $MYVIMRC<cr>:e<cr>
+" command! RC so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+
+" Paste using set paste
+inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>
+
+" Quickly get out of the closign paren
+inoremap <C-l><C-l> <ESC>la
 
 " Navigation {
   " Make navigation more amenable to the long wrapping lines.
@@ -165,7 +179,7 @@ inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>gi
   au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
   au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=markdown
   au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
-  au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set textwidth=80
+  au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set nolist | set synmaxcol=3000
 
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif " restore position in file
 " }
@@ -295,6 +309,7 @@ function! s:NoHLAfter(n)
   endif
 endfunction
 "}
+
 
 function! Preserve(command)
   " Preparation: save last search, and cursor position.
