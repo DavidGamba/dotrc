@@ -1,7 +1,88 @@
+set nocompatible               " be iMproved
+filetype off                   " required by Vundle!
+syntax on                      " enable syntax
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+" required!
+Bundle 'gmarik/vundle'
+
+" Sane defaults
+Bundle "tpope/vim-sensible"
+
+" Coloring
+Bundle "kien/rainbow_parentheses.vim"
+let g:rbpt_max = 8
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadBraces
+
+" <leader>ig
+Bundle "nathanaelkane/vim-indent-guides"
+
+" Status line
+Bundle "t9md/vim-ezbar"
+let g:ezbar_enable = 1
+
+" Navigation
+Bundle "thinca/vim-visualstar"
+Bundle "scrooloose/nerdtree.git"
+Bundle "yegappan/mru"
+Bundle "wincent/Command-T.git"
+let g:CommandTMatchWindowAtTop=1 " show window at top
+
+" Utility
+Bundle "chilicuil/conque"
+command! SH :ConqueTermSplit bash
+
+Bundle "maxbrunsfeld/vim-yankstack"
+exec "set <A-p>=\ep"
+exec "set <A-P>=\eP"
+
+Bundle "tpope/vim-repeat"
+Bundle "tpope/vim-surround"
+Bundle 'Townk/vim-autoclose'
+
+" Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
+Bundle 'tpope/vim-abolish.git'
+
+" tComment
+Bundle "tomtom/tcomment_vim"
+nnoremap ,c :TComment<CR>
+vnoremap ,c :TComment<CR>"
+
+" Moving around
+Bundle "Lokaltog/vim-easymotion"
+" n-character search motion
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map  n n:call HLNext(1)<cr>
+map  N N:call HLNext(1)<cr>
+
+function! HLNext (blinktime)
+    set invcursorline
+    redraw
+    exec 'sleep ' . float2nr(a:blinktime * 100) . 'm'
+    set invcursorline
+    redraw
+endfunction
+
+" Programming
+Bundle "jQuery"
+Bundle "rails.vim"
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'scrooloose/syntastic'
+
+" provides ++
+Bundle 'nixon/vim-vmath'
+vmap <expr>  ++  VMATH_YankAndAnalyse()
+nmap         ++  vip++
+
+" ===============================================
+
 " Basics {
-  set nocompatible               " be iMproved
-  filetype off                   " required by Vundle!
-  syntax on                      " enable syntax
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
   set background=dark
   colorscheme desert
@@ -330,75 +411,7 @@ nmap _= :call Preserve("normal gg=G")<CR>
 "CDC = Change to Directory of Current file
 command! CDC cd %:p:h
 command! Perl read $HOME/dotrc/vim_templates/perl.pl
+command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
+command! Scala read $HOME/dotrc/vim_templates/scala.scala
 "Reload vimrc file
 command! RC so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-
-" ===============================================
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle
-" required!
-Bundle 'gmarik/vundle'
-
-" My Bundles here:
-
-" Sane defaults
-Bundle "tpope/vim-sensible"
-
-Bundle "wincent/Command-T.git"
-let g:CommandTMatchWindowAtTop=1 " show window at top
-
-" Utility
-Bundle "tpope/vim-repeat"
-Bundle "tpope/vim-surround"
-"Bundle "autoclose.vim" http://www.vim.org/scripts/script.php?script_id=1849
-Bundle 'Townk/vim-autoclose'
-
-" Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
-Bundle 'tpope/vim-abolish.git'
-
-" tComment
-Bundle "tomtom/tcomment_vim"
-nnoremap ,c :TComment<CR>
-vnoremap ,c :TComment<CR>"
-
-" Moving around
-Bundle "Lokaltog/vim-easymotion"
-" n-character search motion
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map  n n:call HLNext(1)<cr>
-map  N N:call HLNext(1)<cr>
-
-function! HLNext (blinktime)
-    set invcursorline
-    redraw
-    exec 'sleep ' . float2nr(a:blinktime * 100) . 'm'
-    set invcursorline
-    redraw
-endfunction
-
-" Programming
-Bundle "jQuery"
-Bundle "rails.vim"
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/syntastic'
-
-" provides ++
-Bundle 'nixon/vim-vmath'
-vmap <expr>  ++  VMATH_YankAndAnalyse()
-nmap         ++  vip++
-
-" Navigation
-Bundle "marik/vim-visual-star-search.git"
-Bundle "scrooloose/nerdtree.git"
-
-" Coloring
-" Bundle "altercation/vim-colors-solarized.git"
-" Status line
-Bundle "t9md/vim-ezbar"
-set laststatus=2 " Always show the status line
-let g:ezbar_enable = 1
-
