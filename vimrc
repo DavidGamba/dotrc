@@ -13,6 +13,7 @@ Plugin 'tpope/vim-sensible'
 
 " Coloring
 Plugin 'kien/rainbow_parentheses.vim'
+
 let g:rbpt_max = 8
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
@@ -116,7 +117,7 @@ syntax on                      " enable syntax
   let g:mapleader = ","
 
   set list                     " shows tabbed spaces
-  " set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+  set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
   set showmatch " show matching brackets
   " set mat=2     " How many tenths of a second to blink when matching brackets
   set hlsearch
@@ -264,7 +265,7 @@ inoremap <C-l><C-l> <ESC>la
   au BufRead,BufNewFile {Gemfile,Rakefile,Capfile,*.rake,config.ru}     set ft=ruby
   au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=markdown
   au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
-  au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set nolist | set synmaxcol=3000
+  au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set synmaxcol=3000
 
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif " restore position in file
 " }
