@@ -1,60 +1,59 @@
 set nocompatible               " be iMproved
 filetype off                   " required by Vundle!
-syntax on                      " enable syntax
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required!
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " Sane defaults
-Bundle "tpope/vim-sensible"
+Plugin 'tpope/vim-sensible'
 
 " Coloring
-Bundle "kien/rainbow_parentheses.vim"
+Plugin 'kien/rainbow_parentheses.vim'
 let g:rbpt_max = 8
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadBraces
 
 " <leader>ig
-Bundle "nathanaelkane/vim-indent-guides"
+Plugin 'nathanaelkane/vim-indent-guides'
 
 " Status line
-Bundle "t9md/vim-ezbar"
+Plugin 't9md/vim-ezbar'
 let g:ezbar_enable = 1
 
 " Navigation
-Bundle "thinca/vim-visualstar"
-Bundle "scrooloose/nerdtree.git"
-Bundle "yegappan/mru"
-Bundle "wincent/Command-T.git"
+Plugin 'thinca/vim-visualstar'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'yegappan/mru'
+Plugin 'wincent/Command-T.git'
 let g:CommandTMatchWindowAtTop=1 " show window at top
 
 " Utility
-Bundle "chilicuil/conque"
+Plugin 'chilicuil/conque'
 command! SH :ConqueTermSplit bash
 
-Bundle "maxbrunsfeld/vim-yankstack"
+Plugin 'maxbrunsfeld/vim-yankstack'
 exec "set <A-p>=\ep"
 exec "set <A-P>=\eP"
 
-Bundle "tpope/vim-repeat"
-Bundle "tpope/vim-surround"
-Bundle 'Townk/vim-autoclose'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'Townk/vim-autoclose'
 
 " Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
-Bundle 'tpope/vim-abolish.git'
+Plugin 'tpope/vim-abolish.git'
 
 " tComment
-Bundle "tomtom/tcomment_vim"
+Plugin 'tomtom/tcomment_vim'
 nnoremap ,c :TComment<CR>
 vnoremap ,c :TComment<CR>"
 
 " Moving around
-Bundle "Lokaltog/vim-easymotion"
+Plugin 'Lokaltog/vim-easymotion'
 " n-character search motion
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -70,16 +69,21 @@ function! HLNext (blinktime)
 endfunction
 
 " Programming
-Bundle "jQuery"
-Bundle "rails.vim"
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/syntastic'
+Plugin 'jQuery'
+Plugin 'rails.vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'scrooloose/syntastic'
 
 " provides ++
-Bundle 'nixon/vim-vmath'
+Plugin 'nixon/vim-vmath'
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
 
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+syntax on                      " enable syntax
 " ===============================================
 
 " Basics {
