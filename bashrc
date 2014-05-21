@@ -47,8 +47,8 @@ export TERM=xterm-256color
 
 # History Stuff
 export HISTTIMEFORMAT="%H:%M > "
-export HISTIGNORE="&:[bf]g:ll:h:ls:clear:exit"
-export HISTSIZE=9000
+export HISTIGNORE="&:[bf]g:ll:ls:clear:exit:ifconfig:git d:git st:git lg"
+export HISTSIZE=90000
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROl=ignoreboth
 
