@@ -112,6 +112,7 @@ fi
 source ~/dotrc/bash_func/up
 source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
+source ~/dotrc/bash_func/cdd
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
@@ -153,3 +154,7 @@ fi
 # Ruby stuff
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+
+alias cd='cdd'
+# Use bash built in completion for cd to allow for filenames to be used
+complete -r cd
