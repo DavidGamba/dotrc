@@ -53,5 +53,5 @@ function ps1() {
     PS1=${TERM_RESET}${TERM_TITLE}${FIRST_LINE}${SECOND_LINE}${REGULAR_TEXT}
 }
 
-PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; git_repo'
+PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; history -a; git_repo'
 ps1
