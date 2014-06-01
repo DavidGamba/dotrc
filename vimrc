@@ -308,16 +308,8 @@ inoremap <C-l><C-l> <ESC>la
     " check perl code with :make
     au filetype perl setlocal makeprg=perl\ -c\ %\ $*
     au filetype perl setlocal errorformat=%f:%l:%m
-    au filetype perl setlocal autowrite
     au filetype perl setlocal keywordprg=perldoc\ -f
-
-    " Tidy selected lines (or entire file) with ,t:
-    au filetype perl nnoremap <silent> ,t :%!perltidy -q<Enter>
-    au filetype perl vnoremap <silent> ,t :!perltidy -q<Enter>
-
-    " Make pod word bold B<<>>
-    au filetype perl nnoremap <leader>b BiB<< <Esc>Ea >><Esc>
-    au filetype perl vnoremap <leader>b s//B<< >>/ <Esc>hpll
+    au filetype perl setlocal formatprg=perltidy\ -q
 
     au filetype sh,bash setlocal keywordprg=help
 "}
