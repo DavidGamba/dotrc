@@ -226,7 +226,7 @@ inoremap <C-l><C-l> <ESC>la
 
   " use open tab when switching the buffer
   set switchbuf=useopen,usetab,newtab
-  set showtabline=1
+  set showtabline=2
 
   set winminheight=1
   set winminwidth=1
