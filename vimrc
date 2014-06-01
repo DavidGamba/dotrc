@@ -273,6 +273,14 @@ inoremap <C-l><C-l> <ESC>la
   au filetype yaml set tabstop=3 | set shiftwidth=3 | set softtabstop=3
 
   au filetype scala setl formatprg=$HOME/code/scala/scalariform.jar\ --stdin\ --stdout\ --preferenceFile=$HOME/code/scala/scalariform.properties
+
+  " check perl code with :make
+  au filetype perl setlocal makeprg=perl\ -c\ %\ $*
+  au filetype perl setlocal errorformat=%f:%l:%m
+  au filetype perl setlocal keywordprg=podbrowser
+  au filetype perl setlocal formatprg=perltidy\ -q
+
+  au filetype sh,bash setlocal keywordprg=help
 " }
 
 " Saving, backups and undo {
@@ -305,17 +313,6 @@ inoremap <C-l><C-l> <ESC>la
     endfunction
 
     nmap <silent> <F7> :call ToggleSpell()<CR>
-"}
-"
-
-" Programming Languages {
-    " check perl code with :make
-    au filetype perl setlocal makeprg=perl\ -c\ %\ $*
-    au filetype perl setlocal errorformat=%f:%l:%m
-    au filetype perl setlocal keywordprg=perldoc\ -f
-    au filetype perl setlocal formatprg=perltidy\ -q
-
-    au filetype sh,bash setlocal keywordprg=help
 "}
 
 " Open link in web browser {
