@@ -267,6 +267,7 @@ inoremap <C-l><C-l> <ESC>la
   au BufRead,BufNewFile {*.md,*.mkd,*.markdown}                         set ft=markdown
   au BufRead,BufNewFile {COMMIT_EDITMSG}                                set ft=gitcommit
   au BufRead,BufNewFile {*.adoc,*.asciidoc,*.txt}                       set ft=asciidoc | set synmaxcol=3000
+  au filetype yaml set tabstop=3 | set shiftwidth=3 | set softtabstop=3
 
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif " restore position in file
 " }
