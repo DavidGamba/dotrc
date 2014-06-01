@@ -74,6 +74,7 @@ Plugin 'jQuery'
 Plugin 'rails.vim'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'scrooloose/syntastic'
+Plugin 'derekwyatt/vim-scala'
 
 " provides ++
 Plugin 'nixon/vim-vmath'
