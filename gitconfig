@@ -3,7 +3,7 @@
 #    email =
 
 [core]
-    pager = less -FRSX
+    pager = less -FRX
     editor = vim
     excludesfile = ~/.gitignore
 
@@ -23,7 +23,7 @@
     lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%cr, %an)%Creset %n%b' --no-prefix
     st = status --short
     ds = diff --staged
-    d  = diff --no-prefix
+    d  = diff --no-prefix --relative
     amend = commit --amend
     co = checkout
     ci = commit
