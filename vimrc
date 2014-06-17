@@ -13,22 +13,31 @@ Plugin 'tpope/vim-sensible'
 
 " Coloring
 Plugin 'kien/rainbow_parentheses.vim'
-
 let g:rbpt_max = 8
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadBraces
+au VimEnter * RainbowParenthesesActivate
+au BufRead,BufNewFile * RainbowParenthesesLoadRound
+au BufRead,BufNewFile * RainbowParenthesesLoadSquare
+au BufRead,BufNewFile * RainbowParenthesesLoadBraces
+
+Plugin 'tomasr/molokai'
+let g:rehash256 = 1
 
 " <leader>ig
 Plugin 'nathanaelkane/vim-indent-guides'
 
 " Status line
-Plugin 't9md/vim-ezbar'
-let g:ezbar_enable = 1
+Plugin 'bling/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
+" Plugin 't9md/vim-ezbar'
+" let g:ezbar_enable = 1
 
 " Navigation
 Plugin 'thinca/vim-visualstar'
+
 Plugin 'scrooloose/nerdtree.git'
+" close VIM if NERDTree is the only buffer left
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
 Plugin 'yegappan/mru'
 Plugin 'wincent/Command-T.git'
 let g:CommandTMatchWindowAtTop=1 " show window at top
@@ -73,13 +82,26 @@ endfunction
 Plugin 'jQuery'
 Plugin 'rails.vim'
 Plugin 'vim-ruby/vim-ruby'
-Plugin 'scrooloose/syntastic'
 Plugin 'derekwyatt/vim-scala'
+
+Plugin 'scrooloose/syntastic'
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
 
 " provides ++
 Plugin 'nixon/vim-vmath'
 vmap <expr>  ++  VMATH_YankAndAnalyse()
 nmap         ++  vip++
+
+Plugin 'Shougo/neocomplete'
+let g:neocomplete#enable_at_startup = 1
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -91,7 +113,8 @@ syntax on                      " enable syntax
 " Basics {
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
   set background=dark
-  colorscheme desert
+  set t_Co=256
+  colorscheme twilight-term256
   " search highlight color
   hi Search ctermfg=160 ctermbg=232 cterm=Bold
 

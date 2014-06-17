@@ -41,7 +41,6 @@ export VISUAL="vim"
 export PAGER="less"
 export LESS="-I -j6 -M -R -F -X"
 export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
-export TERM=xterm-256color
 #LESSOPEN="|lesspipe.sh %s"
 #export LESSOPEN
 
