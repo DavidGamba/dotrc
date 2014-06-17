@@ -5,6 +5,10 @@
 sudo apt-get build-dep vim
 sudo apt-get build-dep libx11-dev libxtst-dev
 
+=== Fedora
+
+yum install gcc libX11-devel libXtst-devel ncurses-devel perl-ExtUtils-Embed ruby ruby-devel python-devel gtk2-devel libXt-devel lua-devel
+
 == Configure
 
   make distclean
@@ -15,12 +19,30 @@ sudo apt-get build-dep libx11-dev libxtst-dev
     --with-x \
     --enable-luainterp \
     --enable-rubyinterp \
+    --with-ruby-command=/usr/bin/ruby \
     --enable-perlinterp \
     --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config \
     --enable-fontset \
     --enable-cscope \
     --enable-gtk2-check \
     --enable-gnome-check
+
+=== Fedora
+
+  ./configure --with-compiledby="David Gamba <davidgamba@gambaeng.com>" \
+    --with-features=huge \
+    --enable-gui=auto \
+    --with-x \
+    --enable-luainterp \
+    --enable-rubyinterp \
+    --with-ruby-command=/usr/bin/ruby \
+    --enable-perlinterp \
+    --enable-pythoninterp --with-python-config-dir=/usr/lib64/python2.7/config \
+    --enable-fontset \
+    --enable-cscope \
+    --enable-gtk2-check \
+    --enable-gnome-check \
+    --enable-fail-if-missing
 
   make
 
