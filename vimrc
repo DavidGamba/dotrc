@@ -134,7 +134,7 @@ syntax on                      " enable syntax
   set fileencoding=utf8
   set autowrite " write current file when changing buffers, e.g. :bn
   "set clipboard=unnamed " yanks everything to the * register PRIMARY clipboard
-  set clipboard=unnamedplus " yanks everything to the * register CLIPBOARD clipboard
+  " set clipboard=unnamedplus " yanks everything to the * register CLIPBOARD clipboard
   set mouse=a "use mouse everywhere
   set mousehide  " Hide mouse after chars typed
 
@@ -162,6 +162,19 @@ syntax on                      " enable syntax
   set viminfo^=
   set tags=tags.ctags;/.
 "}
+
+function! ClipboardYank()
+  call system('xclip -i -selection clipboard', @@)
+endfunction
+function! ClipboardPaste()
+  let @@ = system('xclip -o -selection clipboard')
+endfunction
+
+vnoremap <silent> y y:call ClipboardYank()<cr>
+vnoremap <silent> d d:call ClipboardYank()<cr>
+nnoremap <silent> p :call ClipboardPaste()<cr>p
+onoremap <silent> y y:call ClipboardYank()<cr>
+onoremap <silent> d d:call ClipboardYank()<cr>
 
 " Text Formatting {
 
