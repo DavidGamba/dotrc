@@ -13,6 +13,7 @@ sudo apt-get build-dep libx11-dev libxtst-dev
     --with-features=huge \
     --enable-gui=auto \
     --with-x \
+    --enable-luainterp \
     --enable-rubyinterp \
     --enable-perlinterp \
     --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config \
