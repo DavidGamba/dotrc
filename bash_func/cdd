@@ -1,0 +1,20 @@
+# cdd allows you to cd to the directory of the given file or directory
+function cdd()
+{
+  if [[ $# -eq 0 ]]; then
+    cd
+  elif [[ -d "$*" ]]; then
+    cd "$*"
+  elif [[ -f "$*" ]]; then
+    echo "WARNING: file given, cd to file's dirname" 1>&2
+    local dir=$(dirname "$*")
+    cd "$dir"
+  else
+    cd "$*"
+  fi
+}
+
+function cs()
+{
+  cdd $* && ls
+}
