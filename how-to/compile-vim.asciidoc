@@ -9,6 +9,8 @@ sudo apt-get build-dep libx11-dev libxtst-dev
 
 yum install gcc libX11-devel libXtst-devel ncurses-devel perl-ExtUtils-Embed ruby ruby-devel python-devel gtk2-devel libXt-devel lua-devel
 
+If you have a problem with file xsubpp, edit the Makefile to find xsubpp in /usr/bin/xsubpp.
+
 == Configure
 
   make distclean
@@ -47,3 +49,8 @@ yum install gcc libX11-devel libXtst-devel ncurses-devel perl-ExtUtils-Embed rub
   make
 
   sudo make install
+
+
+== Vundle
+
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
