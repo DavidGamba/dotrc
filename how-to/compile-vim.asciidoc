@@ -1,5 +1,7 @@
 = How to compile vim with ruby and x11 support
 
+hg clone https://vim.googlecode.com/hg/ vim
+
 == Dependencies:
 
 sudo apt-get build-dep vim
