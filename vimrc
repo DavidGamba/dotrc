@@ -64,6 +64,7 @@ vnoremap ,c :TComment<CR>"
 
 " Moving around
 Plugin 'Lokaltog/vim-easymotion'
+let g:EasyMotion_smartcase = 1
 " n-character search motion
 map  / <Plug>(easymotion-sn)
 omap / <Plug>(easymotion-tn)
@@ -187,8 +188,9 @@ onoremap <silent> d d:call ClipboardYank()<cr>
   autocmd filetype make set noexpandtab " except for makefiles
 
   set nostartofline
-  set smartindent
+  " set smartindent
   " set cindent
+  set autoindent
   set nocopyindent
   " Indentation the way Emacs does it
   " set cinkeys=0{,0},:,0#,!<Tab>,!^F

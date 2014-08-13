@@ -75,12 +75,15 @@ alias egrep='egrep --color=auto'
 alias mv='mv -i'
 alias cp='cp -i'
 alias pong='ping -c4 www.google.com' 
+# alias emacs="emacs -nw"
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 # to run banshee behind a proxy
 alias banshee='dbus-launch banshee'
 alias nautilus='nautilus --no-desktop'
+alias most='du -hsx * | sort -rh | head -15'
+alias df='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
 
 #-------------------------------------------------------------
 # External
@@ -97,6 +100,9 @@ fi
 if [ -d ${HOME}/opt/bin ]; then
     export PATH="$HOME/opt/bin:$PATH"
 fi
+if [ -d ${HOME}/local/bin ]; then
+    export PATH="$HOME/local/bin:$PATH"
+fi
 
 if [ ! -f /etc/bash_completion.d/git ]; then
     source ~/dotrc/bash_func/git-completion.bash
@@ -112,6 +118,10 @@ source ~/dotrc/bash_func/up
 source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
 source ~/dotrc/bash_func/cdd
+
+if [ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ]; then
+  source /usr/share/doc/cdargs/examples/cdargs-bash.sh
+fi
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
