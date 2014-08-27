@@ -294,7 +294,7 @@ inoremap <C-l><C-l> <ESC>la
 
 " Command and Auto commands {
 " Sudo write
-  comm! W exec 'w !sudo tee % > /dev/null' | e!
+  comm! sudow exec 'w !sudo tee % > /dev/null' | e!
   noremap <leader>w :update<CR>
   " Save with C-S
   noremap <silent> <C-S>          :update<CR>
@@ -317,7 +317,8 @@ inoremap <C-l><C-l> <ESC>la
 
   au filetype yaml set tabstop=3 | set shiftwidth=3 | set softtabstop=3
 
-  au filetype scala setl formatprg=$HOME/code/scala/scalariform.jar\ --stdin\ --stdout\ --preferenceFile=$HOME/code/scala/scalariform.properties
+  " http://maven-repository.com/artifact/org.scalariform
+  au filetype scala setl formatprg=java\ -jar\ $HOME/code/personal/scala/scalariform.jar\ --stdin\ --stdout\ --preferenceFile=$HOME/code/personal/scala/scalariform.properties
 
   " check perl code with :make
   au filetype perl setlocal makeprg=perl\ -c\ %\ $*
