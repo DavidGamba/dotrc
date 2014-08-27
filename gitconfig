@@ -6,9 +6,14 @@
     pager = less -FRX
     editor = vim
     excludesfile = ~/.gitignore
+    whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
 
 [color]
     ui = auto
+    diff = auto
+
+[color "diff"]
+    whitespace = red reverse
 
 [pull]
     rebase = true
@@ -24,6 +29,8 @@
     st = status --short
     ds = diff --staged
     d  = diff --no-prefix --relative
+    wd = diff --no-prefix --relative --color-words
+    dw = diff --no-prefix --relative --color-words
     amend = commit --amend
     co = checkout
     ci = commit
