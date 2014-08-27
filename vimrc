@@ -19,6 +19,9 @@ au BufRead,BufNewFile * RainbowParenthesesLoadRound
 au BufRead,BufNewFile * RainbowParenthesesLoadSquare
 au BufRead,BufNewFile * RainbowParenthesesLoadBraces
 
+Plugin 'freeo/vim-kalisi'
+let g:airline_theme='kalisi'
+
 Plugin 'tomasr/molokai'
 let g:rehash256 = 1
 
@@ -34,9 +37,9 @@ let g:airline#extensions#tabline#enabled = 1
 " Navigation
 Plugin 'thinca/vim-visualstar'
 
-Plugin 'scrooloose/nerdtree.git'
+" Plugin 'scrooloose/nerdtree.git'
 " close VIM if NERDTree is the only buffer left
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 Plugin 'yegappan/mru'
 Plugin 'wincent/Command-T.git'
@@ -52,6 +55,9 @@ exec "set <A-P>=\eP"
 
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-vinegar'
 Plugin 'Townk/vim-autoclose'
 
 " Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
@@ -86,6 +92,7 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'derekwyatt/vim-scala'
 
 Plugin 'scrooloose/syntastic'
+let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
@@ -113,15 +120,15 @@ syntax on                      " enable syntax
 
 " Basics {
   set modeline                   " Enable footer of the type '# vim: set filetype=vim'
-  set background=dark
   set t_Co=256
-  colorscheme twilight-term256
   " search highlight color
-  hi Search ctermfg=160 ctermbg=232 cterm=Bold
+  " hi Search ctermfg=160 ctermbg=232 cterm=Bold
 
-  if &diff
-    colorscheme desert
-  endif
+  colorscheme kalisi
+  set background=dark
+  " if &diff
+  "   colorscheme desert
+  " endif
   set synmaxcol=300  " Syntax coloring lines that are too long just slows down the world
   set lazyredraw     " Don't redraw while executing macros (good performance config)
   set noerrorbells visualbell t_vb= " No annoying sournd on errors
@@ -190,7 +197,7 @@ onoremap <silent> d d:call ClipboardYank()<cr>
   set nostartofline
   " set smartindent
   " set cindent
-  set autoindent
+  " set autoindent
   set nocopyindent
   " Indentation the way Emacs does it
   " set cinkeys=0{,0},:,0#,!<Tab>,!^F
@@ -271,12 +278,12 @@ inoremap <C-l><C-l> <ESC>la
 
   map <C-J> <C-W><C-J>
   map <C-K> <C-W><C-K>
-  map <C-L> <C-W><C-L>
-  map <C-H> <C-W><C-H>
+  " map <C-L> <C-W><C-L>
+  " map <C-H> <C-W><C-H>
   " map <C-J> <C-W>j<C-W>_
   " map <C-K> <C-W>k<C-W>_
-  " map <C-H> :bn<CR>
-  " map <C-L> :bp<CR>
+  map <C-H> :bn<CR>
+  map <C-L> :bp<CR>
   nmap `h <C-W>h500<C-W>>
   nmap `l <C-W>l500<C-W>>
 
