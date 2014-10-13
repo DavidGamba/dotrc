@@ -30,6 +30,12 @@ function main()
         install_bin
         exit 0
       ;;
+      --vim)
+        shift
+        echo installing vim...
+        install_vim
+        exit 0
+      ;;
       -*)
         usage $1
         exit 1
@@ -79,7 +85,7 @@ function install_dotrc()
   cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
 
   if [[ ! -d $HOME/.vim/bundle/vundle ]]; then
-    git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+    git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/Vundle.vim
     vim +BundleInstall +qall
   fi
   echo done installing dotrc!
@@ -92,20 +98,57 @@ function install_bin()
     git clone https://github.com/DavidGamba/bin.git $HOME/bin
     set +x
   fi
-  if [[ ! -d $HOME/bin/external ]]; then
+  if [[ ! -d $HOME/code/personal/git ]]; then
     set -x
-    mkdir $HOME/bin/external
+    mkdir $HOME/code/personal/git
     set +x
   fi
-  if [[ ! -d $HOME/bin/external/grepp ]]; then
-    git clone https://github.com/DavidGamba/grepp.git $HOME/bin/external/grepp
+  if [[ ! -d $HOME/code/personal/git/grepp ]]; then
+    git clone https://github.com/DavidGamba/grepp.git $HOME/code/personal/git/grepp
   fi
-  if [[ ! -d $HOME/bin/external/todo ]]; then
-    git clone https://github.com/DavidGamba/todo.git  $HOME/bin/external/todo
+  if [[ ! -d $HOME/code/personal/git/todo ]]; then
+    git clone https://github.com/DavidGamba/todo.git  $HOME/code/personal/git/todo
   fi
-  create_link_for "$HOME/bin/grepp" "external/grepp/grepp"
-  create_link_for "$HOME/bin/todo"  "external/todo/todo"
+  if [[ ! -d $HOME/code/personal/git/ffind ]]; then
+    git clone https://github.com/DavidGamba/ffind.git  $HOME/code/personal/git/ffind
+  fi
+  if [[ ! -d $HOME/code/personal/mercurial/vim ]]; then
+    mkdir -p $HOME/code/personal/mercurial
+    hg clone https://vim.googlecode.com/hg/ $HOME/code/personal/mercurial/vim
+  fi
+  create_link_for "$HOME/bin/grepp" "$HOME/code/personal/git/grepp"
+  create_link_for "$HOME/bin/todo"  "$HOME/code/personal/git/todo"
+  create_link_for "$HOME/bin/ffind" "$HOME/code/personal/git/ffind"
   echo done installing bin!
+}
+
+function install_vim()
+{
+  if [[ ! -d $HOME/code/personal/mercurial/vim ]]; then
+    mkdir -p $HOME/code/personal/mercurial
+    hg clone https://vim.googlecode.com/hg/ $HOME/code/personal/mercurial/vim
+  fi
+  cd $HOME/code/personal/mercurial/vim
+  hg update default
+  hg update -C
+  cd src
+  make distclean  # if you build Vim before
+  ./configure --with-compiledby="David Gamba <davidgamba@gambaeng.com>" \
+    --with-features=huge \
+    --enable-gui=auto \
+    --with-x \
+    --enable-luainterp \
+    --enable-rubyinterp \
+    --with-ruby-command=/usr/bin/ruby \
+    --enable-perlinterp \
+    --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config \
+    --enable-fontset \
+    --enable-cscope \
+    --enable-gtk2-check \
+    --enable-gnome-check
+  make
+  sudo make install
+  echo done installing vim!
 }
 
 main "$@"
