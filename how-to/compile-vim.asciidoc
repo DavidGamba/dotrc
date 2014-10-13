@@ -4,8 +4,7 @@ hg clone https://vim.googlecode.com/hg/ vim
 
 == Dependencies:
 
-sudo apt-get build-dep vim
-sudo apt-get build-dep libx11-dev libxtst-dev
+sudo apt-get build-dep vim libx11-dev libxtst-dev
 
 === Fedora
 
