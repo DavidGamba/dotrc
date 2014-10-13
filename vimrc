@@ -294,7 +294,7 @@ inoremap <C-l><C-l> <ESC>la
 
 " Command and Auto commands {
 " Sudo write
-  comm! sudow exec 'w !sudo tee % > /dev/null' | e!
+  comm! Sudow exec 'w !sudo tee % > /dev/null' | e!
   noremap <leader>w :update<CR>
   " Save with C-S
   noremap <silent> <C-S>          :update<CR>
