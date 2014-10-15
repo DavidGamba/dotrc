@@ -111,6 +111,10 @@ function! s:my_cr_function()
   "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 endfunction
 
+" :SearchUnicode dash
+" dash<C-X><C-Z>
+Plugin 'chrisbra/unicode.vim'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -435,7 +439,6 @@ function! s:NoHLAfter(n)
   endif
 endfunction
 "}
-
 
 function! Preserve(command)
   " Preparation: save last search, and cursor position.
