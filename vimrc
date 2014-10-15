@@ -124,8 +124,8 @@ syntax on                      " enable syntax
   " search highlight color
   " hi Search ctermfg=160 ctermbg=232 cterm=Bold
 
-  colorscheme kalisi
-  set background=dark
+  colorscheme zellner
+  set background=light
   " if &diff
   "   colorscheme desert
   " endif
