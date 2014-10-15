@@ -1,0 +1,8 @@
+curl
+openssh-server
+git
+mercurial
+keepassx
+sni-qt:i386 # Skype tray icon
+byobu
+cdargs
