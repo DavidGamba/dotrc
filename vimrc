@@ -115,7 +115,7 @@ endfunction
 " dash<C-X><C-Z>
 Plugin 'chrisbra/unicode.vim'
 
-Plugin 'atweiden/vim-dragvisuals'
+Plugin 'shinokada/dragvisuals.vim'
 vmap  <expr>  <LEFT>   DVB_Drag('left')
 vmap  <expr>  <RIGHT>  DVB_Drag('right')
 vmap  <expr>  <DOWN>   DVB_Drag('down')
