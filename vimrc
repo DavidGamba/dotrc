@@ -115,6 +115,16 @@ endfunction
 " dash<C-X><C-Z>
 Plugin 'chrisbra/unicode.vim'
 
+Plugin 'atweiden/vim-dragvisuals'
+vmap  <expr>  <LEFT>   DVB_Drag('left')
+vmap  <expr>  <RIGHT>  DVB_Drag('right')
+vmap  <expr>  <DOWN>   DVB_Drag('down')
+vmap  <expr>  <UP>     DVB_Drag('up')
+" D is already mapped, use B for Block duplicate
+vmap  <expr>  B        DVB_Duplicate()
+" Remove any introduced trailing whitespace after moving...
+"let g:DVB_TrimWS = 1
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -239,16 +249,14 @@ inoremap <C-l><C-l> <ESC>la
 
 " Navigation {
   " Make navigation more amenable to the long wrapping lines.
-  noremap k gk
-  noremap j gj
-  noremap <buffer> <Up> gk
-  noremap <buffer> <Down> gj
-  noremap <buffer> 0 g0
-  noremap <buffer> ^ g^
-  noremap <buffer> $ g$
-  noremap <buffer> D dg$
-  noremap <buffer> C cg$
-  noremap <buffer> A g$a
+  nnoremap k gk
+  nnoremap j gj
+  nnoremap <buffer> 0 g0
+  nnoremap <buffer> ^ g^
+  nnoremap <buffer> $ g$
+  nnoremap <buffer> D dg$
+  nnoremap <buffer> C cg$
+  nnoremap <buffer> A g$a
 
   inoremap <buffer> <Up> <C-O>gk
   inoremap <buffer> <Down> <C-O>gj
@@ -280,14 +288,14 @@ inoremap <C-l><C-l> <ESC>la
   set winminheight=1
   set winminwidth=1
 
-  map <C-J> <C-W><C-J>
-  map <C-K> <C-W><C-K>
+  nmap <C-J> <C-W><C-J>
+  nmap <C-K> <C-W><C-K>
   " map <C-L> <C-W><C-L>
   " map <C-H> <C-W><C-H>
   " map <C-J> <C-W>j<C-W>_
   " map <C-K> <C-W>k<C-W>_
-  map <C-H> :bn<CR>
-  map <C-L> :bp<CR>
+  nmap <C-H> :bn<CR>
+  nmap <C-L> :bp<CR>
   nmap `h <C-W>h500<C-W>>
   nmap `l <C-W>l500<C-W>>
 
