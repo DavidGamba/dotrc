@@ -37,9 +37,9 @@ let g:airline#extensions#tabline#enabled = 1
 " Navigation
 Plugin 'thinca/vim-visualstar'
 
-" Plugin 'scrooloose/nerdtree.git'
+Plugin 'scrooloose/nerdtree.git'
 " close VIM if NERDTree is the only buffer left
-" autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 Plugin 'yegappan/mru'
 Plugin 'wincent/Command-T.git'
