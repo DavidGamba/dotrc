@@ -1,3 +1,5 @@
 # vim files
 *.un~
 *.sw[po]
+# intellij
+.idea/
