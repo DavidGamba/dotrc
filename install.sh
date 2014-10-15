@@ -88,6 +88,9 @@ function install_dotrc()
     git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/Vundle.vim
     vim +BundleInstall +qall
   fi
+
+  mkdir $HOME/opt
+  mkdir -p $HOME/code/personal
   echo done installing dotrc!
 }
 
