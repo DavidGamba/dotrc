@@ -54,13 +54,17 @@ exec "set <A-p>=\ep"
 exec "set <A-P>=\eP"
 
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-git'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-vinegar'
 Plugin 'Townk/vim-autoclose'
 
-" Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
+" Provides ChangeSurround (cs<old><new>), ChangeSurroundTag (cst<new>),
+" DeleteSurround (ds<old>), YourSurroundInParagraph (ysip<new>)
+" In visual mode, provides Surround (S<new>)
+Plugin 'tpope/vim-surround'
+
+" Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
 Plugin 'tpope/vim-abolish.git'
 
 Plugin 'junegunn/vim-easy-align'
