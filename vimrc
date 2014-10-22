@@ -63,6 +63,10 @@ Plugin 'Townk/vim-autoclose'
 " Provides MixedCase (crm), camelCase (crc), snake_case (crs), and UPPER_CASE (cru)
 Plugin 'tpope/vim-abolish.git'
 
+Plugin 'junegunn/vim-easy-align'
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+
 " tComment
 Plugin 'tomtom/tcomment_vim'
 nnoremap ,c :TComment<CR>
