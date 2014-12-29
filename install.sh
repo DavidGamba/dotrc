@@ -90,6 +90,7 @@ function install_dotrc()
   fi
 
   mkdir $HOME/opt
+  mkdir $HOME/mnt
   mkdir -p $HOME/code/personal
   echo done installing dotrc!
 }
