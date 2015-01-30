@@ -1,3 +1,4 @@
+build-essential
 curl
 openssh-server
 git
@@ -21,3 +22,6 @@ rdesktop
 libxslt-dev # Nokogiri
 libxml2-dev # Nokogiri
 imagemagick
+python-pip
+# neovim
+libtool autoconf automake cmake libncurses5-dev g++ pkg-config unzip python-dev libffi-dev
