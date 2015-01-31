@@ -43,16 +43,17 @@ au BufRead,BufNewFile * RainbowParenthesesLoadRound
 au BufRead,BufNewFile * RainbowParenthesesLoadSquare
 au BufRead,BufNewFile * RainbowParenthesesLoadBraces
 
-Plug 'maxbrunsfeld/vim-yankstack'
-exec "set <A-p>=\ep"
-exec "set <A-P>=\eP"
+Plug 'endel/vim-github-colorscheme'
+" Plug 'chriskempson/base16'
 
-Plug 'junegunn/seoul256.vim'
-let g:seoul256_background = 256
 
 " Status line
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
+
+Plug 'maxbrunsfeld/vim-yankstack'
+exec "set <A-p>=\ep"
+exec "set <A-P>=\eP"
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " close VIM if NERDTree is the only buffer left
@@ -89,14 +90,26 @@ let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
+Plug 'myusuf3/numbers.vim'
+
+Plug 'majutsushi/tagbar'
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-easytags'
+
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 filetype plugin indent on    " required
 
+colorscheme github
+set background=light
+set list                     " shows tabbed spaces
+set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+
 " Save with ,w
 noremap <leader>w :update<CR>
-
-colorscheme seoul256-light
 
 function! ClipboardYank()
   call system('xclip -i -selection clipboard', @@)
@@ -114,6 +127,7 @@ onoremap <silent> d d:call ClipboardYank()<cr>
 " search/replace the word under the cursor
 nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
 
+set tags=./.tags;,~/.vimtags
 
 " Paste using set paste
 inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>
@@ -137,6 +151,12 @@ inoremap <C-l><C-l> <ESC>la
 
   nmap <UP> <C-Y>
   nmap <DOWN> <C-E>
+
+  " Move around buffers
+  nmap <C-J> <C-W><C-J>
+  nmap <C-K> <C-W><C-K>
+  nmap <C-H> :bn<CR>
+  nmap <C-L> :bp<CR>
 
   " yy copies a line, use Y for y$
   nnoremap Y y$
@@ -194,3 +214,7 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
         endfor
     endfunction
 "}
+
+command! Perl read $HOME/dotrc/vim_templates/perl.pl
+command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
+command! Scala read $HOME/dotrc/vim_templates/scala.scala
