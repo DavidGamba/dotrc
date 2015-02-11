@@ -1,3 +1,4 @@
+# IFS=$'\n'; for file in `cat packages.list`; do if [[ $file =~ ^#.* ]]; then continue; else echo $file; sudo apt-get install $file; fi; done
 build-essential
 curl
 openssh-server
