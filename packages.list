@@ -26,3 +26,4 @@ imagemagick
 python-pip
 # neovim
 libtool autoconf automake cmake libncurses5-dev g++ pkg-config unzip python-dev libffi-dev
+diodon
