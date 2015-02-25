@@ -9,7 +9,7 @@ call plug#begin('~/.nvim/plugged')
 
 " Sane defaults
 Plug 'tpope/vim-sensible'
-Plug 'rstacruz/vim-opinion'
+" Plug 'rstacruz/vim-opinion'
 
 " Completion
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
@@ -90,14 +90,17 @@ let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
 
-Plug 'myusuf3/numbers.vim'
+" Incredibly slow
+" Plug 'myusuf3/numbers.vim'
 
 Plug 'majutsushi/tagbar'
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
 
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
+Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'html'] }
+Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -107,6 +110,16 @@ colorscheme github
 set background=light
 set list                     " shows tabbed spaces
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+set tabstop=2
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+set number
+
+set wrap
+set linebreak " Visually break long lines at 'breakat' character
+set whichwrap=b,s,<,>
+set foldmethod=syntax
 
 " Save with ,w
 noremap <leader>w :update<CR>
