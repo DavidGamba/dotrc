@@ -30,10 +30,10 @@ function main()
         install_bin
         exit 0
       ;;
-      --vim)
+      --nvim)
         shift
-        echo installing vim...
-        install_vim
+        echo installing nvim...
+        install_nvim
         exit 0
       ;;
       -*)
@@ -74,8 +74,7 @@ function create_link_for()
 function install_dotrc()
 {
   create_link_for "$HOME/.bashrc"     "dotrc/bashrc"
-  create_link_for "$HOME/.vimrc"      "dotrc/vimrc"
-  create_link_for "$HOME/.vim"        "dotrc/vim"
+  create_link_for "$HOME/.nvimrc"     "dotrc/nvimrc"
   create_link_for "$HOME/.screenrc"   "dotrc/screenrc"
   create_link_for "$HOME/.perltidyrc" "dotrc/perltidyrc"
   create_link_for "$HOME/.inputrc"    "dotrc/inputrc"
@@ -83,11 +82,6 @@ function install_dotrc()
   create_link_for "$HOME/.hgrc"       "dotrc/hgrc"
 
   cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
-
-  if [[ ! -d $HOME/.vim/bundle/vundle ]]; then
-    git clone https://github.com/gmarik/vundle.git $HOME/.vim/bundle/Vundle.vim
-    vim +BundleInstall +qall
-  fi
 
   mkdir $HOME/opt
   mkdir $HOME/mnt
@@ -99,7 +93,7 @@ function install_bin()
 {
   if [[ ! -d $HOME/bin ]]; then
     set -x
-    git clone https://github.com/DavidGamba/bin.git $HOME/bin
+    git clone git@github.com:DavidGamba/bin.git $HOME/bin
     set +x
   fi
   if [[ ! -d $HOME/code/personal/git ]]; then
@@ -108,51 +102,30 @@ function install_bin()
     set +x
   fi
   if [[ ! -d $HOME/code/personal/git/grepp ]]; then
-    git clone https://github.com/DavidGamba/grepp.git $HOME/code/personal/git/grepp
-  fi
-  if [[ ! -d $HOME/code/personal/git/todo ]]; then
-    git clone https://github.com/DavidGamba/todo.git  $HOME/code/personal/git/todo
+    git clone git@github.com:DavidGamba/grepp.git $HOME/code/personal/git/grepp
   fi
   if [[ ! -d $HOME/code/personal/git/ffind ]]; then
-    git clone https://github.com/DavidGamba/ffind.git  $HOME/code/personal/git/ffind
-  fi
-  if [[ ! -d $HOME/code/personal/mercurial/vim ]]; then
-    mkdir -p $HOME/code/personal/mercurial
-    hg clone https://vim.googlecode.com/hg/ $HOME/code/personal/mercurial/vim
+    git clone git@github.com:DavidGamba/ffind.git  $HOME/code/personal/git/ffind
   fi
   create_link_for "$HOME/bin/grepp" "$HOME/code/personal/git/grepp"
-  create_link_for "$HOME/bin/todo"  "$HOME/code/personal/git/todo"
   create_link_for "$HOME/bin/ffind" "$HOME/code/personal/git/ffind"
   echo done installing bin!
 }
 
-function install_vim()
+function install_nvim()
 {
-  if [[ ! -d $HOME/code/personal/mercurial/vim ]]; then
-    mkdir -p $HOME/code/personal/mercurial
-    hg clone https://vim.googlecode.com/hg/ $HOME/code/personal/mercurial/vim
+  if [[ ! -d $HOME/opt/neovim ]]; then
+    set -x
+    git clone --depth 1 https://github.com/neovim/neovim.git
+    make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim" install
+    sudo pip install neovim
+    create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/neovim/bin/nvim"
+    curl -fLo ~/.nvim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    $HOME/opt/bin/nvim +PlugInstall
+    set +x
   fi
-  cd $HOME/code/personal/mercurial/vim
-  hg update default
-  hg update -C
-  cd src
-  make distclean  # if you build Vim before
-  ./configure --with-compiledby="David Gamba <davidgamba@gambaeng.com>" \
-    --with-features=huge \
-    --enable-gui=auto \
-    --with-x \
-    --enable-luainterp \
-    --enable-rubyinterp \
-    --with-ruby-command=/usr/bin/ruby \
-    --enable-perlinterp \
-    --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config \
-    --enable-fontset \
-    --enable-cscope \
-    --enable-gtk2-check \
-    --enable-gnome-check
-  make
-  sudo make install
-  echo done installing vim!
+  echo done installing nvim!
 }
 
 main "$@"
