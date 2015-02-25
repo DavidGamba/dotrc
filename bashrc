@@ -35,9 +35,9 @@ shopt -s no_empty_cmd_completion
 #-------------------------------------------------------------
 # Exports
 #-------------------------------------------------------------
-export EDITOR="vim"
-export GIT_EDITOR="vim"
-export VISUAL="vim"
+export EDITOR="nvim"
+export GIT_EDITOR="nvim"
+export VISUAL="nvim"
 export PAGER="less"
 export LESS="-I -j6 -M -R -F -X"
 export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
@@ -84,6 +84,7 @@ alias banshee='dbus-launch banshee'
 alias nautilus='nautilus --no-desktop'
 alias most='du -hsx * | sort -rh | head -15'
 alias df='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
+alias vim=nvim
 
 #-------------------------------------------------------------
 # External
