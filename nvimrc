@@ -97,10 +97,15 @@ Plug 'majutsushi/tagbar'
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
 
+Plug 'vim-scripts/SyntaxRange'
+
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'html'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
+Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
+Plug 'dahu/vimple', { 'for': 'asciidoc' }
+Plug 'dahu/Asif', { 'for': 'asciidoc' }
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -168,8 +173,8 @@ inoremap <C-l><C-l> <ESC>la
   " Move around buffers
   nmap <C-J> <C-W><C-J>
   nmap <C-K> <C-W><C-K>
-  nmap <C-H> :bn<CR>
-  nmap <C-L> :bp<CR>
+  nmap <C-H> :bp<CR>
+  nmap <C-L> :bl<CR>
 
   " yy copies a line, use Y for y$
   nnoremap Y y$
@@ -228,6 +233,7 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
 "}
 
+autocmd FileType asciidoc :compiler asciidoctor
 command! Perl read $HOME/dotrc/vim_templates/perl.pl
 command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
 command! Scala read $HOME/dotrc/vim_templates/scala.scala
