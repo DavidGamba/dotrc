@@ -120,6 +120,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set number
+set ignorecase
 set smartcase
 
 set wrap
