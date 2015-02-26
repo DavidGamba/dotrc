@@ -120,6 +120,7 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 set number
+set smartcase
 
 set wrap
 set linebreak " Visually break long lines at 'breakat' character
