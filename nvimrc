@@ -51,9 +51,9 @@ Plug 'endel/vim-github-colorscheme'
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-Plug 'maxbrunsfeld/vim-yankstack'
-exec "set <A-p>=\ep"
-exec "set <A-P>=\eP"
+"Plug 'maxbrunsfeld/vim-yankstack'
+"exec "set <A-p>=\ep"
+"exec "set <A-P>=\eP"
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " close VIM if NERDTree is the only buffer left
@@ -103,8 +103,10 @@ Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'html'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
-Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
+" Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
+Plug 'DavidGamba/vim-asciidoc', { 'for': 'asciidoc', 'branch': 'clean-arguments' }
 Plug 'dahu/vimple', { 'for': 'asciidoc' }
+let vimple_init_vn = 0
 Plug 'dahu/Asif', { 'for': 'asciidoc' }
 
 " All of your Plugins must be added before the following line
@@ -131,7 +133,7 @@ set foldmethod=syntax
 " Save with ,w
 noremap <leader>w :update<CR>
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 " search/replace the word under the cursor
 nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
@@ -165,7 +167,7 @@ inoremap <C-l><C-l> <ESC>la
   nmap <C-J> <C-W><C-J>
   nmap <C-K> <C-W><C-K>
   nmap <C-H> :bp<CR>
-  nmap <C-L> :bl<CR>
+  nmap <C-L> :bn<CR>
 
   " yy copies a line, use Y for y$
   nnoremap Y y$
