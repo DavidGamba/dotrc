@@ -115,6 +115,12 @@ elif [ -e /usr/java/default ]; then
   export JAVA_HOME=/usr/java/default
 fi
 
+if [ -d ${HOME}/code/personal/git/go-code ]; then
+  export GOPATH="$HOME/code/personal/git/go-code"
+  export GOBIN="$HOME/code/personal/git/go-code/bin"
+  export PATH="$PATH:$GOBIN"
+fi
+
 source ~/dotrc/bash_func/up
 source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1

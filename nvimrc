@@ -73,6 +73,7 @@ Plug 'tpope/vim-surround'
 " Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
 Plug 'tpope/vim-abolish'
 
+Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 let g:easy_align_delimiters = {
 \ '>': { 'pattern': '>>\|=>\|->\|>' },
@@ -89,6 +90,12 @@ Plug 'scrooloose/syntastic'
 let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+
+Plug 'fatih/vim-go'
+au FileType go nmap <leader>r <Plug>(go-run)
+au FileType go nmap <leader>b <Plug>(go-build)
+au FileType go nmap <leader>t <Plug>(go-test)
+au FileType go nmap <leader>c <Plug>(go-coverage)
 
 " Incredibly slow
 " Plug 'myusuf3/numbers.vim'
@@ -117,6 +124,7 @@ colorscheme github
 set background=light
 set list                     " shows tabbed spaces
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+au FileType go set listchars=tab:·\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
 set tabstop=2
 set expandtab
 set shiftwidth=2
