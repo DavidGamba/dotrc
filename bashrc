@@ -85,6 +85,8 @@ alias nautilus='nautilus --no-desktop'
 alias most='du -hsx * | sort -rh | head -15'
 alias df='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
 alias vim=nvim
+alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 
 #-------------------------------------------------------------
 # External
