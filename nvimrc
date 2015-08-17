@@ -194,6 +194,26 @@ nmap _= :call Preserve("normal gg=G")<CR>
 " Buffer delete
 nmap <leader>d :bp<bar>sp<bar>bn<bar>bd<CR>
 
+" Select Buffer
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <Leader><Enter> :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+nnoremap <silent> <Leader>t :call fzf#run()<CR>
+
 " restore position in file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif
 
