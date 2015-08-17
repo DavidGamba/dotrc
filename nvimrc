@@ -9,7 +9,6 @@ call plug#begin('~/.nvim/plugged')
 
 " Sane defaults
 Plug 'tpope/vim-sensible'
-" Plug 'rstacruz/vim-opinion'
 
 " Completion
 Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
@@ -25,23 +24,12 @@ let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
 let g:UltiSnipsListSnippets="<leader><Tab>"
 
 " File search
-" Need to wait for ruby support before using command-t
-" Plug 'wincent/Command-T'
-" let g:CommandTMatchWindowAtTop=1 " show window at top
-" Plug 'kien/ctrlp.vim'
-" let g:ctrlp_map = '<leader>t'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
-nnoremap <leader>t :Unite file<CR>
-nnoremap <space>/ :Unite grep:.<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 
 " Coloring
-Plug 'kien/rainbow_parentheses.vim'
-let g:rbpt_max = 8
-au VimEnter * RainbowParenthesesActivate
-au BufRead,BufNewFile * RainbowParenthesesLoadRound
-au BufRead,BufNewFile * RainbowParenthesesLoadSquare
-au BufRead,BufNewFile * RainbowParenthesesLoadBraces
+Plug 'junegunn/rainbow_parentheses.vim'
+autocmd VimEnter * RainbowParentheses
+let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
 Plug 'endel/vim-github-colorscheme'
 " Plug 'chriskempson/base16'
@@ -95,10 +83,8 @@ Plug 'fatih/vim-go'
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>c <Plug>(go-coverage)
-
-" Incredibly slow
-" Plug 'myusuf3/numbers.vim'
+au FileType go nmap <leader>i <Plug>(go-install)
+"au FileType go nmap <leader>c <Plug>(go-coverage)
 
 Plug 'majutsushi/tagbar'
 " Plug 'xolox/vim-misc'
@@ -234,7 +220,11 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
     endfunction
 "}
 
-autocmd FileType asciidoc :compiler asciidoctor
+set complete=.,w,b,u,t,i
+set autoread
+
+autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
+autocmd FileType asciidoc :compiler asciidoctor | setlocal complete+=kspell
 command! Perl read $HOME/dotrc/vim_templates/perl.pl
 command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
 command! Scala read $HOME/dotrc/vim_templates/scala.scala
