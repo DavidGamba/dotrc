@@ -159,6 +159,9 @@ inoremap <C-l><C-l> <ESC>la
   nmap <UP> <C-Y>
   nmap <DOWN> <C-E>
 
+  " This maps Leader + e to exit terminal mode.
+  tnoremap <Leader>e <C-\><C-n>
+
   " Move around buffers
   nmap <C-J> <C-W><C-J>
   nmap <C-K> <C-W><C-K>
