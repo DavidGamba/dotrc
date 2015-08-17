@@ -39,9 +39,11 @@ Plug 'endel/vim-github-colorscheme'
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-"Plug 'maxbrunsfeld/vim-yankstack'
-"exec "set <A-p>=\ep"
-"exec "set <A-P>=\eP"
+" meta-p meta-shift-p
+Plug 'maxbrunsfeld/vim-yankstack'
+let g:yankstack_map_keys = 0
+nmap ð <Plug>yankstack_substitute_older_paste
+nmap Ð <Plug>yankstack_substitute_newer_paste
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " close VIM if NERDTree is the only buffer left
