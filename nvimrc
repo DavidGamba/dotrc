@@ -112,7 +112,7 @@ colorscheme github
 set background=light
 set list                     " shows tabbed spaces
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
-au FileType go set listchars=tab:·\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
 set tabstop=2
 set expandtab
 set shiftwidth=2
