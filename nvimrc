@@ -11,7 +11,7 @@ call plug#begin('~/.nvim/plugged')
 Plug 'tpope/vim-sensible'
 
 " Completion
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 
