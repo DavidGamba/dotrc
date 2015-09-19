@@ -220,32 +220,9 @@ au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "norma
 " Enter acts as C-y when there are drop down menu selections
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
-" Find files without extention in their filename {
-    nmap <leader>g :call Find_by_ext()<CR>
-    function! Find_by_ext()
-        let b:my_ext=0
-        let b:my_ext_len=4 " modify this value after number of extentions
-        let cfile = expand("<cfile>")
-        for ext in ["",".pl", ".pm", ".tex"]
-            if findfile(cfile . ext ) != ''
-                let b:my_ext = 0
-                exec "tabnew" findfile(cfile . ext )
-                break
-            else
-                let b:my_ext=b:my_ext+1
-                if b:my_ext >= b:my_ext_len
-                    echohl ErrorMsg
-                    echomsg cfile . " not found in path"
-                    echohl NONE
-                    let b:my_ext = 0
-                    break
-                endif
-            endif
-        endfor
-    endfunction
-"}
+" Find files without extention in their filename
+set suffixesadd+=.pl,.pm,.text
 
-set complete=.,w,b,u,t,i
 set autoread
 
 autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
