@@ -223,10 +223,12 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " Find files without extention in their filename
 set suffixesadd+=.pl,.pm,.text
 
+set complete=.,w,b,u,t,i,kspell
 set autoread
+set spellfile=~/vim-local-spell.utf-8.add
 
 autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
-autocmd FileType asciidoc :compiler asciidoctor | setlocal complete+=kspell
+autocmd FileType asciidoc :compiler asciidoctor | setlocal spell
 command! Perl read $HOME/dotrc/vim_templates/perl.pl
 command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
 command! Scala read $HOME/dotrc/vim_templates/scala.scala
