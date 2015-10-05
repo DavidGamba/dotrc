@@ -16,8 +16,7 @@ let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 
 " Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
@@ -34,7 +33,6 @@ let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 Plug 'endel/vim-github-colorscheme'
 " Plug 'chriskempson/base16'
 
-
 " Status line
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
@@ -44,6 +42,10 @@ Plug 'maxbrunsfeld/vim-yankstack'
 let g:yankstack_map_keys = 0
 nmap ð <Plug>yankstack_substitute_older_paste
 nmap Ð <Plug>yankstack_substitute_newer_paste
+
+Plug 'simnalamburt/vim-mundo'
+" alt+u
+nnoremap õ :GundoToggle<CR>
 
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " close VIM if NERDTree is the only buffer left
@@ -87,6 +89,9 @@ au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>i <Plug>(go-install)
 "au FileType go nmap <leader>c <Plug>(go-coverage)
+let g:go_fmt_command = "goimports"
+let g:go_auto_type_info = 1
+au BufRead,BufNewFile *.gtpl set filetype=gohtmltmpl
 
 Plug 'majutsushi/tagbar'
 " Plug 'xolox/vim-misc'
@@ -94,21 +99,30 @@ Plug 'majutsushi/tagbar'
 
 Plug 'vim-scripts/SyntaxRange'
 
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+" Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'zxiest/vim-ruby', { 'for': 'ruby' }
 Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'html'] }
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
 " Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
 Plug 'DavidGamba/vim-asciidoc', { 'for': 'asciidoc', 'branch': 'clean-arguments' }
+"Plug '~/code/personal/git/vim-asciidoc', {'for': 'asciidoc' }
 Plug 'dahu/vimple', { 'for': 'asciidoc' }
 let vimple_init_vn = 0
 Plug 'dahu/Asif', { 'for': 'asciidoc' }
+
+Plug 'voom'
+let g:voom_ft_modes = {'asciidoc': 'asciidoc'}
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
 filetype plugin indent on    " required
 
-colorscheme github
+" https://github.com/neovim/neovim/issues/2127
+" Neovim doesn't check file changes after focus is lost
+autocmd BufEnter,FocusGained * checktime
+
+colorscheme default
 set background=light
 set list                     " shows tabbed spaces
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
@@ -126,10 +140,10 @@ set linebreak " Visually break long lines at 'breakat' character
 set whichwrap=b,s,<,>
 set foldmethod=syntax
 
+set clipboard+=unnamedplus
+
 " Save with ,w
 noremap <leader>w :update<CR>
-
-set clipboard=unnamedplus
 
 " search/replace the word under the cursor
 nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
@@ -162,11 +176,23 @@ inoremap <C-l><C-l> <ESC>la
   " This maps Leader + e to exit terminal mode.
   tnoremap <Leader>e <C-\><C-n>
 
+  if has('nvim')
+    nmap <BS> <C-h>
+  endif
+
   " Move around buffers
   nmap <C-J> <C-W><C-J>
   nmap <C-K> <C-W><C-K>
-  nmap <C-H> :bp<CR>
-  nmap <C-L> :bn<CR>
+  " alt + h
+  nmap è :bp<CR>
+  " alt + l
+  nmap ì :bn<CR>
+  nmap <C-H> <C-W>h
+  nmap <C-L> <C-W>l
+  nmap > <C-W>>
+  nmap < <C-W><
+  nmap + <C-W>+
+  nmap _ <C-W>-
 
   " yy copies a line, use Y for y$
   nnoremap Y y$
@@ -174,6 +200,10 @@ inoremap <C-l><C-l> <ESC>la
   " Keep visual selection after indentation in visual mode
   vmap < <gv
   vmap > >gv
+
+" Increment/Decrement inside screen
+nmap <leader>a <C-a>
+nmap <leader>x <C-x>
 
 function! Preserve(command)
   " Preparation: save last search, and cursor position.
