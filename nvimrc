@@ -258,7 +258,7 @@ set autoread
 set spellfile=~/vim-local-spell.utf-8.add
 
 autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
-autocmd FileType asciidoc :compiler asciidoctor | setlocal spell
+autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
 command! Perl read $HOME/dotrc/vim_templates/perl.pl
 command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
 command! Scala read $HOME/dotrc/vim_templates/scala.scala
