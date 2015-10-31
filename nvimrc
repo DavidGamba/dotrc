@@ -90,7 +90,8 @@ au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>i <Plug>(go-install)
 "au FileType go nmap <leader>c <Plug>(go-coverage)
 let g:go_fmt_command = "goimports"
-let g:go_auto_type_info = 1
+" It doesn't let me see the errors
+" let g:go_auto_type_info = 1
 au BufRead,BufNewFile *.gtpl set filetype=gohtmltmpl
 
 Plug 'majutsushi/tagbar'
@@ -189,10 +190,14 @@ inoremap <C-l><C-l> <ESC>la
   nmap ì :bn<CR>
   nmap <C-H> <C-W>h
   nmap <C-L> <C-W>l
-  nmap > <C-W>>
-  nmap < <C-W><
-  nmap + <C-W>+
-  nmap _ <C-W>-
+  " alt + .
+  nmap ® <C-W>>
+  " alt + ,
+  nmap ¬ <C-W><
+  " alt + >
+  nmap ¾ <C-W>+
+  " alt + <
+  nmap ¼ <C-W>-
 
   " yy copies a line, use Y for y$
   nnoremap Y y$
