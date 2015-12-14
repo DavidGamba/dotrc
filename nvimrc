@@ -143,6 +143,9 @@ set foldmethod=syntax
 
 set clipboard+=unnamedplus
 
+set undofile
+set undodir=.
+
 " Save with ,w
 noremap <leader>w :update<CR>
 
@@ -261,6 +264,7 @@ set suffixesadd+=.pl,.pm,.text
 set complete=.,w,b,u,t,i,kspell
 set autoread
 set spellfile=~/vim-local-spell.utf-8.add
+set backupdir=.
 
 autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
 autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
