@@ -82,14 +82,19 @@ Plug 'scrooloose/syntastic'
 let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 
 Plug 'fatih/vim-go'
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>i <Plug>(go-install)
-"au FileType go nmap <leader>c <Plug>(go-coverage)
-let g:go_fmt_command = "goimports"
+au FileType go nmap <leader>gc <Plug>(go-coverage)
+au FileType go nmap <leader>gi <Plug>(go-install)
+au FileType go nmap <leader>i <Plug>(go-info)
+au FileType go nmap <leader>s <Plug>(go-implements)
+au FileType go nmap <leader>e <Plug>(go-rename)
+" let g:go_fmt_command = "goimports"
 " It doesn't let me see the errors
 " let g:go_auto_type_info = 1
 au BufRead,BufNewFile *.gtpl set filetype=gohtmltmpl
