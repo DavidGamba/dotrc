@@ -96,15 +96,15 @@ if [ -f ${HOME}/local/bash_local.bash ]; then
 fi
 
 if [ -d ${HOME}/bin ]; then
-    export PATH="$HOME/bin:$PATH"
+    export PATH="$PATH:$HOME/bin"
     alias open="$HOME/bin/open"
 fi
 
 if [ -d ${HOME}/opt/bin ]; then
-    export PATH="$HOME/opt/bin:$PATH"
+    export PATH="$PATH:$HOME/opt/bin"
 fi
 if [ -d ${HOME}/local/bin ]; then
-    export PATH="$HOME/local/bin:$PATH"
+    export PATH="$PATH:$HOME/local/bin"
 fi
 
 if [ ! -f /etc/bash_completion.d/git ]; then
