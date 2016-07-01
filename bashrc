@@ -46,7 +46,7 @@ export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
 
 # History Stuff
 export HISTTIMEFORMAT="%H:%M > "
-export HISTIGNORE="&:[bf]g:ll:ls:clear:exit:ifconfig:git d:git st:git lg"
+export HISTIGNORE="&:[bf]g:clear:exit"
 export HISTSIZE=90000
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROl=ignoreboth

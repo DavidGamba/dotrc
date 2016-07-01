@@ -1,5 +1,5 @@
-" mkdir -p ~/.nvim/autoload
-" curl -fLo ~/.nvim/autoload/plug.vim \
+" mkdir -p ~/.config/nvim/autoload
+" curl -fLo ~/.config/nvim/autoload/plug.vim \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 let g:mapleader = ","
@@ -8,7 +8,7 @@ let g:mapleader = ","
 call plug#begin('~/.config/nvim/plugged')
 
 " Sane defaults
-Plug 'tpope/vim-sensible'
+" Plug 'tpope/vim-sensible'
 
 " Completion
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer' }
@@ -36,12 +36,17 @@ hi link EasyMotionMoveHL ErrorMsg
 " Snippets
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-Tab>"
-let g:UltiSnipsListSnippets="<leader><Tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-n>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+let g:UltiSnipsListSnippets="<leader>l"
+if !exists("g:UltiSnipsSnippetDirectories")
+  let g:UltiSnipsSnippetDirectories = ["/home/david/dotrc/vim-snippets"]
+else
+  let g:UltiSnipsSnippetDirectories += ["/home/david/dotrc/vim-snippets"]
+endif
 
 " File search
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " Coloring
 Plug 'junegunn/rainbow_parentheses.vim'
@@ -53,7 +58,7 @@ Plug 'endel/vim-github-colorscheme'
 
 " Status line
 Plug 'bling/vim-airline'
-let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#enabled = 1
 
 " meta-p meta-shift-p
 "Plug 'maxbrunsfeld/vim-yankstack'
@@ -138,6 +143,33 @@ au FileType go map [l :lp<CR>
 au BufRead,BufNewFile *.gtpl set filetype=gohtmltmpl
 
 Plug 'majutsushi/tagbar'
+let g:tagbar_type_go = {
+    \ 'ctagstype' : 'go',
+    \ 'kinds'     : [
+        \ 'p:package',
+        \ 'i:imports:1',
+        \ 'c:constants',
+        \ 'v:variables',
+        \ 't:types',
+        \ 'n:interfaces',
+        \ 'w:fields',
+        \ 'e:embedded',
+        \ 'm:methods',
+        \ 'r:constructor',
+        \ 'f:functions'
+    \ ],
+    \ 'sro' : '.',
+    \ 'kind2scope' : {
+        \ 't' : 'ctype',
+        \ 'n' : 'ntype'
+    \ },
+    \ 'scope2kind' : {
+        \ 'ctype' : 't',
+        \ 'ntype' : 'n'
+    \ },
+    \ 'ctagsbin'  : 'gotags',
+    \ 'ctagsargs' : '-sort -silent'
+    \ }
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
 
@@ -172,8 +204,10 @@ call plug#end()            " required
 " Neovim doesn't check file changes after focus is lost
 autocmd BufEnter,FocusGained * checktime
 
-colorscheme default
-set background=light
+
+" colorscheme gruvbox
+" set background=light
+" set termguicolors
 set list                     " shows tabbed spaces
 set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
 au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
@@ -203,7 +237,7 @@ noremap <leader>w :update<CR>
 " search/replace the word under the cursor
 nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
 
-set tags=./.tags;,~/.vimtags
+set tags=./.tags;,~/.vimtags,~/code/personal/git/gocode/src/gotags.ctags
 
 " Paste using set paste
 inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>
@@ -322,9 +356,11 @@ set complete=.,w,b,u,t,i,kspell
 set autoread
 set spellfile=~/vim-local-spell.utf-8.add
 
-autocmd BufWritePost *.go normal! zO
+autocmd BufWritePost *.go silent! normal zO
 autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
 autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
-command! Perl read $HOME/dotrc/vim_templates/perl.pl
-command! Ruby read $HOME/dotrc/vim_templates/ruby.rb
-command! Scala read $HOME/dotrc/vim_templates/scala.scala
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+command! TemplatePerl read $HOME/dotrc/vim_templates/perl.pl
+command! TemplateRuby read $HOME/dotrc/vim_templates/ruby.rb
+command! TemplateScala read $HOME/dotrc/vim_templates/scala.scala
+command! TemplateGo read $HOME/dotrc/vim_templates/go.go
