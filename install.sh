@@ -1,5 +1,8 @@
 #!/bin/bash
 
+CODE_DIR=$HOME/general/code
+PROJECTS_DIR=$HOME/general
+
 function usage()
 {
   option=$1
@@ -73,58 +76,71 @@ function create_link_for()
 
 function install_dotrc()
 {
+  mkdir -p $HOME/opt
+  mkdir -p $HOME/mnt
+  mkdir -p $HOME/.config/nvim
+  mkdir -p $CODE_DIR
+  mkdir -p $PROJECTS_DIR
+
   create_link_for "$HOME/.bashrc"     "dotrc/bashrc"
-  create_link_for "$HOME/.nvimrc"     "dotrc/nvimrc"
   create_link_for "$HOME/.screenrc"   "dotrc/screenrc"
+  create_link_for "$HOME/.tmux.conf"  "dotrc/tmux.conf"
   create_link_for "$HOME/.perltidyrc" "dotrc/perltidyrc"
   create_link_for "$HOME/.inputrc"    "dotrc/inputrc"
   create_link_for "$HOME/.gitignore"  "dotrc/gitignore"
+  create_link_for "$HOME/.gitconfig"  "dotrc/gitconfig"
   create_link_for "$HOME/.hgrc"       "dotrc/hgrc"
+  create_link_for "$HOME/.nvimrc"     "dotrc/nvimrc"
+  create_link_for "$HOME/.config/nvim/init.vim" "$HOME/dotrc/nvimrc"
 
-  cp -n $HOME/dotrc/gitconfig $HOME/.gitconfig
-
-  mkdir $HOME/opt
-  mkdir $HOME/mnt
-  mkdir -p $HOME/code/personal
   echo done installing dotrc!
+}
+
+function clone_repo()
+{
+  local repo=$1
+  shift
+  local dir=$1
+  shift
+  local gitopts=$1
+  shift
+
+  if [[ ! -d $dir ]]; then
+    mkdir -p `dirname $dir`
+    set -x
+    git clone $gitopts $repo $dir
+    set +x
+  fi
 }
 
 function install_bin()
 {
-  if [[ ! -d $HOME/bin ]]; then
-    set -x
-    git clone git@github.com:DavidGamba/bin.git $HOME/bin
-    set +x
-  fi
-  if [[ ! -d $HOME/code/personal/git ]]; then
-    set -x
-    mkdir $HOME/code/personal/git
-    set +x
-  fi
-  if [[ ! -d $HOME/code/personal/git/grepp ]]; then
-    git clone git@github.com:DavidGamba/grepp.git $HOME/code/personal/git/grepp
-  fi
-  if [[ ! -d $HOME/code/personal/git/ffind ]]; then
-    git clone git@github.com:DavidGamba/ffind.git  $HOME/code/personal/git/ffind
-  fi
-  create_link_for "$HOME/bin/grepp" "$HOME/code/personal/git/grepp"
-  create_link_for "$HOME/bin/ffind" "$HOME/code/personal/git/ffind"
+  clone_repo git@github.com:DavidGamba/bin.git   $HOME/bin
+  clone_repo git@github.com:DavidGamba/grepp.git $CODE_DIR/grepp
+  clone_repo git@github.com:DavidGamba/ffind.git $CODE_DIR/ffind
+  clone_repo git@github.com:DavidGamba/go-cdargs.git $CODE_DIR/go-cdargs
+  create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
+  create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
+  create_link_for "$HOME/bin/go-cdargs" "$CODE_DIR/go-cdargs/go-cdargs"
   echo done installing bin!
 }
 
 function install_nvim()
 {
-  if [[ ! -d $HOME/opt/neovim ]]; then
-    set -x
-    git clone --depth 1 https://github.com/neovim/neovim.git
-    make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim" install
-    sudo pip install neovim
-    create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/neovim/bin/nvim"
-    curl -fLo ~/.nvim/autoload/plug.vim --create-dirs \
-      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    $HOME/opt/bin/nvim +PlugInstall
-    set +x
+  NVIM_CODE=$CODE_DIR/neovim
+  if [[ ! -d $NVIM_CODE ]]; then
+    clone_repo https://github.com/neovim/neovim.git $CODE_DIR/neovim "--depth 1"
   fi
+  mkdir -p $HOME/opt/neovim
+  mkdir -p $HOME/opt/bin
+  cd $CODE_DIR/neovim
+  git pull
+  make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim" install
+  create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/neovim/bin/nvim"
+  # sudo pip install neovim
+  curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  $HOME/opt/bin/nvim +PlugInstall
   echo done installing nvim!
 }
 

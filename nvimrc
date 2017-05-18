@@ -5,7 +5,7 @@
 let g:mapleader = ","
 
 " set the runtime path to include Vundle and initialize
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 " Sane defaults
 " Plug 'tpope/vim-sensible'
