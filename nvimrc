@@ -7,15 +7,47 @@ let g:mapleader = ","
 " set the runtime path to include Vundle and initialize
 call plug#begin('~/.local/share/nvim/plugged')
 
+" Plug '907th/vim-auto-save'
+" let g:auto_save = 1  " enable AutoSave on Vim startup
+" let g:auto_save_silent = 1  " do not display the auto-save notification
+" let g:auto_save_events = ["InsertLeave", "TextChanged"]
+
+" Plug 'autozimu/LanguageClient-neovim', { 'do': ':UpdateRemotePlugins' }
+" Required for operations modifying multiple buffers like rename.
+" set hidden
+" Automatically start language servers.
+" let g:LanguageClient_autoStart = 1
+" let g:LanguageClient_serverCommands = {
+"     \ 'go': ['/home/david/general/code/go/bin/go-langserver'],
+"     \ }
+" Plug 'roxma/nvim-completion-manager'
+" " LSP Go commands
+" au FileType go nnoremap <silent> <leader>i :call LanguageClient_textDocument_hover()<CR>
+" au FileType go nnoremap <silent> <leader>e :call LanguageClient_textDocument_rename()<CR>
+" " au FileType go nnoremap <silent> <leader>l :call LanguageClient_textDocument_documentSymbol()<CR>
+" au FileType go nnoremap <silent> <leader>l :call LanguageClient_workspace_symbol()<CR>
+" au FileType go nnoremap <silent> <leader>u :call LanguageClient_textDocument_references()<CR>
+" au FileType go nnoremap <silent> <leader>d :call LanguageClient_textDocument_definition()<CR>
+" " au FileType go nnoremap <silent> <leader>d :call LanguageClient_setLoggingLevel('DEBUG')<CR>
+" au FileType go map ]l :lne<CR>
+" au FileType go map [l :lp<CR>
+
 " Sane defaults
 " Plug 'tpope/vim-sensible'
 
-" Completion
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --gocode-completer' }
+" " Completion
+Plug 'Valloric/YouCompleteMe', { 'for': 'python', 'do': './install.py --gocode-completer' }
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_collect_identifiers_from_tags_files = 1
 let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+"
+" Deoplete {
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+" Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'}
+" }
 
 " Motion
 Plug 'easymotion/vim-easymotion'
@@ -47,24 +79,57 @@ endif
 
 " File search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+if executable('rg')
+    set grepprg=rg\ --no-heading\ --hidden\ --vimgrep\ -i
+    set grepformat=%f:%l:%c:%m
+else
+    set grepprg=git\ grep\ -n
+endif
 
 " Coloring
+Plug 'pearofducks/ansible-vim', { 'for': 'yaml' }
+
 Plug 'junegunn/rainbow_parentheses.vim'
 autocmd VimEnter * RainbowParentheses
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
-Plug 'endel/vim-github-colorscheme'
-" Plug 'chriskempson/base16'
+" Plug 'machakann/vim-highlightedyank'
+
+" Colorscheme
+" Plug 'freeo/vim-kalisi'
+Plug 'morhetz/gruvbox'
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_light="hard"
+" Plug 'justinmk/molokai'
+" Horrible!
+" Plug 'nathanaelkane/vim-indent-guides', { 'for': 'python' }
+" let g:indent_guides_enable_on_vim_startup = 1
+" let g:indent_guides_start_level = 2
+" let g:indent_guides_guide_size = 1
+" let g:indent_guides_auto_colors = 1
+" let g:indent_guides_color_change_percent = 10
+
+Plug 'Yggdroot/indentLine', { 'for': 'python' }
+let g:indentLine_enabled = 1
+" let g:indentLine_char = '┆│ ⎸ ▏'
+let g:indentLine_char = ' ̩'
+let g:indentLine_char = 'ˈ'
 
 " Status line
 Plug 'bling/vim-airline'
-" let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
 
 " meta-p meta-shift-p
 "Plug 'maxbrunsfeld/vim-yankstack'
 "let g:yankstack_map_keys = 0
 "nmap ð <Plug>yankstack_substitute_older_paste
 "nmap Ð <Plug>yankstack_substitute_newer_paste
+Plug 'bfredl/nvim-miniyank'
+nmap <M-p> <Plug>(miniyank-startput)
+nmap <M-P> <Plug>(miniyank-startPut)
+nmap <M-n> <Plug>(miniyank-cycle)
 
 "Plug 'simnalamburt/vim-mundo'
 " alt+u
@@ -76,16 +141,32 @@ Plug 'bling/vim-airline'
 
 " Smarter repeat
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-unimpaired'
 "Plug 'tpope/vim-git'
 "Plug 'tpope/vim-fugitive'
 " Improved netrw behaviour
 Plug 'tpope/vim-vinegar'
 Plug 'Townk/vim-autoclose'
 
+" Writting aids
+Plug 'kana/vim-textobj-user'
+Plug 'reedes/vim-textobj-quote'
+autocmd FileType asciidoc let g:textobj#quote#educate = 1
+autocmd FileType asciidoc let g:textobj#quote#matchit = 1
+
+" Use with:
+"   :Wordy weak
+"   :Wordy redundant
+"   :Wordy problematic
+Plug 'reedes/vim-wordy'
+" Outline
+Plug 'vim-scripts/VOoM'
+let g:voom_ft_modes = {'asciidoc': 'asciidoc'}
+
 " Git
 Plug 'airblade/vim-gitgutter'
 
-" Diff
+" Diff - :Linediff
 Plug 'AndrewRadev/linediff.vim'
 
 " Provides ChangeSurround (cs<old><new>), ChangeSurroundTag (cst<new>),
@@ -97,18 +178,18 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-abolish'
 
 " Show registers
-Plug 'junegunn/vim-peekaboo'
+" Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
-let g:easy_align_delimiters = {
-\ '>': { 'pattern': '>>\|=>\|->\|>' },
-\ }
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
+" let g:easy_align_delimiters = {
+" \ '>': { 'pattern': '>>\|=>\|->\|>' },
+" \ }
+" " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+xmap ga <Plug>(EasyAlign)
 
-" tComment
+" tComment with <C-/>
 Plug 'tomtom/tcomment_vim'
-nnoremap ,c :TComment<CR>
-vnoremap ,c :TComment<CR>"
+nnoremap  :TComment<CR>
+vnoremap  :TComment<CR>"
 
 " Plug 'scrooloose/syntastic'
 " let g:syntastic_ruby_checkers = ['rubocop', 'mri']
@@ -118,6 +199,7 @@ vnoremap ,c :TComment<CR>"
 " let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 " let g:syntastic_always_populate_loc_list = 1
 " let g:syntastic_auto_loc_list = 1
+
 
 Plug 'benekastah/neomake'
 autocmd! BufWritePost * Neomake
@@ -131,8 +213,10 @@ au FileType go nmap <leader>t <Plug>(go-test)
 au FileType go nmap <leader>gc <Plug>(go-coverage)
 au FileType go nmap <leader>gi <Plug>(go-install)
 au FileType go nmap <leader>i <Plug>(go-info)
-" au FileType go nmap <leader>s <Plug>(go-implements)
-au FileType go nmap <leader>e <Plug>(go-rename)
+au FileType go nmap <leader>u <Plug>(go-callers)
+" Use shift+F6 to match intellij
+" au FileType go nmap <F18> <Plug>(go-rename)
+au FileType go nmap <S-F6> <Plug>(go-rename)
 au FileType go map ]l :lne<CR>
 au FileType go map [l :lp<CR>
 " let g:go_fmt_command = "goimports"
@@ -141,44 +225,54 @@ au FileType go map [l :lp<CR>
 " It doesn't let me see the errors
 " let g:go_auto_type_info = 1
 au BufRead,BufNewFile *.gtpl set filetype=gohtmltmpl
+" let $PATH = $PATH . ':/home/david/go/bin:/home/david/general/code/go/bin'
+let g:go_bin_path = '/home/david/go/bin'
+" let g:go_highlight_types = 1
+" let g:go_highlight_fields = 1
+" let g:go_highlight_functions = 1
+" let g:go_highlight_methods = 1
 
 Plug 'majutsushi/tagbar'
-let g:tagbar_type_go = {
-    \ 'ctagstype' : 'go',
-    \ 'kinds'     : [
-        \ 'p:package',
-        \ 'i:imports:1',
-        \ 'c:constants',
-        \ 'v:variables',
-        \ 't:types',
-        \ 'n:interfaces',
-        \ 'w:fields',
-        \ 'e:embedded',
-        \ 'm:methods',
-        \ 'r:constructor',
-        \ 'f:functions'
-    \ ],
-    \ 'sro' : '.',
-    \ 'kind2scope' : {
-        \ 't' : 'ctype',
-        \ 'n' : 'ntype'
-    \ },
-    \ 'scope2kind' : {
-        \ 'ctype' : 't',
-        \ 'ntype' : 'n'
-    \ },
-    \ 'ctagsbin'  : 'gotags',
-    \ 'ctagsargs' : '-sort -silent'
-    \ }
+" let g:tagbar_type_go = {
+"     \ 'ctagstype' : 'go',
+"     \ 'kinds'     : [
+"         \ 'p:package',
+"         \ 'i:imports:1',
+"         \ 'c:constants',
+"         \ 'v:variables',
+"         \ 't:types',
+"         \ 'n:interfaces',
+"         \ 'w:fields',
+"         \ 'e:embedded',
+"         \ 'm:methods',
+"         \ 'r:constructor',
+"         \ 'f:functions'
+"     \ ],
+"     \ 'sro' : '.',
+"     \ 'kind2scope' : {
+"         \ 't' : 'ctype',
+"         \ 'n' : 'ntype'
+"     \ },
+"     \ 'scope2kind' : {
+"         \ 'ctype' : 't',
+"         \ 'ntype' : 'n'
+"     \ },
+"     \ 'ctagsbin'  : 'gotags',
+"     \ 'ctagsargs' : '-sort -silent'
+"     \ }
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
 
 Plug 'vim-scripts/SyntaxRange', { 'for': [ 'html', 'asciidoc' ] }
 
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+
+Plug 'puppetlabs/puppet-syntax-vim', { 'for': 'puppet' }
+
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
 Plug 'tpope/vim-rails', { 'for': 'ruby' }
 " Plug 'zxiest/vim-ruby', { 'for': 'ruby' }
-autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1 
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
@@ -193,9 +287,10 @@ Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
 Plug 'dahu/Asif', { 'for': 'asciidoc' } | Plug 'dahu/vimple', { 'for': 'asciidoc' } | Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
 let vimple_init_vn = 0
 
-" Use with :Voom
-Plug 'voom'
-let g:voom_ft_modes = {'asciidoc': 'asciidoc'}
+Plug 'hashivim/vim-terraform', { 'for': ['terraform'] }
+let g:terraform_fmt_on_save=1
+let g:terraform_align=1
+" Plug 'juliosueiras/vim-terraform-completion', { 'for': ['terraform'] }
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -204,15 +299,23 @@ call plug#end()            " required
 " Neovim doesn't check file changes after focus is lost
 autocmd BufEnter,FocusGained * checktime
 
+" Autosave
+autocmd TextChanged,TextChangedI,InsertLeave <buffer> silent write
 
-" colorscheme gruvbox
-" set background=light
-" set termguicolors
+" Write file on Make
+set autowriteall
+
+set background=light
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+                  \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+                  \,sm:block-blinkwait175-blinkoff150-blinkon175
+au VimLeave * set guicursor=a:block-blinkon0
+
 set list                     " shows tabbed spaces
-set listchars=tab:▸\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
-au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+set listchars=tab:˲\ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
+" ▸ ˲ ˃ ˍ
 set tabstop=2
-set expandtab
+" set expandtab
 set shiftwidth=2
 set softtabstop=2
 set number
@@ -230,6 +333,9 @@ set clipboard+=unnamedplus
 set undofile
 set undodir=.
 set backupdir=.
+set inccommand=split
+
+iab <expr> dts strftime("%c")
 
 " Save with ,w
 noremap <leader>w :update<CR>
@@ -237,7 +343,7 @@ noremap <leader>w :update<CR>
 " search/replace the word under the cursor
 nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
 
-set tags=./.tags;,~/.vimtags,~/code/personal/git/gocode/src/gotags.ctags
+set tags=./tags;./.tags;,~/.vimtags,~/code/personal/git/gocode/src/gotags.ctags
 
 " Paste using set paste
 inoremap <leader>v <ESC>:set paste<CR>"*p:set nopaste<CR>
@@ -249,12 +355,6 @@ inoremap <C-l><C-l> <ESC>la
   " Make navigation more amenable to the long wrapping lines.
   nnoremap k gk
   nnoremap j gj
-  nnoremap <buffer> 0 g0
-  nnoremap <buffer> ^ g^
-  nnoremap <buffer> $ g$
-  nnoremap <buffer> D dg$
-  nnoremap <buffer> C cg$
-  nnoremap <buffer> A g$a
 
   inoremap <buffer> <Up> <C-O>gk
   inoremap <buffer> <Down> <C-O>gj
@@ -335,30 +435,32 @@ function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
 endfunction
 
-nnoremap <silent> <Leader><Enter> :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-nnoremap <silent> <Leader>t :call fzf#run()<CR>
-
 " restore position in file
 au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif
 
 " Enter acts as C-y when there are drop down menu selections
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Find files without extention in their filename
 set suffixesadd+=.pl,.pm,.text
 
 set complete=.,w,b,u,t,i,kspell
-set autoread
 set spellfile=~/vim-local-spell.utf-8.add
 
-autocmd BufWritePost *.go silent! normal zO
-autocmd FileType yaml setlocal ts=3 sts=3 sw=3 expandtab
+au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
 autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
+au FileType groovy setlocal tabstop=4 | setlocal expandtab | setlocal shiftwidth=4 | setlocal softtabstop=4
+au FileType puppet setlocal tabstop=2 | setlocal expandtab | setlocal shiftwidth=2 | setlocal softtabstop=2
+au FileType python setlocal tabstop=4 | setlocal expandtab | setlocal shiftwidth=4 | setlocal softtabstop=4 | setlocal textwidth=80 | setlocal autoindent | setlocal fileformat=unix
+au FileType yaml setlocal indentexpr&
+call tcomment#type#Define('terraform', '# %s')
+
+augroup textobj_quote
+  autocmd!
+  autocmd FileType asciidoc call textobj#quote#init({'educate': 1})
+augroup END
+
+autocmd BufWritePost *.go silent! normal zO
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 command! TemplatePerl read $HOME/dotrc/vim_templates/perl.pl
 command! TemplateRuby read $HOME/dotrc/vim_templates/ruby.rb
