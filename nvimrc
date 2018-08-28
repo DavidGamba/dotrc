@@ -1,3 +1,5 @@
+" https://github.com/junegunn/vim-plug
+"
 " mkdir -p ~/.config/nvim/autoload
 " curl -fLo ~/.config/nvim/autoload/plug.vim \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -6,6 +8,81 @@ let g:mapleader = ","
 
 " set the runtime path to include Vundle and initialize
 call plug#begin('~/.local/share/nvim/plugged')
+
+" https://github.com/sebdah/dotfiles/blob/master/config/nvim/init.vim
+" Completion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Status line
+Plug 'bling/vim-airline'
+" File search
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+" Tag navigation
+Plug 'majutsushi/tagbar'
+" Move around
+Plug 'easymotion/vim-easymotion'
+" Snippets
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+" Repeat more things with .
+Plug 'tpope/vim-repeat'
+" Yank ring
+Plug 'bfredl/nvim-miniyank'
+" Extra command pairs to do many things
+" A mnemonic for the "a" commands is "args" and for the "q" commands is "quickfix"
+" The mnemonic for y is that if you tilt it a bit it looks like a switch.
+Plug 'tpope/vim-unimpaired'
+
+" Nerd tree alternative
+Plug 'tpope/vim-vinegar'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+Plug 'Townk/vim-autoclose'
+Plug 'kana/vim-textobj-user'
+Plug 'reedes/vim-textobj-quote'
+Plug 'reedes/vim-wordy'
+Plug 'vim-scripts/VOoM'
+Plug 'airblade/vim-gitgutter'
+Plug 'AndrewRadev/linediff.vim'
+Plug 'tpope/vim-surround'
+
+" Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
+Plug 'tpope/vim-abolish'
+Plug 'junegunn/vim-easy-align'
+Plug 'tomtom/tcomment_vim'
+Plug 'benekastah/neomake'
+
+""""""""""""""""""""""""""""""""""""
+" Language support
+""""""""""""""""""""""""""""""""""""
+" Go
+Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'}
+Plug 'fatih/vim-go', { 'for': 'go' }
+Plug 'mdempsky/gocode', { 'for': 'go' }
+" Plug 'nsf/gocode', { 'for': 'go' }
+" Yaml
+Plug 'pearofducks/ansible-vim', { 'for': 'yaml' }
+" Asciidoc
+Plug 'vim-scripts/SyntaxRange', { 'for': [ 'html', 'asciidoc' ] }
+Plug 'dahu/Asif', { 'for': 'asciidoc' } | Plug 'dahu/vimple', { 'for': 'asciidoc' } | Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
+" Toml
+Plug 'cespare/vim-toml', { 'for': 'toml' }
+" Puppet
+Plug 'puppetlabs/puppet-syntax-vim', { 'for': 'puppet' }
+" Ruby
+Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
+Plug 'tpope/vim-rails', { 'for': 'ruby' }
+" Python
+Plug 'Yggdroot/indentLine', { 'for': 'python' }
+" HTML
+Plug 'othree/html5.vim', { 'for': 'html' }
+" Terraform
+Plug 'hashivim/vim-terraform', { 'for': ['terraform'] }
+
+" Coloring
+Plug 'junegunn/rainbow_parentheses.vim'
+Plug 'morhetz/gruvbox'
+
+call plug#end()            " required
 
 " Plug '907th/vim-auto-save'
 " let g:auto_save = 1  " enable AutoSave on Vim startup
@@ -36,21 +113,18 @@ call plug#begin('~/.local/share/nvim/plugged')
 " Plug 'tpope/vim-sensible'
 
 " " Completion
-Plug 'Valloric/YouCompleteMe', { 'for': 'python', 'do': './install.py --gocode-completer' }
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
+" Plug 'Valloric/YouCompleteMe', { 'for': 'python', 'do': './install.py --gocode-completer' }
+" let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+" let g:ycm_key_list_select_completion=['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion=['<C-p>', '<Up>']
 "
 " Deoplete {
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 " Plug 'zchee/deoplete-jedi'
-Plug 'zchee/deoplete-go', { 'for': 'go', 'do': 'make'}
 " }
 
 " Motion
-Plug 'easymotion/vim-easymotion'
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
 nmap s <Plug>(easymotion-s)
@@ -66,7 +140,6 @@ hi link EasyMotionMoveHL ErrorMsg
 " Plug 'justinmk/vim-sneak'
 
 " Snippets
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-n>"
 let g:UltiSnipsJumpBackwardTrigger="<c-b>"
@@ -78,8 +151,6 @@ else
 endif
 
 " File search
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 
 if executable('rg')
     set grepprg=rg\ --no-heading\ --hidden\ --vimgrep\ -i
@@ -89,9 +160,7 @@ else
 endif
 
 " Coloring
-Plug 'pearofducks/ansible-vim', { 'for': 'yaml' }
 
-Plug 'junegunn/rainbow_parentheses.vim'
 autocmd VimEnter * RainbowParentheses
 let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
@@ -99,7 +168,6 @@ let g:rainbow#pairs = [['(', ')'], ['[', ']']]
 
 " Colorscheme
 " Plug 'freeo/vim-kalisi'
-Plug 'morhetz/gruvbox'
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light="hard"
 " Plug 'justinmk/molokai'
@@ -111,14 +179,12 @@ let g:gruvbox_contrast_light="hard"
 " let g:indent_guides_auto_colors = 1
 " let g:indent_guides_color_change_percent = 10
 
-Plug 'Yggdroot/indentLine', { 'for': 'python' }
 let g:indentLine_enabled = 1
 " let g:indentLine_char = '┆│ ⎸ ▏'
 let g:indentLine_char = ' ̩'
 let g:indentLine_char = 'ˈ'
 
 " Status line
-Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
 " meta-p meta-shift-p
@@ -126,10 +192,10 @@ let g:airline#extensions#tabline#enabled = 1
 "let g:yankstack_map_keys = 0
 "nmap ð <Plug>yankstack_substitute_older_paste
 "nmap Ð <Plug>yankstack_substitute_newer_paste
-Plug 'bfredl/nvim-miniyank'
 nmap <M-p> <Plug>(miniyank-startput)
 nmap <M-P> <Plug>(miniyank-startPut)
 nmap <M-n> <Plug>(miniyank-cycle)
+
 
 "Plug 'simnalamburt/vim-mundo'
 " alt+u
@@ -140,17 +206,11 @@ nmap <M-n> <Plug>(miniyank-cycle)
 "autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Smarter repeat
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-unimpaired'
 "Plug 'tpope/vim-git'
 "Plug 'tpope/vim-fugitive'
 " Improved netrw behaviour
-Plug 'tpope/vim-vinegar'
-Plug 'Townk/vim-autoclose'
 
 " Writting aids
-Plug 'kana/vim-textobj-user'
-Plug 'reedes/vim-textobj-quote'
 autocmd FileType asciidoc let g:textobj#quote#educate = 1
 autocmd FileType asciidoc let g:textobj#quote#matchit = 1
 
@@ -158,28 +218,20 @@ autocmd FileType asciidoc let g:textobj#quote#matchit = 1
 "   :Wordy weak
 "   :Wordy redundant
 "   :Wordy problematic
-Plug 'reedes/vim-wordy'
 " Outline
-Plug 'vim-scripts/VOoM'
 let g:voom_ft_modes = {'asciidoc': 'asciidoc'}
 
 " Git
-Plug 'airblade/vim-gitgutter'
 
 " Diff - :Linediff
-Plug 'AndrewRadev/linediff.vim'
 
 " Provides ChangeSurround (cs<old><new>), ChangeSurroundTag (cst<new>),
 " DeleteSurround (ds<old>), YourSurroundInParagraph (ysip<new>)
 " In visual mode, provides Surround (S<new>)
-Plug 'tpope/vim-surround'
 
-" Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
-Plug 'tpope/vim-abolish'
 
 " Show registers
 " Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align'
 " let g:easy_align_delimiters = {
 " \ '>': { 'pattern': '>>\|=>\|->\|>' },
 " \ }
@@ -187,7 +239,6 @@ Plug 'junegunn/vim-easy-align'
 xmap ga <Plug>(EasyAlign)
 
 " tComment with <C-/>
-Plug 'tomtom/tcomment_vim'
 nnoremap  :TComment<CR>
 vnoremap  :TComment<CR>"
 
@@ -201,11 +252,9 @@ vnoremap  :TComment<CR>"
 " let g:syntastic_auto_loc_list = 1
 
 
-Plug 'benekastah/neomake'
 autocmd! BufWritePost * Neomake
 
 " Plug 'fatih/vim-go', { 'for': 'go', 'commit': '5573e9c' }
-Plug 'fatih/vim-go', { 'for': 'go' }
 " Plug '~/code/personal/git/vim-go'
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>b <Plug>(go-build)
@@ -231,8 +280,10 @@ let g:go_bin_path = '/home/david/go/bin'
 " let g:go_highlight_fields = 1
 " let g:go_highlight_functions = 1
 " let g:go_highlight_methods = 1
+" let g:go_metalinter_enabled = ['vet', 'golint']
+" let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+" let g:syntastic_go_checkers = ['golint', 'vet']
 
-Plug 'majutsushi/tagbar'
 " let g:tagbar_type_go = {
 "     \ 'ctagstype' : 'go',
 "     \ 'kinds'     : [
@@ -263,14 +314,6 @@ Plug 'majutsushi/tagbar'
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
 
-Plug 'vim-scripts/SyntaxRange', { 'for': [ 'html', 'asciidoc' ] }
-
-Plug 'cespare/vim-toml', { 'for': 'toml' }
-
-Plug 'puppetlabs/puppet-syntax-vim', { 'for': 'puppet' }
-
-Plug 'vim-ruby/vim-ruby', { 'for': 'ruby' }
-Plug 'tpope/vim-rails', { 'for': 'ruby' }
 " Plug 'zxiest/vim-ruby', { 'for': 'ruby' }
 autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
@@ -279,21 +322,15 @@ autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
 
 
-Plug 'derekwyatt/vim-scala', { 'for': ['scala', 'html'] }
-Plug 'othree/html5.vim', { 'for': 'html' }
-Plug 'gre/play2vim', { 'for': ['play2-routes', 'play2-conf', 'html'] }
 "Plug 'DavidGamba/vim-asciidoc', { 'for': 'asciidoc', 'branch': 'clean-arguments' }
 "Plug '~/code/personal/git/vim-asciidoc', {'for': 'asciidoc' }
-Plug 'dahu/Asif', { 'for': 'asciidoc' } | Plug 'dahu/vimple', { 'for': 'asciidoc' } | Plug 'dahu/vim-asciidoc', { 'for': 'asciidoc' }
 let vimple_init_vn = 0
 
-Plug 'hashivim/vim-terraform', { 'for': ['terraform'] }
 let g:terraform_fmt_on_save=1
 let g:terraform_align=1
 " Plug 'juliosueiras/vim-terraform-completion', { 'for': ['terraform'] }
 
 " All of your Plugins must be added before the following line
-call plug#end()            " required
 
 " https://github.com/neovim/neovim/issues/2127
 " Neovim doesn't check file changes after focus is lost
@@ -372,12 +409,6 @@ inoremap <C-l><C-l> <ESC>la
   " Move around buffers
   nmap <C-J> <C-W><C-J>
   nmap <C-K> <C-W><C-K>
-  " alt + h
-  nmap è :bp<CR>:if &buftype ==# 'quickfix'<Bar>:bp<Bar>endif<CR>
-  nmap <m-h> :bp<CR>:if &buftype ==# 'quickfix'<Bar>:bp<Bar>endif<CR>
-  " alt + l
-  nmap ì :bn<CR>:if &buftype ==# 'quickfix'<Bar>:bn<Bar>endif<CR>
-  nmap <m-l> :bn<CR>:if &buftype ==# 'quickfix'<Bar>:bn<Bar>endif<CR>
   nmap <C-H> <C-W>h
   nmap <C-L> <C-W>l
   " alt + .
@@ -433,6 +464,19 @@ endfunction
 
 function! s:bufopen(e)
   execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+" Call method on window enter
+augroup WindowManagement
+  autocmd!
+  autocmd WinEnter * call Handle_Win_Enter()
+augroup END
+
+" Change highlight group of preview window when open
+function! Handle_Win_Enter()
+  if &previewwindow
+    setlocal winhighlight=Normal:Search
+  endif
 endfunction
 
 " restore position in file
