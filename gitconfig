@@ -14,26 +14,37 @@
 
 [color "diff"]
     whitespace = red reverse
-
-[pull]
-    rebase = true
-
 [merge]
-    tool = vimdiff
+  tool = vimdiff
+[mergetool]
+  prompt = true
+[mergetool "vimdiff"]
+  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [diff]
   noprefix = true
 
 [alias]
-    lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%cr, %an)%Creset %n%b' --no-prefix
-    st = status --short
+    lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ar, %an)%Creset %n%b' --no-prefix
+    date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
+    st = status --short --branch --untracked-files=no
+    stu = status --short --branch
     ds = diff --staged
     d  = diff --no-prefix --relative
     wd = diff --no-prefix --relative --color-words
     dw = diff --no-prefix --relative --color-words
     amend = commit --amend
+    amend-reset = commit --amend --reset-author
     co = checkout
     ci = commit
+    b  = branch
+    ba  = branch --all
+    cp = cherry-pick
+    rebaseIgnore = rebase -x 'git commit --amend --reset-author -CHEAD'
+    resetauthor = commit --amend --reset-author --no-edit
+    rebaseroot = rebase -i --root
+    s = show --relative
+    sw = show --relative --word-diff
 
 [help]
 #    autocorrect = 1
