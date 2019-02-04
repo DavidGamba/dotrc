@@ -95,15 +95,15 @@ if [ -f ${HOME}/local/bash_local.bash ]; then
     source ${HOME}/local/bash_local.bash
 fi
 
-if [ -d ${HOME}/bin ]; then
+if [ -d ${HOME}/bin ] && ! [[ $PATH = *"${HOME}/bin"* ]]; then
     export PATH="$PATH:$HOME/bin"
     alias open="$HOME/bin/open"
 fi
 
-if [ -d ${HOME}/opt/bin ]; then
+if [ -d ${HOME}/opt/bin ] && ! [[ $PATH = *"${HOME}/opt/bin"* ]]; then
     export PATH="$PATH:$HOME/opt/bin"
 fi
-if [ -d ${HOME}/local/bin ]; then
+if [ -d ${HOME}/local/bin ] && ! [[ $PATH = *"${HOME}/local/bin"* ]]; then
     export PATH="$PATH:$HOME/local/bin"
 fi
 
@@ -113,6 +113,8 @@ fi
 
 if [ -e /usr/lib/jvm/JAVA_HOME ]; then
   export JAVA_HOME=/usr/lib/jvm/JAVA_HOME
+elif [ -e /usr/lib/jvm/java ]; then
+  export JAVA_HOME=/usr/lib/jvm/java
 elif [ -e /usr/java/default ]; then
   export JAVA_HOME=/usr/java/default
 fi
