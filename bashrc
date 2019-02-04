@@ -160,7 +160,7 @@ else
     done
 fi
 
-for editor in vim vi editor ; do
+for editor in nvim vim vi editor ; do
     if command -v $editor &> /dev/null ; then
         export EDITOR=`command -v $editor`
         break
