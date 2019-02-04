@@ -3,51 +3,64 @@
 #    email =
 
 [core]
-    pager = less -FRX
-    editor = vim
-    excludesfile = ~/.gitignore
-    whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
+	pager = less -FRX
+	editor = /home/david/opt/bin/nvim
+	excludesfile = ~/.gitignore
+	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
 
 [color]
-    ui = auto
-    diff = auto
+	ui = auto
+	diff = auto
 
 [color "diff"]
-    whitespace = red reverse
+	whitespace = red reverse
 [merge]
-  tool = vimdiff
+	tool = vimdiff
 [mergetool]
-  prompt = true
+	prompt = true
 [mergetool "vimdiff"]
-  cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 
 [diff]
-  noprefix = true
+	noprefix = true
 
 [alias]
-    lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ar, %an)%Creset %n%b' --no-prefix
-    date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
-    st = status --short --branch --untracked-files=no
-    stu = status --short --branch
-    ds = diff --staged
-    d  = diff --no-prefix --relative
-    wd = diff --no-prefix --relative --color-words
-    dw = diff --no-prefix --relative --color-words
-    amend = commit --amend
-    amend-reset = commit --amend --reset-author
-    co = checkout
-    ci = commit
-    b  = branch
-    ba  = branch --all
-    cp = cherry-pick
-    rebaseIgnore = rebase -x 'git commit --amend --reset-author -CHEAD'
-    resetauthor = commit --amend --reset-author --no-edit
-    rebaseroot = rebase -i --root
-    s = show --relative
-    sw = show --relative --word-diff
+	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
+	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
+
+	lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ar, %an)%Creset %n%b' --no-prefix
+	date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
+	st = status --short --branch --untracked-files=no
+	stu = status --short --branch
+	ds = diff --minimal --staged --find-copies
+	dsw = diff --minimal --staged --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
+	d  = diff --minimal --no-prefix --relative --find-copies
+	wd = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
+	dw = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
+	dws = diff --minimal --no-prefix --relative --word-diff --word-diff-regex='\\s' --find-copies
+	# dw = diff --minimal --no-prefix --relative --color-words
+	amend = commit --amend
+	amend-reset = commit --amend --reset-author
+	co = checkout
+	ci = commit
+	b  = branch
+	ba  = branch --all
+	cp = cherry-pick
+	rebaseIgnore = rebase -x 'git commit --amend --reset-author -CHEAD'
+	resetauthor = commit --amend --reset-author --no-edit
+	rebaseroot = rebase -i --root
+	s = show --relative
+	sw = show --relative --word-diff-regex=.
+	sws = show --relative --word-diff-regex=\\s
+
+	# Remove branches that have already been merged with master
+	# a.k.a. ‘delete merged’
+	delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d; git remote -v update -p"
 
 [help]
 #    autocorrect = 1
 
 [github]
 #    user =
+[pull]
+	rebase = true
