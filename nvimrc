@@ -253,6 +253,7 @@ vnoremap  :TComment<CR>"
 
 
 autocmd! BufWritePost * Neomake
+let g:neomake_shellcheck_args = ['-fgcc']
 
 " Plug 'fatih/vim-go', { 'for': 'go', 'commit': '5573e9c' }
 " Plug '~/code/personal/git/vim-go'
@@ -358,6 +359,7 @@ set softtabstop=2
 set number
 set ignorecase
 set smartcase
+set textwidth=0
 
 set wrap
 set linebreak " Visually break long lines at 'breakat' character
@@ -431,6 +433,8 @@ inoremap <C-l><C-l> <ESC>la
   vmap < <gv
   vmap > >gv
 
+  nmap <m-b> :Buffers<CR>
+
 " Increment/Decrement inside screen
 nmap <leader>a <C-a>
 nmap <leader>x <C-x>
@@ -453,6 +457,8 @@ nmap _= :call Preserve("normal gg=G")<CR>
 
 " Buffer delete
 nmap <leader>d :bp<bar>sp<bar>bn<bar>bd<CR>
+
+imap ,* •
 
 " Select Buffer
 function! s:buflist()
@@ -491,8 +497,14 @@ set suffixesadd+=.pl,.pm,.text
 set complete=.,w,b,u,t,i,kspell
 set spellfile=~/vim-local-spell.utf-8.add
 
+if exists('g:loaded_surround')
+    " vim-surround: q for `foo' and Q for ``foo''
+    let b:surround_{char2nr('q')} = "‘\r’"
+    let b:surround_{char2nr('Q')} = "“\r”"
+endif
+
 au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
-autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
+autocmd FileType asciidoc :compiler asciidoctor | setlocal spell | setlocal textwidth=0 | inoremap <leader>u [.underline]#<ESC>ea#<ESC> | nnoremap <leader>u i[.underline]#<ESC>ea#<ESC>
 au FileType groovy setlocal tabstop=4 | setlocal expandtab | setlocal shiftwidth=4 | setlocal softtabstop=4
 au FileType puppet setlocal tabstop=2 | setlocal expandtab | setlocal shiftwidth=2 | setlocal softtabstop=2
 au FileType python setlocal tabstop=4 | setlocal expandtab | setlocal shiftwidth=4 | setlocal softtabstop=4 | setlocal textwidth=80 | setlocal autoindent | setlocal fileformat=unix
