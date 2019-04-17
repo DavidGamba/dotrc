@@ -8,6 +8,10 @@
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
 
+[pager]
+	diff = diff-highlight | less -FRXsu --tabs=4
+	show = diff-highlight | less -FRXsu --tabs=4
+
 [color]
 	ui = auto
 	diff = auto
@@ -52,6 +56,7 @@
 	s = show --relative
 	sw = show --relative --word-diff-regex=.
 	sws = show --relative --word-diff-regex=\\s
+	diffx = diff --no-index --no-prefix --relative --minimal --find-copies --color
 
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’
@@ -64,3 +69,6 @@
 #    user =
 [pull]
 	rebase = true
+
+[rebase]
+	autoStash = true
