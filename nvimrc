@@ -35,6 +35,8 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/echodoc.vim'
 Plug 'neomake/neomake'
 
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+
 """""""""""""""""""""""""""""""""""""""
 " Styling
 """""""""""""""""""""""""""""""""""""""
@@ -54,6 +56,7 @@ Plug 'tpope/vim-surround'
 " Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
 Plug 'tpope/vim-abolish'
 Plug 'junegunn/vim-easy-align'
+Plug 'vim-scripts/vis' " Visual mode B
 
 
 """""""""""""""""""""""""""""""""""""""
@@ -64,11 +67,15 @@ Plug 'AndrewRadev/linediff.vim'
 Plug 'easymotion/vim-easymotion'
 " Provides - :Explore
 Plug 'justinmk/vim-dirvish'
+" Plug 'tpope/vim-vinegar'
+" Provides - :NERDTreeToggle
+Plug 'scrooloose/nerdtree'
 
 """""""""""""""""""""""""""""""""""""""
 " Language support
 """""""""""""""""""""""""""""""""""""""
 Plug 'hashivim/vim-terraform', { 'for': ['terraform'] }
+Plug 'suoto/vim-antlr', { 'for': ['antlr4'] }
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
@@ -111,14 +118,26 @@ set wildoptions=pum
 set completeopt+=noinsert
 " deoplete.nvim recommend
 set completeopt+=noselect
+call deoplete#custom#source('LanguageClient', 'max_menu_width', 150)
 let g:deoplete#enable_at_startup = 1
+" call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+if !exists("g:UltiSnipsSnippetDirectories")
+  let g:UltiSnipsSnippetDirectories = ["/home/david/dotrc/vim-snippets"]
+else
+  let g:UltiSnipsSnippetDirectories += ["/home/david/dotrc/vim-snippets"]
+endif
+inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
 let g:echodoc#type = 'signature'
 " let g:echodoc#type = 'virtual'
 
-autocmd! InsertLeave,BufWritePost * Neomake
+autocmd! BufWritePost * Neomake
 let g:neomake_shellcheck_args = ['-fgcc']
 
 " Launch gopls when Go files are in use
@@ -126,9 +145,13 @@ let g:LanguageClient_serverCommands = {
 	\ 'go': ['gopls']
 	\ }
 
+nnoremap <F2> :%s/<C-R>///g<left><left>
+
 function! GotoDef()
-	TabdropPushTag
-	call LanguageClient_textDocument_definition({'gotoCmd': 'Tabdrop'})
+	" LanguageClient_textDocument_definition()
+	call MyGoToDefinition()
+	" TabdropPushTag
+	" call LanguageClient_textDocument_definition({'gotoCmd': 'Tabdrop'})
 endfunction
 
 function! GotoTypeDef()
@@ -146,11 +169,11 @@ function SetLSPShortcuts()
 	" Always draw the signcolumn.
 	setlocal signcolumn=yes
 
-	nnoremap <C-]> :call GotoDef()<CR>
-	nmap <C-t> :TabdropPopTag<Cr>
+	nnoremap <C-]> :call MyGoToDefinition()<CR>
+	" nmap <C-t> :TabdropPopTag<Cr>
 
 	nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-	nnoremap <leader>gd :call GotoDef()<CR>
+	nnoremap gd :call GotoDef()<CR>
 	nnoremap <leader>lt :call GotoTypeDef()<CR>
 	nnoremap <leader>li :call GotoImplementation()<CR>
 	nnoremap <F2> :call LanguageClient#textDocument_rename()<CR>
@@ -161,7 +184,24 @@ function SetLSPShortcuts()
 	nnoremap <leader>ls :call LanguageClient_workspace_symbol()<CR>
 	nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 	nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
-	nnoremap <leader>la :call LanguageClient_textDocument_codeAction()<CR>
+	nnoremap ga :call LanguageClient_textDocument_codeAction()<CR>
+	nnoremap <leader>lh :call LanguageClient_textDocument_documentHighlight()<CR>
+	
+	" Rename - rn => rename
+	noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
+
+	" Rename - rc => rename camelCase
+	noremap <leader>rc :call LanguageClient#textDocument_rename(
+							\ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+
+	" Rename - rs => rename snake_case
+	noremap <leader>rs :call LanguageClient#textDocument_rename(
+		\ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+
+	" Rename - ru => rename UPPERCASE
+	noremap <leader>ru :call LanguageClient#textDocument_rename(
+		\ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
+
 endfunction()
 
 augroup LSP
@@ -171,16 +211,23 @@ augroup END
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
+" https://github.com/ryanoasis/nerd-fonts/wiki/Codepoint-Conflicts
+" echo $'\uf016'
+" 📂 📄   
+call dirvish#add_icon_fn({p -> p[-1:]=='/'?'📂':'📄'})
+" call dirvish#add_icon_fn({p -> p[-1:]=='/'?'':''})
 
 """""""""""""""""""""""""""""""""""""""
 " Styling
 """""""""""""""""""""""""""""""""""""""
+set noshowmode
 set termguicolors
 hi Cursor guifg=green guibg=green
 hi Cursor2 guifg=red guibg=red
 set guicursor=n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50
 au VimLeave * set guicursor=a:block-blinkon0
-set background=light
+set background=dark
+" set background=light
 
 au VimLeave * set guicursor=a:block-blinkon0
 set list                     " shows tabbed spaces
@@ -194,7 +241,7 @@ set softtabstop=2
 set number
 set textwidth=0
 
-set wrap
+set nowrap
 set linebreak " Visually break long lines at 'breakat' character
 set whichwrap=b,s,<,>
 set foldmethod=syntax
@@ -330,7 +377,7 @@ endif
 au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
 
 " Run gofmt and goimports on save
-autocmd InsertLeave,BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Terraform
@@ -343,3 +390,64 @@ au FileType terraform call tcomment#type#Define('terraform', '# %s')
 " Other
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+
+function! MyGoToDefinition(...) abort
+  " ref: https://github.com/davidhalter/jedi-vim/blob/master/pythonx/jedi_vim.py#L329-L345
+
+  " Get the current position
+  let l:fname = expand('%:p')
+  let l:line = line(".")
+  let l:col = col(".")
+  let l:word = expand("<cword>")
+
+  " Call the original function to jump to the definition
+  let l:result = LanguageClient_runSync(
+                  \ 'LanguageClient#textDocument_definition', {
+                  \ 'handle': v:true,
+                  \ })
+
+  " Get the position of definition
+  let l:jump_fname = expand('%:p')
+  let l:jump_line = line(".")
+  let l:jump_col = col(".")
+
+  " If the position is the same as previous, ignore the jump action
+  if l:fname == l:jump_fname && l:line == l:jump_line
+    return
+  endif
+
+  " Workaround: Jump to origial file. If the function is in rust, there is a
+  " way to ignore the behaviour
+  if &modified
+    exec 'hide edit'  l:fname
+  else
+    exec 'edit' l:fname
+  endif
+  call cursor(l:line, l:col)
+
+  " Store the original setting
+  let l:ori_wildignore = &wildignore
+  let l:ori_tags = &tags
+
+  " Write a temp tags file
+  let l:temp_tags_fname = tempname()
+  let l:temp_tags_content = printf("%s\t%s\t%s", l:word, l:jump_fname,
+      \ printf("call cursor(%d, %d)", l:jump_line, l:jump_col+1))
+  call writefile([l:temp_tags_content], l:temp_tags_fname)
+
+  " Set temporary new setting
+  set wildignore=
+  let &tags = l:temp_tags_fname
+
+  " Add to new stack
+  execute ":tjump " . l:word
+
+  " Restore original setting
+  let &tags = l:ori_tags
+  let &wildignore = l:ori_wildignore
+
+  " Remove temporary file
+  if filereadable(l:temp_tags_fname)
+    call delete(l:temp_tags_fname, "rf")
+  endif
+endfunction
