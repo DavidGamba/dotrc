@@ -2,11 +2,12 @@ function git_repo {
     PROMT_CHAR='$'
     GIT_BRANCH=`git rev-parse --abbrev-ref HEAD 2>/dev/null` &&\
         GIT_BRANCH=" $GIT_BRANCH" &&\
-        PROMT_CHAR='+'
+        PROMT_CHAR='$'
 }
 function smiley {
     [ $RET -eq 0 ] && echo -ne "\e[37;1m:)"
-    [ $RET -ne 0 ] && echo -ne "\e[31;1m:("
+    [ $RET -ne 0 ] && echo -ne "\e[31;1m⛔ 🙄 ⛔"
+    # [ $RET -ne 0 ] && echo -ne "\e[31;1m:("
 }
 function ps1() {
     local BLACK="30"
