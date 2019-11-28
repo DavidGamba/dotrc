@@ -11,9 +11,10 @@ fi
 #-------------------------------------------------------------
 set -o vi                   # vi style
 set -o notify               # notify of completed background jobs immediately
+bind 'set completion-ignore-case on'
+
 stty -ctlecho               # turn off control character echoing
 stty -ixon                  # Enable XON/XOFF flow control, allows passing Ctrl-S to vim
-setterm -regtabs 2          # set tab width of 4 (only works on TTY)
 
 # shell opts: see bash(1)
 shopt -s cdable_vars        # if cd arg fail, assumes its a var defining a dir
@@ -91,22 +92,6 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 #-------------------------------------------------------------
 # External
 #-------------------------------------------------------------
-if [ -f ${HOME}/local/bash_local.bash ]; then
-    source ${HOME}/local/bash_local.bash
-fi
-
-if [ -d ${HOME}/bin ] && ! [[ $PATH = *"${HOME}/bin"* ]]; then
-    export PATH="$PATH:$HOME/bin"
-    alias open="$HOME/bin/open"
-fi
-
-if [ -d ${HOME}/opt/bin ] && ! [[ $PATH = *"${HOME}/opt/bin"* ]]; then
-    export PATH="$PATH:$HOME/opt/bin"
-fi
-if [ -d ${HOME}/local/bin ] && ! [[ $PATH = *"${HOME}/local/bin"* ]]; then
-    export PATH="$PATH:$HOME/local/bin"
-fi
-
 if [ ! -f /etc/bash_completion.d/git ]; then
     source ~/dotrc/bash_func/git-completion.bash
 fi
@@ -120,25 +105,13 @@ elif [ -e /usr/java/default ]; then
 fi
 
 source ~/dotrc/bash_func/up
-source ~/dotrc/bash_func/color_less.bash # Colored man pages and less output
+source ~/dotrc/bash_func/man_colors.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
 source ~/dotrc/bash_func/cdd
-
-if [ -f /usr/share/doc/cdargs/examples/cdargs-bash.sh ]; then
-  source /usr/share/doc/cdargs/examples/cdargs-bash.sh
-fi
+source ~/dotrc/bash_func/cli-bookmarks.bash
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
-fi
-
-if [ -d $HOME/code/personal/git/go/bin ]; then
-  export PATH="$PATH:$HOME/code/personal/git/go/bin"
-fi
-if [ -d $HOME/code/personal/git/gocode/bin ]; then
-  export GOPATH="$HOME/code/personal/git/gocode"
-  export GOBIN="$HOME/code/personal/git/gocode/bin"
-  export PATH="$PATH:$GOBIN"
 fi
 
 #-------------------------------------------------------------
@@ -174,10 +147,61 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+
+# for PyEnv
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$HOME/.pyenv/bin:$PATH"
+# export PATH="$HOME/.pyenv/shims:$PATH"
+# eval "$(pyenv init -)"
+
 # Ruby stuff
 #PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
+#[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function
 
 alias cd='cdd'
 # Use bash built in completion for cd to allow for filenames to be used
-complete -r cd
+complete -r cd 2>/dev/null
+
+#-------------------------------------------------------------
+# PATH
+# Scripts modifiying the path should used the path_append function to append
+# entries. These external entries not tracked in the bashrc will have lower priority.
+#-------------------------------------------------------------
+path_append() {
+	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+		return 0
+	fi
+	PATH=$PATH:$1
+}
+path_prepend() {
+	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+		return 0
+	fi
+	if [[ "$PATH" == "" ]]; then
+		PATH=$1
+		return 0
+	fi
+	PATH=$1:$PATH
+}
+# Clear the PATH to ensure the right ordering
+PATH=""
+# Lowest priority at the top
+path_prepend "$HOME/.local/bin" # Python binaries
+path_prepend "$HOME/go/bin"     # Go binaries
+path_prepend "/snap/bin"        # Snap binaries
+path_prepend "$HOME/local/bin"
+path_prepend "$HOME/opt/bin"
+path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+path_prepend "$HOME/bin"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# local bash overrides defaults
+if [ -f "${HOME}/local/bash_local.bash" ]; then
+    . "${HOME}/local/bash_local.bash"
+fi
+
+complete -o default -C ffind ffind
+complete -o default -C grepp grepp
+
+complete -C ~/general/code/go/src/github.com/DavidGamba/go-completion/go-completion go-completion
