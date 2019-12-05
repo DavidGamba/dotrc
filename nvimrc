@@ -275,9 +275,8 @@ nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>h
 nnoremap  :TComment<CR>
 vnoremap  :TComment<CR>"
 
-" Increment/Decrement inside screen
-nmap <leader>a <C-a>
-nmap <leader>x <C-x>
+" Increment/Decrement inside screen <C-i> <C-x>
+nmap <C-i> <C-a>
 
 """""""""""""""""""""""""""""""""""""""
 " Motions
