@@ -1,0 +1,44 @@
+# This is the tmux dracula theme file
+# Dracula theme colors in use, with the following colors:
+# background   darkest grey   colour17    #282a36 (mode line itself)
+# current line dark grey      colour59    #44475a
+# selection    dark grey      colour59    #44475a
+# foreground   cream white    colour231   #f8f8f2
+# comment      dark blue      colour61    #6272a4
+# cyan         cyan           colour117   #8be9fd
+# green        green          colour84    #50fa7b
+# orange       orange         colour215   #ffb86c
+# pink         pink           colour212   #ff79ca
+# purple       purple         colour141   #bd93f9
+# red          red            colour203   #ff5555
+# yellow       yellow         colour228   #f1fa8c
+
+# default inactive statusbar colors
+set-option -g status-bg "#FDF6E3"  # Background
+# set-option -g status-fg "#f8f8f4"  # Foreground
+# set-option -g status-attr default
+
+# pane border
+# set-option -g pane-border-fg colour228
+# set-option -g pane-active-border-fg colour203
+
+# message text
+# set-option -g message-bg "#ff5555"
+# set-option -g message-fg "#282a36"
+# set-option -g message-attr bright
+
+# pane number display
+set-option -g display-panes-active-colour blue
+set-option -g display-panes-colour brightred
+
+# Selected window
+set-option -g window-status-current-format "#[bg=#90ddc6,fg=#282a36,bold] ⚽ #I:#W "
+# Inactive window
+# 📄 ⚽
+set-option -g window-status-format "#[bg=#90a7dd,fg=#282a36] #I:#W "
+
+# Remove padding at the left hand side
+set -g status-left ""
+# Show a clock at the right hand side
+set -g status-right "#[bg=#68789e,fg=#f8f8f2,bold] 🗒  %F ⌚ %H:%M "
+# set -g status-right "#[bg=#68789e,fg=#f8f8f2,bold]   %F %H:%M "
