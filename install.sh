@@ -118,26 +118,26 @@ function install_bin()
   clone_repo git@github.com:DavidGamba/bin.git   $HOME/bin
   clone_repo git@github.com:DavidGamba/grepp.git $CODE_DIR/grepp
   clone_repo git@github.com:DavidGamba/ffind.git $CODE_DIR/ffind
-  clone_repo git@github.com:DavidGamba/go-cdargs.git $CODE_DIR/go-cdargs
+  clone_repo git@github.com:DavidGamba/cli-bookmarks.git $CODE_DIR/cli-bookmarks
   create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
   create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
-  create_link_for "$HOME/bin/go-cdargs" "$CODE_DIR/go-cdargs/go-cdargs"
+  create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks"
   echo done installing bin!
 }
 
 function install_nvim()
 {
-  NVIM_CODE=$CODE_DIR/neovim
-  if [[ ! -d $NVIM_CODE ]]; then
-    clone_repo https://github.com/neovim/neovim.git $CODE_DIR/neovim "--depth 1"
-  fi
-  mkdir -p $HOME/opt/neovim
+  sudo apt-get install python3-pip
+  sudo apt-get install python-pip
+  sudo apt-get install xclip
+  python3 -m pip install --user --upgrade pynvim
+  python2 -m pip install --user --upgrade pynvim
   mkdir -p $HOME/opt/bin
-  cd $CODE_DIR/neovim
-  git pull
-  make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX:PATH=$HOME/opt/neovim" install
-  create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/neovim/bin/nvim"
-  # sudo pip install neovim
+  cd $HOME/opt/
+  curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+  chmod u+x nvim.appimage
+  cd $HOME/opt/bin
+  create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/nvim.appimage"
   curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   $HOME/opt/bin/nvim +PlugInstall
