@@ -14,7 +14,7 @@
 # yellow       yellow         colour228   #f1fa8c
 
 # default inactive statusbar colors
-set-option -g status-bg "#FDF6E3"  # Background
+set-option -g status-bg "#000000"  # Background
 # set-option -g status-fg "#f8f8f4"  # Foreground
 # set-option -g status-attr default
 
