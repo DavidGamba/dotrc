@@ -88,6 +88,18 @@ alias df='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
 alias vim=nvim
 alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
+# alias asciidoctor='docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor'
+alias path='PATH="${PATH//":$PWD"/}:$PWD"; echo $PATH'
+alias rg='rg -i --color=always'
+alias ccat='source-highlight --out-format=esc -o STDOUT -i'
+alias color='source-highlight --out-format=esc -o STDOUT -s'
+alias csvlook='csvlook -I | less -S'
+# alias csvtable='csvtable | less -S'
+alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
+alias myip="curl https://ifconfig.co"
+alias copyfile="xsel -i -b < "
+alias tplan='terraform plan -no-color -out plan.plan |& tee plan.txt'
+alias tapply='terraform apply -input plan.plan'
 
 #-------------------------------------------------------------
 # External
