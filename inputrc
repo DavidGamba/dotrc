@@ -23,7 +23,7 @@ set show-all-if-ambiguous on
 $if mode=vi
 
 set keymap vi-insert
-Control-w: "dBxi"
+Control-w: "dBxi "
 Control-l: clear-screen
 
 $endif
