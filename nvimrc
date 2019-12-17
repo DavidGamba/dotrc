@@ -27,6 +27,8 @@ Plug 'autozimu/LanguageClient-neovim', {
 " Provides tag list to lsp so ctrl+t works
 Plug 'ipod825/vim-tabdrop'
 
+" Plug 'neovim/nvim-lsp'
+
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -208,6 +210,17 @@ augroup LSP
   autocmd!
   autocmd FileType go call SetLSPShortcuts()
 augroup END
+
+" Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
+" call nvim_lsp#setup("gopls", {})
+" autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
+" nnoremap <silent> gld <cmd>lua vim.lsp.buf.declaration()<CR>
+" nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> gli  <cmd>lua vim.lsp.buf.implementation()<CR>
+" nnoremap <silent> gs  <cmd>lua vim.lsp.buf.signature_help()<CR>
+" nnoremap <silent> glt  <cmd>lua vim.lsp.buf.type_definition()<CR>
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
