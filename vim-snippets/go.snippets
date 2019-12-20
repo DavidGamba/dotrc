@@ -1,0 +1,76 @@
+snippet new
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+
+	"github.com/DavidGamba/go-getoptions"
+)
+
+var logger = log.New(ioutil.Discard, "", log.LstdFlags)
+
+func main() {
+	opt := getoptions.New()
+	opt.Bool("help", false, opt.Alias("?"))
+	opt.Bool("debug", false)
+	remaining, err := opt.Parse(os.Args[1:])
+	if opt.Called("help") {
+		fmt.Println(opt.Help())
+		os.Exit(1)
+	}
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+		os.Exit(1)
+	}
+	if opt.Called("debug") {
+		logger.SetOutput(os.Stderr)
+	}
+	logger.Println(remaining)
+	err = realMain()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+		os.Exit(1)
+	}
+}
+
+func realMain() error {
+	return nil
+}
+endsnippet
+
+snippet open
+${1:fh}, err := os.Open($2)
+if err != nil {
+	${3:return err}
+}
+$0
+endsnippet
+
+snippet read
+${1:fs}, err := ioutil.ReadFile($2)
+if err != nil {
+	${3:return err}
+}
+$0
+endsnippet
+
+snippet checkFile
+if _, err := os.Stat($1); os.IsNotExist(err) {
+  ${2:// file does not exist}
+	$0
+}
+endsnippet
+
+snippet testtable
+tests := []struct {
+	name string
+	$0
+}{}
+for _, test := range tests {
+	t.Run(test.name, func(t *testing.T) {
+	})
+}
+endsnippet
