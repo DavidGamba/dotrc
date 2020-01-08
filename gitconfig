@@ -58,6 +58,8 @@
 	sw = show --relative --word-diff-regex=.
 	sws = show --relative --word-diff-regex=\\s
 	diffx = diff --no-index --no-prefix --relative --minimal --find-copies --color
+	forget-file = update-index --skip-worktree
+	remember-file = update-index --no-skip-worktree
 
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’
