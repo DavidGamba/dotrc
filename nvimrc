@@ -108,6 +108,14 @@ set undodir=.
 set backupdir=.
 set inccommand=split
 
+" autochdir conflicts with dirvish
+" https://github.com/justinmk/vim-dirvish/issues/19
+set noautochdir
+augroup auto_ch_dir
+	autocmd!
+	autocmd BufEnter * silent! lcd %:p:h
+augroup END
+
 "set spellfile=~/vim-local-spell.utf-8.add
 
 """""""""""""""""""""""""""""""""""""""
@@ -188,7 +196,7 @@ function SetLSPShortcuts()
 	nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 	nnoremap ga :call LanguageClient_textDocument_codeAction()<CR>
 	nnoremap <leader>lh :call LanguageClient_textDocument_documentHighlight()<CR>
-	
+
 	" Rename - rn => rename
 	noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
 
@@ -204,6 +212,8 @@ function SetLSPShortcuts()
 	noremap <leader>ru :call LanguageClient#textDocument_rename(
 		\ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
 
+	nnoremap <leader>t :!go test ./...<CR>
+
 endfunction()
 
 augroup LSP
@@ -211,16 +221,27 @@ augroup LSP
   autocmd FileType go call SetLSPShortcuts()
 augroup END
 
-" Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
-" call nvim_lsp#setup("gopls", {})
-" autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
+" " Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
+" " https://neovim.io/doc/user/lsp.html
+" " call nvim_lsp#setup("gopls", {})
+" " autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
+" autocmd Filetype go setlocal omnifunc=v:lua.vim.lsp.omnifunc()
 " nnoremap <silent> gld <cmd>lua vim.lsp.buf.declaration()<CR>
 " nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+" nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 " nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <silent> K <cmd>lua vim.lsp.buf.hover()<CR>
+" nnoremap <silent> K <cmd>lua vim.lsp.buf.peek_definition()<CR>
 " nnoremap <silent> gli  <cmd>lua vim.lsp.buf.implementation()<CR>
 " nnoremap <silent> gs  <cmd>lua vim.lsp.buf.signature_help()<CR>
 " nnoremap <silent> glt  <cmd>lua vim.lsp.buf.type_definition()<CR>
+" nnoremap <silent> gr  <cmd>lua vim.lsp.buf.references()<CR>
+" nnoremap <silent> ga  <cmd>lua vim.lsp.buf.code_action()<CR>
+" nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
+"
+" " https://github.com/neovim/nvim-lsp#gopls
+" lua << EOF
+" require'nvim_lsp'.gopls.setup{}
+" EOF
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
@@ -268,6 +289,7 @@ let g:gruvbox_contrast_light="hard"
 colorscheme gruvbox
 
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_c = '%F'
 
 """""""""""""""""""""""""""""""""""""""
 " Abbreviations
@@ -294,6 +316,10 @@ nmap <C-i> <C-a>
 """""""""""""""""""""""""""""""""""""""
 " Motions
 """""""""""""""""""""""""""""""""""""""
+
+" List buffers
+" Mnemonic move-buffer
+nmap <c-m> :Buffers<CR>
 
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
@@ -390,6 +416,7 @@ au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprinta
 
 " Run gofmt and goimports on save
 autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
+" autocmd BufWritePre *.go :lua vim.lsp.buf.formatting()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Terraform

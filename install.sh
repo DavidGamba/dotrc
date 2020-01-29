@@ -130,7 +130,7 @@ function install_nvim() {
 	python2 -m pip install --user --upgrade pynvim
 	mkdir -p $HOME/opt/bin
 	cd $HOME/opt/
-	curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
+	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 	chmod u+x nvim.appimage
 	cd $HOME/opt/bin
 	create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/nvim.appimage"
