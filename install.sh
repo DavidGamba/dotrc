@@ -3,8 +3,7 @@
 CODE_DIR=$HOME/general/code
 PROJECTS_DIR=$HOME/general
 
-function usage()
-{
+function usage() {
 	option=$1
 	if [[ -n "$option" ]]; then
 		cat <<EOL
@@ -15,17 +14,23 @@ EOL
 	cat <<EOL
 	install -h|--help
 
-	install [--bin]
+	install [--bin] [--dotrc] [--nvim] [--utils]
 EOL
 }
 
-function main()
-{
+function main() {
 	while test $# -gt 0 ; do
 		case "$1" in
 			-h|--help)
 				usage
 				exit 1
+				;;
+			--dotrc)
+				shift
+				echo installing dotrc...
+				install_dotrc
+				install_fzf
+				exit 0
 				;;
 			--bin)
 				shift
@@ -39,16 +44,20 @@ function main()
 				install_nvim
 				exit 0
 				;;
+			--utils)
+				shift
+				echo installing golang utils...
+				install_go_utils
+				exit 0
+				;;
 			-*)
 				usage $1
 				exit 1
 				;;
 		esac
 	done
-	echo installing dotrc...
-	install_dotrc
-	install_fzf
-	exit 0
+	usage
+	exit 1
 }
 
 function create_link_for() {
@@ -140,12 +149,17 @@ function install_nvim() {
 	echo done installing nvim!
 }
 
-function install_fzf()
-{
+function install_fzf() {
 	git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 	cd ~/.fzf
 	git pull
 	~/.fzf/install
+}
+
+# Installs to ~/go/bin
+function install_go_utils() {
+	go install arp242.net/uni
+	go install golang.org/x/tools/gopls
 }
 
 main "$@"

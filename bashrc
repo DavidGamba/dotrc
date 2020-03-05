@@ -90,16 +90,20 @@ alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 # alias asciidoctor='docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor'
 alias path='PATH="${PATH//":$PWD"/}:$PWD"; echo $PATH'
-alias rg='rg -i --color=always'
+alias rg='rg -i --color=always -u'
 alias ccat='source-highlight --out-format=esc -o STDOUT -i'
 alias color='source-highlight --out-format=esc -o STDOUT -s'
 alias csvlook='csvlook -I | less -S'
 # alias csvtable='csvtable | less -S'
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias myip="curl https://ifconfig.co"
-alias copyfile="xsel -i -b < "
-alias tplan='terraform plan -no-color -out plan.plan |& tee plan.txt'
-alias tapply='terraform apply -input plan.plan'
+alias tplan='time terraform plan -out plan.plan'
+alias tapply='time terraform apply -input plan.plan'
+alias tsinit='time ./terraform init -backend-config ./backend.config'
+alias tsplan='time ./terraform plan -no-color -out plan.plan'
+alias tsapply='time ./terraform apply -input plan.plan'
+# alias copy-file="xsel -i -b < "
+alias copy-file='xclip -selection clipboard'
 
 #-------------------------------------------------------------
 # External
@@ -121,6 +125,7 @@ source ~/dotrc/bash_func/man_colors.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
 source ~/dotrc/bash_func/cdd
 source ~/dotrc/bash_func/cli-bookmarks.bash
+source ~/dotrc/bash_func/ls_colors.bash
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch

@@ -73,6 +73,8 @@ Plug 'justinmk/vim-dirvish'
 " Provides - :NERDTreeToggle
 Plug 'scrooloose/nerdtree'
 
+Plug 'airblade/vim-gitgutter'
+
 """""""""""""""""""""""""""""""""""""""
 " Language support
 """""""""""""""""""""""""""""""""""""""
@@ -99,7 +101,7 @@ autocmd BufEnter,FocusGained * checktime
 autocmd InsertLeave <buffer> silent write
 
 " Write file on Make
-set autowriteall
+" set autowriteall
 
 set clipboard+=unnamedplus
 
@@ -279,7 +281,8 @@ set nowrap
 set linebreak " Visually break long lines at 'breakat' character
 set whichwrap=b,s,<,>
 set foldmethod=syntax
-set foldnestmax=1
+set foldnestmax=3
+set nofoldenable
 
 set ignorecase
 set smartcase
@@ -408,6 +411,11 @@ if exists('g:loaded_surround')
     let b:surround_{char2nr('q')} = "‘\r’"
     let b:surround_{char2nr('Q')} = "“\r”"
 endif
+
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap <leader>h <Plug>(GitGutterPreviewHunk)
+let g:gitgutter_preview_win_floating = 0
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Golang
