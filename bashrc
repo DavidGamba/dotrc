@@ -102,6 +102,7 @@ alias tapply='time terraform apply -input plan.plan'
 alias tsinit='time ./terraform init -backend-config ./backend.config'
 alias tsplan='time ./terraform plan -no-color -out plan.plan'
 alias tsapply='time ./terraform apply -input plan.plan'
+alias tscopy='./terraform show -no-color plan.plan | copy-file'
 # alias copy-file="xsel -i -b < "
 alias copy-file='xclip -selection clipboard'
 

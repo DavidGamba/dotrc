@@ -132,15 +132,24 @@ function install_bin() {
 }
 
 function install_nvim() {
-	sudo apt-get install python3-pip
-	sudo apt-get install python-pip
-	sudo apt-get install xclip
+	echo "Install dependencies"
+	sudo apt-get install \
+		python3-pip \
+		python-pip \
+		xclip
+	echo "Install python dependencies at user level"
 	python3 -m pip install --user --upgrade pynvim
 	python2 -m pip install --user --upgrade pynvim
+	echo "Download app image"
 	mkdir -p $HOME/opt/bin
 	cd $HOME/opt/
 	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
 	chmod u+x nvim.appimage
+	echo "Download app image update tool"
+	wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O "$HOME/opt/bin/appimageupdatetool"
+	chmod +x "$HOME/opt/bin/appimageupdatetool"
+	echo "Update nvim"
+	"$HOME/opt/bin/appimageupdatetool" "$HOME/opt/nvim.appimage"
 	cd $HOME/opt/bin
 	create_link_for "$HOME/opt/bin/nvim" "$HOME/opt/nvim.appimage"
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
