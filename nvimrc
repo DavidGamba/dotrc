@@ -118,6 +118,7 @@ augroup auto_ch_dir
 	autocmd BufEnter * silent! lcd %:p:h
 augroup END
 
+set spell
 "set spellfile=~/vim-local-spell.utf-8.add
 
 """""""""""""""""""""""""""""""""""""""
