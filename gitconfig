@@ -8,10 +8,14 @@
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
 
+# diffr: cargo install diffr
+# https://github.com/mookid/diffr
 [pager]
-	diff = diff-highlight | less -FRXsu --tabs=4
-	show = diff-highlight | less -FRXsu --tabs=4
-	log = diff-highlight | less -FRXsu --tabs=4
+	diff = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
+	show = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
+	log  = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
+[interactive]
+	diffFilter = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0
 
 [color]
 	ui = auto
@@ -78,3 +82,6 @@
 
 [rebase]
 	autoStash = true
+
+[checkout]
+	defaultRemote=origin

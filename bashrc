@@ -48,7 +48,7 @@ export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
 # History Stuff
 export HISTTIMEFORMAT="%H:%M > "
 export HISTIGNORE="&:[bf]g:clear:exit"
-export HISTSIZE=90000
+export HISTSIZE=9000000
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROl=ignoreboth
 
@@ -97,14 +97,13 @@ alias csvlook='csvlook -I | less -S'
 # alias csvtable='csvtable | less -S'
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias myip="curl https://ifconfig.co"
-alias tplan='time terraform plan -out plan.plan'
-alias tapply='time terraform apply -input plan.plan'
-alias tsinit='time ./terraform init -backend-config ./backend.config'
-alias tsplan='time ./terraform plan -no-color -out plan.plan'
-alias tsapply='time ./terraform apply -input plan.plan'
-alias tscopy='./terraform show -no-color plan.plan | copy-file'
+alias tinit='time ./terraform init'
+alias tplan='time ./terraform plan -no-color -out tf.plan'
+alias tapply='time ./terraform apply -input tf.plan'
+alias tcopy='./terraform show -no-color tf.plan | copy-file'
 # alias copy-file="xsel -i -b < "
 alias copy-file='xclip -selection clipboard'
+alias copy-path='pwd | tr -d "\n" | xclip -selection clipboard'
 
 #-------------------------------------------------------------
 # External
@@ -204,6 +203,7 @@ path_prepend() {
 # Clear the PATH to ensure the right ordering
 PATH=""
 # Lowest priority at the top
+path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/.local/bin" # Python binaries
 path_prepend "$HOME/go/bin"     # Go binaries
 path_prepend "/snap/bin"        # Snap binaries
