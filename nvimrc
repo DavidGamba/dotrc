@@ -138,9 +138,9 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 if !exists("g:UltiSnipsSnippetDirectories")
-  let g:UltiSnipsSnippetDirectories = ["/home/david/dotrc/vim-snippets"]
+  let g:UltiSnipsSnippetDirectories = [$HOME ."/dotrc/vim-snippets"]
 else
-  let g:UltiSnipsSnippetDirectories += ["/home/david/dotrc/vim-snippets"]
+  let g:UltiSnipsSnippetDirectories += [$HOME ."/dotrc/vim-snippets"]
 endif
 inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
