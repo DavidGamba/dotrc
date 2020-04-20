@@ -135,7 +135,7 @@ function install_bin() {
 	clone_repo git@github.com:DavidGamba/cli-bookmarks.git $CODE_DIR/cli-bookmarks
 	create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
 	create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
-	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks"
+	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks/cli-bookmarks"
 	echo done installing bin!
 }
 
@@ -185,8 +185,14 @@ function install_go() {
 
 # Installs to ~/go/bin
 function install_go_utils() {
+	set -x
+	go get -u arp242.net/uni
 	go install arp242.net/uni
+	go get -u golang.org/x/tools/gopls
 	go install golang.org/x/tools/gopls
+	go get -u golang.org/x/tools/godoc
+	go install golang.org/x/tools/godoc
+	set +x
 }
 
 main "$@"

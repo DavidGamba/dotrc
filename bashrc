@@ -219,6 +219,9 @@ path_prepend "$HOME/private-bin"
 if [ -f "${HOME}/local/bash_local.bash" ]; then
     . "${HOME}/local/bash_local.bash"
 fi
+if [ -f "${HOME}/private-bin/private.bashrc" ]; then
+    . "${HOME}/private-bin/private.bashrc"
+fi
 
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
