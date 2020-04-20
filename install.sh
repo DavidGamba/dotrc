@@ -14,7 +14,7 @@ EOL
 	cat <<EOL
 	install -h|--help
 
-	install [--bin] [--dotrc] [--nvim] [--utils]
+	install [--bin] [--dotrc] [--nvim] [--utils] [--go <version>]
 EOL
 }
 
@@ -48,6 +48,14 @@ function main() {
 				shift
 				echo installing golang utils...
 				install_go_utils
+				exit 0
+				;;
+			--go)
+				shift
+				version=$1
+				shift
+				echo installing golang...
+				install_go $version
 				exit 0
 				;;
 			-*)
@@ -163,6 +171,16 @@ function install_fzf() {
 	cd ~/.fzf
 	git pull
 	~/.fzf/install
+}
+
+function install_go() {
+	local version=$1
+	shift
+	mkdir -p ~/opt/
+	wget https://dl.google.com/go/go${version}.linux-amd64.tar.gz -P ~/opt/
+	tar -xvzf go${version}.linux-amd64.tar.gz
+	ln -s ~/opt/go/bin/go ~/opt/bin/go
+	ln -s ~/opt/go/bin/gofmt ~/opt/bin/gofmt
 }
 
 # Installs to ~/go/bin
