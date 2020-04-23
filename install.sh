@@ -133,9 +133,12 @@ function install_bin() {
 	clone_repo git@github.com:DavidGamba/grepp.git $CODE_DIR/grepp
 	clone_repo git@github.com:DavidGamba/ffind.git $CODE_DIR/ffind
 	clone_repo git@github.com:DavidGamba/cli-bookmarks.git $CODE_DIR/cli-bookmarks
+	clone_repo git@github.com:DavidGamba/cssh.git $CODE_DIR/cssh
 	create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
 	create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
 	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks/cli-bookmarks"
+	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cssh/cssh"
+	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cscp/cscp"
 	echo done installing bin!
 }
 
