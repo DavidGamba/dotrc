@@ -138,7 +138,7 @@ function install_bin() {
 	create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
 	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks/cli-bookmarks"
 	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cssh/cssh"
-	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cscp/cscp"
+	create_link_for "$HOME/bin/cscp" "$CODE_DIR/cssh/cscp/cscp"
 	echo done installing bin!
 }
 
