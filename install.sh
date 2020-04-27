@@ -19,6 +19,7 @@ EOL
 	install --go <version>
 	install --bin
 	install --utils
+	install --awscli
 EOL
 }
 
@@ -66,6 +67,11 @@ function main() {
 				install_go $version
 				exit 0
 				;;
+			--awscli)
+				shift
+				install_awscli
+				exit 0
+				;;
 			-*)
 				usage $1
 				exit 1
@@ -82,7 +88,8 @@ function install_deps() {
 		sudo apt-get update && \
 		sudo apt-get install \
 			python3-pip \
-			cargo
+			cargo \
+			unzip
 	fi
 	if ! uname -r | grep -q microsoft; then
 		sudo apt-get install xclip
@@ -219,6 +226,15 @@ function install_go_utils() {
 	go get -u golang.org/x/tools/godoc
 	go install golang.org/x/tools/godoc
 	set +x
+}
+
+function install_awscli() {
+	mkdir -p ~/opt
+	cd ~/opt
+	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+	unzip awscliv2.zip
+	./aws/install --install-dir ~/opt/aws-cli --bin-dir ~/opt/bin
+	rm aws/ -rf
 }
 
 main "$@"
