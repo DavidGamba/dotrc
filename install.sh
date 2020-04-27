@@ -14,7 +14,11 @@ EOL
 	cat <<EOL
 	install -h|--help
 
-	install [--bin] [--dotrc] [--nvim] [--utils] [--go <version>]
+	install --deps
+	install --dotrc
+	install --go <version>
+	install --bin
+	install --utils
 EOL
 }
 
@@ -24,6 +28,10 @@ function main() {
 			-h|--help)
 				usage
 				exit 1
+				;;
+			--deps)
+				install_deps
+				exit 0
 				;;
 			--dotrc)
 				shift
@@ -66,6 +74,20 @@ function main() {
 	done
 	usage
 	exit 1
+}
+
+function install_deps() {
+	release=$(lsb_release -r -s)
+	if [[ $release == "20.04" ]]; then
+		sudo apt-get update && \
+		sudo apt-get install \
+			python3-pip \
+			cargo
+	fi
+	if ! uname -r | grep -q microsoft; then
+		sudo apt-get install xclip
+	fi
+	cargo install diffr
 }
 
 function create_link_for() {
@@ -135,19 +157,19 @@ function install_bin() {
 	clone_repo git@github.com:DavidGamba/cli-bookmarks.git $CODE_DIR/cli-bookmarks
 	clone_repo git@github.com:DavidGamba/cssh.git $CODE_DIR/cssh
 	create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
+	cd "$CODE_DIR/grepp/" && go build
 	create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
+	cd "$CODE_DIR/ffind/" && go build
 	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks/cli-bookmarks"
+	cd "$CODE_DIR/cli-bookmarks/" && go build
 	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cssh/cssh"
+	cd "$CODE_DIR/cssh/cssh/" && go build
 	create_link_for "$HOME/bin/cscp" "$CODE_DIR/cssh/cscp/cscp"
+	cd "$CODE_DIR/cssh/cscp/" && go build
 	echo done installing bin!
 }
 
 function install_nvim() {
-	echo "Install dependencies"
-	sudo apt-get install \
-		python3-pip \
-		python-pip \
-		xclip
 	echo "Install python dependencies at user level"
 	python3 -m pip install --user --upgrade pynvim
 	python2 -m pip install --user --upgrade pynvim
@@ -179,11 +201,12 @@ function install_fzf() {
 function install_go() {
 	local version=$1
 	shift
-	mkdir -p ~/opt/
+	mkdir -p ~/opt/bin/
 	wget https://dl.google.com/go/go${version}.linux-amd64.tar.gz -P ~/opt/
+	cd ~/opt
 	tar -xvzf go${version}.linux-amd64.tar.gz
-	ln -s ~/opt/go/bin/go ~/opt/bin/go
-	ln -s ~/opt/go/bin/gofmt ~/opt/bin/gofmt
+	ln -sf ~/opt/go/bin/go ~/opt/bin/go
+	ln -sf ~/opt/go/bin/gofmt ~/opt/bin/gofmt
 }
 
 # Installs to ~/go/bin
