@@ -101,9 +101,16 @@ alias tinit='time ./terraform init'
 alias tplan='time ./terraform plan -no-color -out tf.plan'
 alias tapply='time ./terraform apply -input tf.plan'
 alias tcopy='./terraform show -no-color tf.plan | copy-file'
-# alias copy-file="xsel -i -b < "
-alias copy-file='xclip -selection clipboard'
-alias copy-path='pwd | tr -d "\n" | xclip -selection clipboard'
+
+if uname -r | grep -q microsoft; then
+	alias copy='win32yank.exe -i'
+	alias copy-file='win32yank.exe -i <<<'
+	alias copy-path='pwd | tr -d "\n" | win32yank.exe -i'
+else
+	# alias copy-file="xsel -i -b < "
+	alias copy-file='xclip -selection clipboard'
+	alias copy-path='pwd | tr -d "\n" | xclip -selection clipboard'
+fi
 
 #-------------------------------------------------------------
 # SSH agent on WSL
@@ -231,6 +238,18 @@ path_prepend() {
 # Clear the PATH to ensure the right ordering
 PATH=""
 # Lowest priority at the top
+
+if uname -r | grep -q microsoft; then
+	path_prepend "/mnt/c/tools/neovim/Neovim/bin"
+	path_prepend "/mnt/c/Users/David/AppData/Local/Microsoft/WindowsApps"
+	path_prepend "/mnt/c/ProgramData/chocolatey/bin"
+	path_prepend "/mnt/c/WINDOWS/System32/OpenSSH/"
+	path_prepend "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+	path_prepend "/mnt/c/WINDOWS/System32/Wbem"
+	path_prepend "/mnt/c/WINDOWS"
+	path_prepend "/mnt/c/WINDOWS/system32"
+fi
+
 path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/.local/bin" # Python binaries
 path_prepend "$HOME/go/bin"     # Go binaries
