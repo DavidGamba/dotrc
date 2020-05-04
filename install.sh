@@ -95,6 +95,7 @@ function install_deps() {
 		sudo apt-get install xclip
 	fi
 	cargo install diffr
+	cargo install ripgrep
 }
 
 function create_link_for() {
@@ -221,8 +222,7 @@ function install_go_utils() {
 	set -x
 	go get -u arp242.net/uni
 	go install arp242.net/uni
-	go get -u golang.org/x/tools/gopls
-	go install golang.org/x/tools/gopls
+	GO111MODULE=on go get -u golang.org/x/tools/gopls@master golang.org/x/tools@master
 	go get -u golang.org/x/tools/godoc
 	go install golang.org/x/tools/godoc
 	set +x
