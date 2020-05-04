@@ -150,7 +150,7 @@ alias tplan='time ./terraform plan -no-color -out tf.plan'
 alias tapply='time ./terraform apply -input tf.plan'
 alias tcopy='./terraform show -no-color tf.plan | copy-file'
 
-if uname -r | grep -q microsoft; then
+if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
 	alias copy-file='win32yank.exe -i <<<'
 	alias copy-path='pwd | tr -d "\n" | win32yank.exe -i'
@@ -164,7 +164,7 @@ fi
 # SSH agent on WSL
 # https://stackoverflow.com/a/45562886
 #-------------------------------------------------------------
-if [[ $(uname -a) =~ "microsoft" ]]; then
+if [[ $(uname -r) =~ "microsoft" ]]; then
 	# Set up ssh-agent
 	SSH_ENV="$HOME/.ssh/environment"
 
