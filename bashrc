@@ -34,6 +34,54 @@ shopt -s nocaseglob         # pathname expansion will be treated as case-insensi
 shopt -s no_empty_cmd_completion
 
 #-------------------------------------------------------------
+# PATH
+# Scripts modifying the path should used the path_append function to append
+# entries. These external entries not tracked in the bashrc will have lower priority.
+#-------------------------------------------------------------
+function path_append() {
+	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+		return 0
+	fi
+	PATH=$PATH:$1
+}
+
+function path_prepend() {
+	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
+		return 0
+	fi
+	if [[ "$PATH" == "" ]]; then
+		PATH=$1
+		return 0
+	fi
+	PATH=$1:$PATH
+}
+
+# Clear the PATH to ensure the right ordering
+PATH=""
+# Lowest priority at the top
+
+if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
+	path_prepend "/mnt/c/tools/neovim/Neovim/bin"
+	path_prepend "/mnt/c/Users/David/AppData/Local/Microsoft/WindowsApps"
+	path_prepend "/mnt/c/ProgramData/chocolatey/bin"
+	path_prepend "/mnt/c/WINDOWS/System32/OpenSSH/"
+	path_prepend "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
+	path_prepend "/mnt/c/WINDOWS/System32/Wbem"
+	path_prepend "/mnt/c/WINDOWS"
+	path_prepend "/mnt/c/WINDOWS/system32"
+fi
+
+path_prepend "$HOME/.cargo/bin" # Rust binaries
+path_prepend "$HOME/.local/bin" # Python binaries
+path_prepend "$HOME/go/bin"     # Go binaries
+path_prepend "/snap/bin"        # Snap binaries
+path_prepend "$HOME/local/bin"
+path_prepend "$HOME/opt/bin"
+path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+path_prepend "$HOME/bin"
+path_prepend "$HOME/private-bin"
+
+#-------------------------------------------------------------
 # Exports
 #-------------------------------------------------------------
 export EDITOR="nvim"
@@ -213,52 +261,6 @@ fi
 alias cd='cdd'
 # Use bash built in completion for cd to allow for filenames to be used
 complete -r cd 2>/dev/null
-
-#-------------------------------------------------------------
-# PATH
-# Scripts modifiying the path should used the path_append function to append
-# entries. These external entries not tracked in the bashrc will have lower priority.
-#-------------------------------------------------------------
-path_append() {
-	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-		return 0
-	fi
-	PATH=$PATH:$1
-}
-path_prepend() {
-	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-		return 0
-	fi
-	if [[ "$PATH" == "" ]]; then
-		PATH=$1
-		return 0
-	fi
-	PATH=$1:$PATH
-}
-# Clear the PATH to ensure the right ordering
-PATH=""
-# Lowest priority at the top
-
-if uname -r | grep -q microsoft; then
-	path_prepend "/mnt/c/tools/neovim/Neovim/bin"
-	path_prepend "/mnt/c/Users/David/AppData/Local/Microsoft/WindowsApps"
-	path_prepend "/mnt/c/ProgramData/chocolatey/bin"
-	path_prepend "/mnt/c/WINDOWS/System32/OpenSSH/"
-	path_prepend "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
-	path_prepend "/mnt/c/WINDOWS/System32/Wbem"
-	path_prepend "/mnt/c/WINDOWS"
-	path_prepend "/mnt/c/WINDOWS/system32"
-fi
-
-path_prepend "$HOME/.cargo/bin" # Rust binaries
-path_prepend "$HOME/.local/bin" # Python binaries
-path_prepend "$HOME/go/bin"     # Go binaries
-path_prepend "/snap/bin"        # Snap binaries
-path_prepend "$HOME/local/bin"
-path_prepend "$HOME/opt/bin"
-path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-path_prepend "$HOME/bin"
-path_prepend "$HOME/private-bin"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
