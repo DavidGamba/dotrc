@@ -19,6 +19,7 @@ EOL
 	install --go <version>
 	install --bin
 	install --utils
+	install --nvim
 	install --awscli
 EOL
 }

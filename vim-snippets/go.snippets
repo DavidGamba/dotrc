@@ -41,6 +41,27 @@ func realMain() error {
 }
 endsnippet
 
+snippet mage
+//+build mage
+
+package main
+
+import (
+	"github.com/magefile/mage/sh"
+)
+
+// Builds project
+func Build() error {
+	return sh.Run("echo", "hello", "world!")
+}
+endsnippet
+
+snippet ife
+if err != nil {
+	return err
+}
+endsnippet
+
 snippet open
 ${1:fh}, err := os.Open($2)
 if err != nil {
