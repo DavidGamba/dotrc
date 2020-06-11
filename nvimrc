@@ -278,6 +278,7 @@ set softtabstop=2
 set number
 set textwidth=0
 
+set sidescroll=30 " Jump several characters to the side instead of waiting one at a time.
 set nowrap
 set linebreak " Visually break long lines at 'breakat' character
 set whichwrap=b,s,<,>
@@ -294,6 +295,12 @@ colorscheme gruvbox
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_c = '%F'
+
+" Keep cursor in place after yank
+" https://ddrscott.github.io/blog/2016/yank-without-jank/
+vnoremap <expr>y "my\"" . v:register . "y`y"
+vnoremap Y myY`y
+
 
 """""""""""""""""""""""""""""""""""""""
 " Abbreviations
