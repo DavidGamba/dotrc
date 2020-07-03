@@ -161,20 +161,17 @@ function clone_repo() {
 
 function install_bin() {
 	clone_repo git@github.com:DavidGamba/bin.git   $HOME/bin
-	clone_repo git@github.com:DavidGamba/grepp.git $CODE_DIR/grepp
-	clone_repo git@github.com:DavidGamba/ffind.git $CODE_DIR/ffind
-	clone_repo git@github.com:DavidGamba/cli-bookmarks.git $CODE_DIR/cli-bookmarks
-	clone_repo git@github.com:DavidGamba/cssh.git $CODE_DIR/cssh
-	create_link_for "$HOME/bin/grepp" "$CODE_DIR/grepp/grepp"
-	cd "$CODE_DIR/grepp/" && go build
-	create_link_for "$HOME/bin/ffind" "$CODE_DIR/ffind/ffind"
-	cd "$CODE_DIR/ffind/" && go build
-	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/cli-bookmarks/cli-bookmarks"
-	cd "$CODE_DIR/cli-bookmarks/" && go build
-	create_link_for "$HOME/bin/cssh" "$CODE_DIR/cssh/cssh/cssh"
-	cd "$CODE_DIR/cssh/cssh/" && go build
-	create_link_for "$HOME/bin/cscp" "$CODE_DIR/cssh/cscp/cscp"
-	cd "$CODE_DIR/cssh/cscp/" && go build
+	clone_repo git@github.com:DavidGamba/dgtools.git $CODE_DIR/dgtools
+	create_link_for "$HOME/bin/grepp" "$CODE_DIR/dgtools/grepp/grepp"
+	cd "$CODE_DIR/dgtools/grepp/" && go build
+	create_link_for "$HOME/bin/ffind" "$CODE_DIR/dgtools/ffind/ffind"
+	cd "$CODE_DIR/dgtools/ffind/" && go build
+	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/dgtools/cli-bookmarks/cli-bookmarks"
+	cd "$CODE_DIR/dgtools/cli-bookmarks/" && go build
+	create_link_for "$HOME/bin/cssh" "$CODE_DIR/dgtools/cssh/cssh/cssh"
+	cd "$CODE_DIR/dgtools/cssh/cssh/" && go build
+	create_link_for "$HOME/bin/cscp" "$CODE_DIR/dgtools/cssh/cscp/cscp"
+	cd "$CODE_DIR/dgtools/cssh/cscp/" && go build
 	echo done installing bin!
 }
 
