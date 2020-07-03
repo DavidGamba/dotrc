@@ -71,8 +71,8 @@ if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
 	path_prepend "/mnt/c/WINDOWS/system32"
 fi
 
-path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/.local/bin" # Python binaries
+path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/go/bin"     # Go binaries
 path_prepend "/snap/bin"        # Snap binaries
 path_prepend "$HOME/local/bin"
@@ -148,7 +148,7 @@ alias myip="curl https://ifconfig.co"
 alias tinit='time ./terraform init'
 alias tplan='time ./terraform plan -no-color -out tf.plan'
 alias tapply='time ./terraform apply -input tf.plan'
-alias tcopy='./terraform show -no-color tf.plan | copy-file'
+alias tcopy='./terraform show -no-color tf.plan | copy'
 
 if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
