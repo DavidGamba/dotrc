@@ -162,16 +162,26 @@ function clone_repo() {
 function install_bin() {
 	clone_repo git@github.com:DavidGamba/bin.git   $HOME/bin
 	clone_repo git@github.com:DavidGamba/dgtools.git $CODE_DIR/dgtools
+	clone_repo git@github.com:DavidGamba/go-wardley.git $CODE_DIR/go-wardley
+
+	create_link_for "$HOME/bin/wardley" "$CODE_DIR/go-wardley/go-wardley"
+	cd "$CODE_DIR/go-wardley/" && go build
+
 	create_link_for "$HOME/bin/grepp" "$CODE_DIR/dgtools/grepp/grepp"
 	cd "$CODE_DIR/dgtools/grepp/" && go build
+
 	create_link_for "$HOME/bin/ffind" "$CODE_DIR/dgtools/ffind/ffind"
 	cd "$CODE_DIR/dgtools/ffind/" && go build
+
 	create_link_for "$HOME/bin/cli-bookmarks" "$CODE_DIR/dgtools/cli-bookmarks/cli-bookmarks"
 	cd "$CODE_DIR/dgtools/cli-bookmarks/" && go build
+
 	create_link_for "$HOME/bin/cssh" "$CODE_DIR/dgtools/cssh/cssh/cssh"
 	cd "$CODE_DIR/dgtools/cssh/cssh/" && go build
+
 	create_link_for "$HOME/bin/cscp" "$CODE_DIR/dgtools/cssh/cscp/cscp"
 	cd "$CODE_DIR/dgtools/cssh/cscp/" && go build
+
 	echo done installing bin!
 }
 
