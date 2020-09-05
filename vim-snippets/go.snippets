@@ -19,7 +19,7 @@ func main() {
 func program() int {
 	opt := getoptions.New()
 	opt.Bool("help", false, opt.Alias("?"))
-	opt.Bool("debug", false)
+	opt.Bool("debug", false, opt.GetEnv("DEBUG"))
 	remaining, err := opt.Parse(os.Args[1:])
 	if opt.Called("help") {
 		fmt.Println(opt.Help())
@@ -68,7 +68,7 @@ func main() {
 func program() int {
 	opt := getoptions.New()
 	opt.Bool("help", false, opt.Alias("?"))
-	opt.Bool("debug", false)
+	opt.Bool("debug", false, opt.GetEnv("DEBUG"))
 	opt.SetUnknownMode(getoptions.Pass)
 	opt.NewCommand("cmd", "description").SetCommandFn(Run)
 	opt.HelpCommand("")
@@ -96,21 +96,6 @@ func program() int {
 func Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	Logger.Printf("Running")
 	return nil
-}
-endsnippet
-
-snippet mage
-//+build mage
-
-package main
-
-import (
-	"github.com/magefile/mage/sh"
-)
-
-// Builds project
-func Build() error {
-	return sh.Run("echo", "hello", "world!")
 }
 endsnippet
 
