@@ -183,6 +183,9 @@ function install_bin() {
 	create_link_for "$HOME/bin/cscp" "$CODE_DIR/dgtools/cssh/cscp/cscp"
 	cd "$CODE_DIR/dgtools/cssh/cscp/" && go build
 
+	create_link_for "$HOME/bin/joinlines" "$CODE_DIR/dgtools/joinlines/joinlines"
+	cd "$CODE_DIR/dgtools/joinlines/" && go build
+
 	echo done installing bin!
 }
 
