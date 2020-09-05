@@ -97,6 +97,7 @@ function install_deps() {
 	fi
 	cargo install diffr
 	cargo install ripgrep
+	cargo install tealdeer
 }
 
 function create_link_for() {
