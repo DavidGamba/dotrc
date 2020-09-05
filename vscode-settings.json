@@ -1,0 +1,25 @@
+{
+    "editor.wordBasedSuggestions": true,
+    "editor.quickSuggestions": { "other": true, "comments": true, "strings": true },    
+
+    // VIM Settings
+    "vim.leader": ",",
+    "vim.easymotion": true,
+    "vim.incsearch": true,
+    "vim.camelCaseMotion.enable": true,
+    "vim.useSystemClipboard": true,
+    // "vim.useCtrlKeys": true,
+    "vim.hlseurch": true,
+    "vim.visualModeKeyBindings": [
+        { "before": [ ">" ], "commands": [ "editor.action.indentLines" ] },
+        { "before": [ "<" ], "commands": [ "editor.action.outdentLines" ] },
+    ],
+    "vim.normalModeKeyBindingsNonRecursive": [
+        // Start Easy Motion with s
+        { "before": [ "s" ], "after": [ "leader", "leader", "s" ], }
+    ],
+    "vim.handleKeys": {
+        "<C-a>": false,
+        "<C-f>": false
+    },
+}
