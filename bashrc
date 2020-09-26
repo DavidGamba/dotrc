@@ -62,6 +62,7 @@ PATH=""
 
 if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
 	path_prepend "/mnt/c/tools/neovim/Neovim/bin"
+	path_prepend "/mnt/c/Users/David/AppData/Local/Programs/Microsoft VS Code/bin"
 	path_prepend "/mnt/c/Users/David/AppData/Local/Microsoft/WindowsApps"
 	path_prepend "/mnt/c/ProgramData/chocolatey/bin"
 	path_prepend "/mnt/c/WINDOWS/System32/OpenSSH/"
