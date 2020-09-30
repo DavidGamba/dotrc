@@ -69,6 +69,9 @@ Plug 'tpope/vim-abolish'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-scripts/vis' " Visual mode B
 
+" <leader>e to search/replace word under cursor
+Plug 'wincent/scalpel'
+
 
 """""""""""""""""""""""""""""""""""""""
 " Tools
@@ -335,9 +338,6 @@ iab ** •
 " Text Formatting
 """""""""""""""""""""""""""""""""""""""
 xmap ga <Plug>(EasyAlign)
-
-" search/replace the word under the cursor
-nnoremap <leader>z :let @z = expand("<cword>")<cr>q:i%s/\C\v<<esc>"zpa>//g<esc>hi
 
 " tComment with <C-/>
 nnoremap  :TComment<CR>
