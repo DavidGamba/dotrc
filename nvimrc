@@ -17,6 +17,13 @@ call plug#begin('~/.local/share/nvim/plugged')
 " The mnemonic for y is that if you tilt it a bit it looks like a switch.
 Plug 'tpope/vim-unimpaired'
 
+" Enable submodes, used for window submode
+Plug 'Iron-E/nvim-libmodal'
+" Plug 'Iron-E/nvim-libmodal', {'branch': 'bugfix/0.6.2'}
+" Plug '/home/david/general/code/nvim-window-mode'
+Plug 'DavidGamba/nvim-window-mode'
+Plug 'Iron-E/nvim-tabmode'
+
 """""""""""""""""""""""""""""""""""""""
 " Completion
 """""""""""""""""""""""""""""""""""""""
@@ -27,7 +34,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 " Provides tag list to lsp so ctrl+t works
 Plug 'ipod825/vim-tabdrop'
 
-" Plug 'neovim/nvim-lsp'
+" Plug 'neovim/nvim-lspconfig'
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -46,6 +53,8 @@ Plug 'morhetz/gruvbox'
 Plug 'bling/vim-airline'
 " Tagbar like symbol view | Not in use because gopls doesn't support symbols yet.
 "Plug 'liuchengxu/vista.vim'
+
+Plug 'jaxbot/semantic-highlight.vim'
 
 """""""""""""""""""""""""""""""""""""""
 " Text editing
@@ -90,8 +99,8 @@ call plug#end()            " required
 " Core
 """""""""""""""""""""""""""""""""""""""
 
-" Required for operations modifying multiple buffers like rename.
-set hidden
+set hidden " Allow changing to another file with unsaved changes on the current file.
+set noswapfile
 
 " https://github.com/neovim/neovim/issues/2127
 " Neovim doesn't check file changes after focus is lost
@@ -105,6 +114,7 @@ autocmd InsertLeave <buffer> silent write
 
 set clipboard+=unnamedplus
 
+" TODO: check help directory
 set undofile
 set undodir=.
 set backupdir=.
@@ -198,6 +208,7 @@ function SetLSPShortcuts()
 	nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
 	nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 	nnoremap ga :call LanguageClient_textDocument_codeAction()<CR>
+	vnoremap <leader>a :call LanguageClient_textDocument_codeAction()<CR>
 	nnoremap <leader>lh :call LanguageClient_textDocument_documentHighlight()<CR>
 
 	" Rename - rn => rename
@@ -219,32 +230,36 @@ function SetLSPShortcuts()
 
 endfunction()
 
-augroup LSP
-  autocmd!
-  autocmd FileType go call SetLSPShortcuts()
-augroup END
-
-" " Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
-" " https://neovim.io/doc/user/lsp.html
-" " call nvim_lsp#setup("gopls", {})
-" " autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
-" autocmd Filetype go setlocal omnifunc=v:lua.vim.lsp.omnifunc()
-" nnoremap <silent> gld <cmd>lua vim.lsp.buf.declaration()<CR>
-" nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-" nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-" nnoremap <silent> K <cmd>lua vim.lsp.buf.peek_definition()<CR>
-" nnoremap <silent> gli  <cmd>lua vim.lsp.buf.implementation()<CR>
-" nnoremap <silent> gs  <cmd>lua vim.lsp.buf.signature_help()<CR>
-" nnoremap <silent> glt  <cmd>lua vim.lsp.buf.type_definition()<CR>
-" nnoremap <silent> gr  <cmd>lua vim.lsp.buf.references()<CR>
-" nnoremap <silent> ga  <cmd>lua vim.lsp.buf.code_action()<CR>
-" nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
-"
-" " https://github.com/neovim/nvim-lsp#gopls
+" https://github.com/neovim/nvim-lsp#gopls
 " lua << EOF
 " require'nvim_lsp'.gopls.setup{}
 " EOF
+
+function SetNativeLSPShortcuts()
+" Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
+" https://neovim.io/doc/user/lsp.html
+" call nvim_lsp#setup("gopls", {})
+" autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
+	autocmd Filetype go setlocal omnifunc=v:lua.vim.lsp.omnifunc()
+	nnoremap <silent> gld <cmd>lua vim.lsp.buf.declaration()<CR>
+	nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+	nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+	nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
+	nnoremap <silent> K <cmd>lua vim.lsp.buf.peek_definition()<CR>
+	nnoremap <silent> gli  <cmd>lua vim.lsp.buf.implementation()<CR>
+	nnoremap <silent> gs  <cmd>lua vim.lsp.buf.signature_help()<CR>
+	nnoremap <silent> glt  <cmd>lua vim.lsp.buf.type_definition()<CR>
+	nnoremap <silent> gr  <cmd>lua vim.lsp.buf.references()<CR>
+	nnoremap <silent> ga  <cmd>lua vim.lsp.buf.code_action()<CR>
+	vnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
+	nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
+endfunction()
+
+augroup LSP
+  autocmd!
+  autocmd FileType go call SetLSPShortcuts()
+  " autocmd FileType go call SetNativeLSPShortcuts()
+augroup END
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
@@ -301,6 +316,8 @@ let g:airline_section_c = '%F'
 vnoremap <expr>y "my\"" . v:register . "y`y"
 vnoremap Y myY`y
 
+hi MyNormalNC ctermbg=darkblue guibg='#32302f'
+set winhighlight=NormalNC:MyNormalNC
 
 """""""""""""""""""""""""""""""""""""""
 " Abbreviations
@@ -359,25 +376,29 @@ if has('nvim')
 endif
 
 " Move around splits
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-H> <C-W>h
-nmap <C-L> <C-W>l
+nmap <C-J> :wincmd j<CR>
+nmap <C-K> :wincmd k<CR>
+nmap <C-H> :wincmd h<CR>
+nmap <C-L> :wincmd l<CR>
 
-" Resize splits {
-	" alt + .
-	nmap ® <C-W>>
-	nmap <m-.> <C-W>>
-	" alt + ,
-	nmap ¬ <C-W><
-	nmap <m-,> <C-W><
-	" alt + >
-	nmap ¾ <C-W>+
-	nmap <m->> <C-W>+
-	" alt + <
-	nmap ¼ <C-W>-
-	nmap <m-<> <C-W>-
-" }
+if !hasmapto('<Plug>WindowmodeEnter')
+	silent! nmap <unique> <Leader>w <Plug>WindowmodeEnter
+endif
+
+" " Resize splits {
+" 	" alt + .
+" 	nmap ® <C-W>>
+" 	nmap <m-.> <C-W>>
+" 	" alt + ,
+" 	nmap ¬ <C-W><
+" 	nmap <m-,> <C-W><
+" 	" alt + >
+" 	nmap ¾ <C-W>+
+" 	nmap <m->> <C-W>+
+" 	" alt + <
+" 	nmap ¼ <C-W>-
+" 	nmap <m-<> <C-W>-
+" " }
 
 " yy copies a line, use Y for y$
 nnoremap Y y$
@@ -424,6 +445,36 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nmap <leader>h <Plug>(GitGutterPreviewHunk)
 let g:gitgutter_preview_win_floating = 0
+
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" " Window submode
+" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"
+" " A message will appear in the message line when you're in a submode
+" " and stay there until the mode has existed.
+" let g:submode_always_show_submode = 1
+"
+" call submode#enter_with('window', 'n', '', '<C-w>')
+"
+" " Note: <C-c> will also get you out to the mode without this mapping.
+" " Note: <C-[> also behaves as <ESC>
+" call submode#leave_with('window', 'n', '', '<ESC>')
+"
+" " Go through every letter
+" for key in ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+" \           'n','o','p','q','r','s','t','u','v','w','x','y','z']
+"   " maps lowercase, uppercase and <C-key>
+"   call submode#map('window', 'n', '', key, '<C-w>' . key)
+"   call submode#map('window', 'n', '', toupper(key), '<C-w>' . toupper(key))
+"   call submode#map('window', 'n', '', '<C-' . key . '>', '<C-w>' . '<C-'.key . '>')
+" endfor
+" " Go through symbols. Sadly, '|', not supported in submode plugin.
+" for key in ['=','_','+','-','<','>']
+"   call submode#map('window', 'n', '', key, '<C-w>' . key)
+" endfor
+"
+" " Old way, just in case.
+" nnoremap <Leader>w <C-w>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Golang
