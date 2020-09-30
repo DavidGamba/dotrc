@@ -126,7 +126,6 @@ function create_link_for() {
 function install_dotrc() {
 	mkdir -p $HOME/opt
 	mkdir -p $HOME/mnt
-	mkdir -p $HOME/.config/nvim
 	mkdir -p $CODE_DIR
 	mkdir -p $PROJECTS_DIR
 
@@ -139,7 +138,7 @@ function install_dotrc() {
 	create_link_for "$HOME/.gitconfig"  "dotrc/gitconfig"
 	create_link_for "$HOME/.hgrc"       "dotrc/hgrc"
 	create_link_for "$HOME/.nvimrc"     "dotrc/nvimrc"
-	create_link_for "$HOME/.config/nvim/init.vim" "$HOME/dotrc/nvimrc"
+	create_link_for "$HOME/.config/nvim" "$HOME/dotrc/nvim"
 
 	echo done installing dotrc!
 }
