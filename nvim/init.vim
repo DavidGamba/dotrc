@@ -99,6 +99,11 @@ call plug#end()            " required
 " Core
 """""""""""""""""""""""""""""""""""""""
 
+command! Config execute ":e $MYVIMRC"
+command! Reload execute "source $MYVIMRC"
+
+set mouse=a
+
 set hidden " Allow changing to another file with unsaved changes on the current file.
 set noswapfile
 
@@ -345,6 +350,8 @@ nmap <C-i> <C-a>
 " Motions
 """""""""""""""""""""""""""""""""""""""
 
+inoremap jj <esc>
+
 " List buffers
 " Mnemonic move-buffer
 nmap <c-m> :Buffers<CR>
@@ -475,22 +482,6 @@ let g:gitgutter_preview_win_floating = 0
 "
 " " Old way, just in case.
 " nnoremap <Leader>w <C-w>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Golang
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-au FileType go set listchars=tab:\ \ ,trail:·,extends:»,precedes:« " Unprintable chars mapping
-
-" Run gofmt and goimports on save
-autocmd BufWritePre *.go :call LanguageClient#textDocument_formatting_sync()
-" autocmd BufWritePre *.go :lua vim.lsp.buf.formatting()
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Terraform
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:terraform_fmt_on_save=1
-let g:terraform_align=1
-au FileType terraform call tcomment#type#Define('terraform', '# %s')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Other

@@ -1,0 +1,3 @@
+let current_compiler = 'go'
+CompilerSet makeprg=go\ test\ ./...
+CompilerSet errorformat=%E%f:%l:%c:%m
