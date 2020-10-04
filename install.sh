@@ -185,6 +185,9 @@ function install_bin() {
 	create_link_for "$HOME/bin/joinlines" "$CODE_DIR/dgtools/joinlines/joinlines"
 	cd "$CODE_DIR/dgtools/joinlines/" && go build
 
+	create_link_for "$HOME/bin/password-cache" "$CODE_DIR/dgtools/password-cache/password-cache"
+	cd "$CODE_DIR/dgtools/password-cache/" && go build
+
 	echo done installing bin!
 }
 
