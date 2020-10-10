@@ -98,6 +98,7 @@ function install_deps() {
 	cargo install diffr
 	cargo install ripgrep
 	cargo install tealdeer
+	cargo install code-minimap
 }
 
 function create_link_for() {

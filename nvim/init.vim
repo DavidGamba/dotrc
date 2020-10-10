@@ -56,6 +56,8 @@ Plug 'bling/vim-airline'
 
 Plug 'jaxbot/semantic-highlight.vim'
 
+Plug 'wfxr/minimap.vim'
+
 """""""""""""""""""""""""""""""""""""""
 " Text editing
 """""""""""""""""""""""""""""""""""""""
