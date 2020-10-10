@@ -27,13 +27,6 @@ Plug 'Iron-E/nvim-tabmode'
 """""""""""""""""""""""""""""""""""""""
 " Completion
 """""""""""""""""""""""""""""""""""""""
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-" Provides tag list to lsp so ctrl+t works
-Plug 'ipod825/vim-tabdrop'
-
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
@@ -114,6 +107,12 @@ nnoremap ; :
 command! Config execute ":e $MYVIMRC"
 command! Reload execute "source $MYVIMRC"
 
+function! ReloadLSP()
+	lua vim.lsp.stop_client(vim.lsp.get_active_clients())
+	:edit
+endfunction
+command! ReloadLSP call ReloadLSP()
+
 set mouse=a
 
 set hidden " Allow changing to another file with unsaved changes on the current file.
@@ -190,65 +189,19 @@ let g:LanguageClient_serverCommands = {
 
 nnoremap <F2> :%s/<C-R>///g<left><left>
 
-function! GotoDef()
-	" LanguageClient_textDocument_definition()
-	call MyGoToDefinition()
-	" TabdropPushTag
-	" call LanguageClient_textDocument_definition({'gotoCmd': 'Tabdrop'})
-endfunction
+" TODO:
+" " Rename - rc => rename camelCase
+" noremap <leader>rc :call LanguageClient#textDocument_rename(
+" 						\ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
+"
+" " Rename - rs => rename snake_case
+" noremap <leader>rs :call LanguageClient#textDocument_rename(
+" 	\ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
+"
+" " Rename - ru => rename UPPERCASE
+" noremap <leader>ru :call LanguageClient#textDocument_rename(
+" 	\ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
 
-function! GotoTypeDef()
-	TabdropPushTag
-	call LanguageClient_textDocument_typeDefinition({'gotoCmd': 'Tabdrop'})
-endfunction
-
-function! GotoImplementation()
-	TabdropPushTag
-	call LanguageClient_textDocument_implementation({'gotoCmd': 'Tabdrop'})
-endfunction
-
-function SetLSPShortcuts()
-
-	" Always draw the signcolumn.
-	setlocal signcolumn=yes
-
-	nnoremap <C-]> :call MyGoToDefinition()<CR>
-	" nmap <C-t> :TabdropPopTag<Cr>
-
-	nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-	nnoremap gd :call GotoDef()<CR>
-	nnoremap <leader>lt :call GotoTypeDef()<CR>
-	nnoremap <leader>li :call GotoImplementation()<CR>
-	nnoremap <F2> :call LanguageClient#textDocument_rename()<CR>
-	nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-	nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-	nnoremap gh :call LanguageClient#textDocument_hover()<CR>
-	" nnoremap <leader>ls :call LanguageClient_textDocument_documentSymbol()<CR>
-	nnoremap <leader>ls :call LanguageClient_workspace_symbol()<CR>
-	nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-	nnoremap <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
-	nnoremap ga :call LanguageClient_textDocument_codeAction()<CR>
-	vnoremap <leader>a :call LanguageClient_textDocument_codeAction()<CR>
-	nnoremap <leader>lh :call LanguageClient_textDocument_documentHighlight()<CR>
-
-	" Rename - rn => rename
-	noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
-
-	" Rename - rc => rename camelCase
-	noremap <leader>rc :call LanguageClient#textDocument_rename(
-							\ {'newName': Abolish.camelcase(expand('<cword>'))})<CR>
-
-	" Rename - rs => rename snake_case
-	noremap <leader>rs :call LanguageClient#textDocument_rename(
-		\ {'newName': Abolish.snakecase(expand('<cword>'))})<CR>
-
-	" Rename - ru => rename UPPERCASE
-	noremap <leader>ru :call LanguageClient#textDocument_rename(
-		\ {'newName': Abolish.uppercase(expand('<cword>'))})<CR>
-
-	nnoremap <leader>t :!go test ./...<CR>
-
-endfunction()
 
 " https://github.com/neovim/nvim-lsp#gopls
 " https://github.com/golang/tools/blob/master/gopls/doc/vim.md
@@ -258,7 +211,7 @@ lua << EOF
 
 	local on_attach = function(_, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-		-- require'diagnostic'.on_attach()
+		require'diagnostic'.on_attach()
 		require'completion'.on_attach()
 
 		-- Mappings.
@@ -298,18 +251,42 @@ lua << EOF
 
 		-- go action
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-		vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+		-- vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>a', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
+		vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>a', ':lua vim.lsp.buf.range_code_action()<CR>', opts)
+
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', '=', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+		-- go calls incoming
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gci', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>', opts)
+
+		-- go calls outgoing
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gco', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>', opts)
+
+		-- go workspace
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>', opts)
+
+		-- go Workspace
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
 	end
+
+
+	-- custom client capabilities: https://gist.github.com/PatOConnor43/88156409b03794f5e05280dbfb42faa6
 
 	nvim_lsp.gopls.setup {
 		on_attach = on_attach,
 		cmd = {"gopls", "serve"},
+		-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 		settings = {
 			gopls = {
 				analyses = {
 					unusedparams = true,
+					unreachable = true,
 				},
 				staticcheck = true,
+				-- usePlaceholders = true,
+				-- hoverKind = "SingleLine", -- "FullDocumentation" seems broken
+				-- linksInHover = false,
+				experimentalWorkspaceModule  = true,
 			},
 		},
 	}
@@ -318,15 +295,11 @@ EOF
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_enable_fuzzy_match = 1
 let g:diagnostic_enable_virtual_text = 1
+let g:completion_matching_ignore_case = 1
 
 " fix conflict between completion-nvim and autopairs
 let g:completion_confirm_key = ""
 inoremap <expr> <cr>    pumvisible() ? "\<Plug>(completion_confirm_completion)" : "\<cr>"
-
-" augroup LSP
-"   autocmd!
-"   autocmd FileType go call SetLSPShortcuts()
-" augroup END
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
@@ -553,67 +526,6 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
 " markdown.corpus breaks ultisnips
 autocmd BufNewFile,BufRead *.md set syntax=markdown
-
-function! MyGoToDefinition(...) abort
-  " ref: https://github.com/davidhalter/jedi-vim/blob/master/pythonx/jedi_vim.py#L329-L345
-
-  " Get the current position
-  let l:fname = expand('%:p')
-  let l:line = line(".")
-  let l:col = col(".")
-  let l:word = expand("<cword>")
-
-  " Call the original function to jump to the definition
-  let l:result = LanguageClient_runSync(
-                  \ 'LanguageClient#textDocument_definition', {
-                  \ 'handle': v:true,
-                  \ })
-
-  " Get the position of definition
-  let l:jump_fname = expand('%:p')
-  let l:jump_line = line(".")
-  let l:jump_col = col(".")
-
-  " If the position is the same as previous, ignore the jump action
-  if l:fname == l:jump_fname && l:line == l:jump_line
-    return
-  endif
-
-  " Workaround: Jump to origial file. If the function is in rust, there is a
-  " way to ignore the behaviour
-  if &modified
-    exec 'hide edit'  l:fname
-  else
-    exec 'edit' l:fname
-  endif
-  call cursor(l:line, l:col)
-
-  " Store the original setting
-  let l:ori_wildignore = &wildignore
-  let l:ori_tags = &tags
-
-  " Write a temp tags file
-  let l:temp_tags_fname = tempname()
-  let l:temp_tags_content = printf("%s\t%s\t%s", l:word, l:jump_fname,
-      \ printf("call cursor(%d, %d)", l:jump_line, l:jump_col+1))
-  call writefile([l:temp_tags_content], l:temp_tags_fname)
-
-  " Set temporary new setting
-  set wildignore=
-  let &tags = l:temp_tags_fname
-
-  " Add to new stack
-  execute ":tjump " . l:word
-
-  " Restore original setting
-  let &tags = l:ori_tags
-  let &wildignore = l:ori_wildignore
-
-  " Remove temporary file
-  if filereadable(l:temp_tags_fname)
-    call delete(l:temp_tags_fname, "rf")
-  endif
-endfunction
 
 lua <<
 CorpusDirectories = {
