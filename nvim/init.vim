@@ -124,9 +124,7 @@ autocmd InsertLeave <buffer> silent write
 
 set clipboard+=unnamedplus
 
-" TODO: check help directory
 set undofile
-set undodir=.
 set backupdir=.
 set inccommand=split
 
