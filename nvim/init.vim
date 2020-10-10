@@ -27,14 +27,16 @@ Plug 'Iron-E/nvim-tabmode'
 """""""""""""""""""""""""""""""""""""""
 " Completion
 """""""""""""""""""""""""""""""""""""""
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
 " Provides tag list to lsp so ctrl+t works
 Plug 'ipod825/vim-tabdrop'
 
-" Plug 'neovim/nvim-lspconfig'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -146,11 +148,18 @@ set wildoptions=pum
 "set complete=.,w,b,u,t,i,kspell
 
 " neocomplete like
-set completeopt+=noinsert
+" set completeopt+=noinsert
 " deoplete.nvim recommend
-set completeopt+=noselect
-call deoplete#custom#source('LanguageClient', 'max_menu_width', 150)
-let g:deoplete#enable_at_startup = 1
+" set completeopt+=noselect
+
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing message extra message when using completion
+set shortmess+=c
+
+" call deoplete#custom#source('LanguageClient', 'max_menu_width', 150)
+" let g:deoplete#enable_at_startup = 1
 " call deoplete#custom#set('ultisnips', 'matchers', ['matcher_fuzzy'])
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -160,8 +169,6 @@ if !exists("g:UltiSnipsSnippetDirectories")
 else
   let g:UltiSnipsSnippetDirectories += [$HOME ."/dotrc/vim-snippets"]
 endif
-inoremap <expr><tab> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><s-tab> pumvisible() ? "\<C-p>" : "\<TAB>"
 
 set cmdheight=2
 let g:echodoc#enable_at_startup = 1
@@ -239,35 +246,82 @@ function SetLSPShortcuts()
 endfunction()
 
 " https://github.com/neovim/nvim-lsp#gopls
-" lua << EOF
-" require'nvim_lsp'.gopls.setup{}
-" EOF
+" https://github.com/golang/tools/blob/master/gopls/doc/vim.md
+" https://www.reddit.com/r/neovim/comments/h0ndj0/to_those_who_have_integrated_lsp_functionality/
+lua << EOF
+	local nvim_lsp = require('nvim_lsp')
 
-function SetNativeLSPShortcuts()
-" Implemented methods can be found in runtime/lua/vim/lsp/buf.lua
-" https://neovim.io/doc/user/lsp.html
-" call nvim_lsp#setup("gopls", {})
-" autocmd Filetype rust,python,go,c,cpp setl omnifunc=v:lua.vim.lsp.omnifunc
-	autocmd Filetype go setlocal omnifunc=v:lua.vim.lsp.omnifunc()
-	nnoremap <silent> gld <cmd>lua vim.lsp.buf.declaration()<CR>
-	nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
-	nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-	nnoremap <silent> gh <cmd>lua vim.lsp.buf.hover()<CR>
-	nnoremap <silent> K <cmd>lua vim.lsp.buf.peek_definition()<CR>
-	nnoremap <silent> gli  <cmd>lua vim.lsp.buf.implementation()<CR>
-	nnoremap <silent> gs  <cmd>lua vim.lsp.buf.signature_help()<CR>
-	nnoremap <silent> glt  <cmd>lua vim.lsp.buf.type_definition()<CR>
-	nnoremap <silent> gr  <cmd>lua vim.lsp.buf.references()<CR>
-	nnoremap <silent> ga  <cmd>lua vim.lsp.buf.code_action()<CR>
-	vnoremap <silent> <leader>a <cmd>lua vim.lsp.buf.code_action()<CR>
-	nnoremap <F2> <cmd>lua vim.lsp.buf.rename()<CR>
-endfunction()
+	local on_attach = function(_, bufnr)
+		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+		-- require'diagnostic'.on_attach()
+		require'completion'.on_attach()
 
-augroup LSP
-  autocmd!
-  autocmd FileType go call SetLSPShortcuts()
-  " autocmd FileType go call SetNativeLSPShortcuts()
-augroup END
+		-- Mappings.
+		local opts = { noremap=true, silent=true }
+
+		-- go Declaration
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+		-- go definition
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+		-- Not implemented in gopls
+		-- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.peek_definition()<CR>', opts)
+
+		-- go hover
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+
+		-- go list imlementation
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gli', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+		-- go signature
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+
+		-- go to type
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'glt', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+
+		-- Rename with same keymapping as vscode
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+
+		-- go references
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+
+		-- go line diagnostic
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gld', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
+
+		-- go action
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+		vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>a', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+	end
+
+	nvim_lsp.gopls.setup {
+		on_attach = on_attach,
+		cmd = {"gopls", "serve"},
+		settings = {
+			gopls = {
+				analyses = {
+					unusedparams = true,
+				},
+				staticcheck = true,
+			},
+		},
+	}
+EOF
+
+let g:completion_enable_snippet = 'UltiSnips'
+let g:completion_enable_fuzzy_match = 1
+let g:diagnostic_enable_virtual_text = 1
+
+" fix conflict between completion-nvim and autopairs
+let g:completion_confirm_key = ""
+inoremap <expr> <cr>    pumvisible() ? "\<Plug>(completion_confirm_completion)" : "\<cr>"
+
+" augroup LSP
+"   autocmd!
+"   autocmd FileType go call SetLSPShortcuts()
+" augroup END
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
