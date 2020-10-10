@@ -91,6 +91,8 @@ Plug 'scrooloose/nerdtree'
 
 Plug 'airblade/vim-gitgutter'
 
+Plug 'wincent/corpus'
+
 """""""""""""""""""""""""""""""""""""""
 " Language support
 """""""""""""""""""""""""""""""""""""""
@@ -549,6 +551,9 @@ let g:gitgutter_preview_win_floating = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 
+" markdown.corpus breaks ultisnips
+autocmd BufNewFile,BufRead *.md set syntax=markdown
+
 function! MyGoToDefinition(...) abort
   " ref: https://github.com/davidhalter/jedi-vim/blob/master/pythonx/jedi_vim.py#L329-L345
 
@@ -609,3 +614,25 @@ function! MyGoToDefinition(...) abort
     call delete(l:temp_tags_fname, "rf")
   endif
 endfunction
+
+lua <<
+CorpusDirectories = {
+	['~/work/notes/'] = {
+		autocommit = false,
+		autoreference = true,
+		autotitle = true,
+		base = './',
+		transform = 'web',
+		tags = {'work'},
+	},
+	['~/personal/notes/'] = {
+		autocommit = false,
+		autoreference = true,
+		autotitle = true,
+		base = './',
+		transform = 'web',
+		tags = {'personal'},
+	},
+}
+.
+
