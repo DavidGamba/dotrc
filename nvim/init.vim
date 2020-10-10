@@ -106,6 +106,9 @@ call plug#end()            " required
 " Core
 """""""""""""""""""""""""""""""""""""""
 
+" Map ; to : to avoid having to use the shift key
+nnoremap ; :
+
 command! Config execute ":e $MYVIMRC"
 command! Reload execute "source $MYVIMRC"
 
@@ -325,6 +328,10 @@ inoremap <expr> <cr>    pumvisible() ? "\<Plug>(completion_confirm_completion)" 
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
+" go search
+nmap gs :Rg 
+
+
 " https://github.com/ryanoasis/nerd-fonts/wiki/Codepoint-Conflicts
 " echo $'\uf016'
 " 📂 📄   
@@ -407,8 +414,8 @@ nmap <C-i> <C-a>
 inoremap jj <esc>
 
 " List buffers
-" Mnemonic move-buffer
-nmap <c-m> :Buffers<CR>
+" Mnemonic go buffers
+nnoremap gb :Buffers<CR>
 
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_use_smartsign_us = 1
