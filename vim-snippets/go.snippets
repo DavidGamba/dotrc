@@ -87,6 +87,9 @@ func program(args []string) int {
 
 	err = opt.Dispatch(ctx, "help", remaining)
 	if err != nil {
+		if errors.Is(err, getoptions.ErrorHelpCalled) {
+			return 1
+		}
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 		return 1
 	}
@@ -98,6 +101,31 @@ func Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	return nil
 }
 endsnippet
+
+snippet dispatch
+	ctx, cancel, done := opt.InterruptContext()
+	defer func() { cancel(); <-done }()
+
+	err = opt.Dispatch(ctx, "help", remaining)
+	if err != nil {
+		if errors.Is(err, getoptions.ErrorHelpCalled) {
+			return 1
+		}
+		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+		return 1
+	}
+	return 0
+endsnippet
+
+snippet command
+// ${1:command} -
+func $1(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	Logger.Printf("$1")
+	$0
+	return nil
+}
+endsnippet
+
 
 snippet ife
 if err != nil {
