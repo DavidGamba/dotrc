@@ -45,7 +45,7 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 " Styling
 """""""""""""""""""""""""""""""""""""""
 Plug 'morhetz/gruvbox'
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 " Tagbar like symbol view | Not in use because gopls doesn't support symbols yet.
 "Plug 'liuchengxu/vista.vim'
 
@@ -233,7 +233,6 @@ lua << EOF
 		-- go list imlementation
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gli', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 
-		vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 		-- go signature
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 
@@ -279,7 +278,7 @@ lua << EOF
 		settings = {
 			gopls = {
 				analyses = {
-					unusedparams = true,
+					-- unusedparams = true,
 					unreachable = true,
 				},
 				staticcheck = true,
@@ -303,8 +302,8 @@ inoremap <expr> <cr>    pumvisible() ? "\<Plug>(completion_confirm_completion)" 
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
-" go search
-nmap gs :Rg 
+" search
+nmap <leader>s :Rg<space>
 
 
 " https://github.com/ryanoasis/nerd-fonts/wiki/Codepoint-Conflicts
@@ -352,6 +351,8 @@ let g:gruvbox_italic=1
 let g:gruvbox_contrast_light="hard"
 colorscheme gruvbox
 
+let g:airline#extensions#whitespace#enabled = 1
+let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'conflicts' ]
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_c = '%F'
 
