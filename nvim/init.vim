@@ -24,6 +24,8 @@ Plug 'Iron-E/nvim-libmodal'
 Plug 'DavidGamba/nvim-window-mode'
 Plug 'Iron-E/nvim-tabmode'
 
+Plug 'christoomey/vim-tmux-navigator'
+
 """""""""""""""""""""""""""""""""""""""
 " Completion
 """""""""""""""""""""""""""""""""""""""
