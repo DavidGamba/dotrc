@@ -285,7 +285,7 @@ lua << EOF
 				-- usePlaceholders = true,
 				-- hoverKind = "SingleLine", -- "FullDocumentation" seems broken
 				-- linksInHover = false,
-				experimentalWorkspaceModule  = true,
+				experimentalWorkspaceModule  = false,
 			},
 		},
 	}
