@@ -46,14 +46,28 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 """""""""""""""""""""""""""""""""""""""
 " Styling
 """""""""""""""""""""""""""""""""""""""
-Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
-" Tagbar like symbol view | Not in use because gopls doesn't support symbols yet.
-"Plug 'liuchengxu/vista.vim'
 
+" Use treesitter highlights
+Plug 'nvim-treesitter/nvim-treesitter'
+
+" Add a line of context showing the function when you scroll
+Plug 'romgrk/nvim-treesitter-context'
+
+" Tagbar like symbol view | Not in use because gopls doesn't support symbols yet.
+" Plug 'liuchengxu/vista.vim'
+
+" :SemanticHighlightToggle
 Plug 'jaxbot/semantic-highlight.vim'
 
 Plug 'wfxr/minimap.vim'
+
+
+" colorscheme
+Plug 'NLKNguyen/papercolor-theme'
+" Plug 'Iron-E/nvim-highlite'
+Plug 'morhetz/gruvbox'
+" Plug 'sainnhe/gruvbox-material'
 
 """""""""""""""""""""""""""""""""""""""
 " Text editing
@@ -144,7 +158,7 @@ augroup auto_ch_dir
 	autocmd BufEnter * silent! lcd %:p:h
 augroup END
 
-set spell
+set spell spelllang=en_ca
 "set spellfile=~/vim-local-spell.utf-8.add
 
 """""""""""""""""""""""""""""""""""""""
@@ -291,6 +305,14 @@ lua << EOF
 			},
 		},
 	}
+
+require'nvim-treesitter.configs'.setup {
+	highlight             = { enable = true },
+	indent                = { enable = true },
+	incremental_selection = { enable = true },
+	textobjects           = { enable = true },
+}
+
 EOF
 
 let g:completion_enable_snippet = 'UltiSnips'
@@ -342,7 +364,11 @@ set sidescroll=30 " Jump several characters to the side instead of waiting one a
 set nowrap
 set linebreak " Visually break long lines at 'breakat' character
 set whichwrap=b,s,<,>
-set foldmethod=syntax
+
+" Folding setup
+" set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set foldnestmax=3
 set nofoldenable
 
@@ -351,7 +377,24 @@ set smartcase
 
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light="hard"
-colorscheme gruvbox
+" colorscheme gruvbox
+
+let g:gruvbox_material_background = 'hard'
+let g:gruvbox_material_enable_bold = 1
+let g:gruvbox_material_palette = 'original'
+" colorscheme gruvbox-material
+
+" colorscheme highlite
+
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default': {
+  \       'allow_bold': 1,
+  \       'allow_italic': 1
+  \     }
+  \   }
+  \ }
+colorscheme PaperColor
 
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing', 'conflicts' ]
@@ -530,7 +573,7 @@ au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
 " markdown.corpus breaks ultisnips
 autocmd BufNewFile,BufRead *.md set syntax=markdown
 
-lua <<
+lua << EOF
 CorpusDirectories = {
 	['~/work/notes/'] = {
 		autocommit = false,
@@ -540,7 +583,7 @@ CorpusDirectories = {
 		transform = 'web',
 		tags = {'work'},
 	},
-	['~/personal/notes/'] = {
+	['~/general/projects/notes/'] = {
 		autocommit = false,
 		autoreference = true,
 		autotitle = true,
@@ -549,5 +592,5 @@ CorpusDirectories = {
 		tags = {'personal'},
 	},
 }
-.
+EOF
 
