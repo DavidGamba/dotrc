@@ -68,6 +68,7 @@
 	# Remove branches that have already been merged with master
 	# a.k.a. ‘delete merged’
 	delete-merged = "!git branch --merged | grep -v '\\*' | xargs -n 1 git branch -d; git remote -v update -p"
+	merge-log = "!f() { git log --stat \"$1^..$1\"; }; f"
 
 [help]
 #    autocorrect = 1
