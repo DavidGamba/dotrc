@@ -20,6 +20,9 @@ set menu-complete-display-prefix On
 # Single tab completions
 set show-all-if-ambiguous on
 
+# Disable bell
+set bell-style none
+
 $if mode=vi
 
 set keymap vi-insert
