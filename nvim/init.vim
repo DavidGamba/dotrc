@@ -31,7 +31,6 @@ Plug 'christoomey/vim-tmux-navigator'
 """""""""""""""""""""""""""""""""""""""
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/diagnostic-nvim'
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -223,11 +222,10 @@ nnoremap <F2> :%s/<C-R>///g<left><left>
 " https://github.com/golang/tools/blob/master/gopls/doc/vim.md
 " https://www.reddit.com/r/neovim/comments/h0ndj0/to_those_who_have_integrated_lsp_functionality/
 lua << EOF
-	local nvim_lsp = require('nvim_lsp')
+	local lspconfig = require'lspconfig'
 
 	local on_attach = function(_, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-		require'diagnostic'.on_attach()
 		require'completion'.on_attach()
 
 		-- Mappings.
@@ -284,10 +282,9 @@ lua << EOF
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
 	end
 
-
 	-- custom client capabilities: https://gist.github.com/PatOConnor43/88156409b03794f5e05280dbfb42faa6
 
-	nvim_lsp.gopls.setup {
+	lspconfig.gopls.setup {
 		on_attach = on_attach,
 		cmd = {"gopls", "serve"},
 		-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
@@ -317,7 +314,6 @@ EOF
 
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_enable_fuzzy_match = 1
-let g:diagnostic_enable_virtual_text = 1
 let g:completion_matching_ignore_case = 1
 
 " fix conflict between completion-nvim and autopairs
