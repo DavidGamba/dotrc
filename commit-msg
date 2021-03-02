@@ -1,0 +1,8 @@
+#!/bin/bash
+set -Eeuo pipefail
+
+if ! echo "$1" | grep -Pq '^\w+\(\w+\)'; then
+	echo "ERROR: Wrong message format, expected: <type>(<component>) <desc>"
+	echo "> example types: chore,feat,fix,refactor,style,doc,test,version,wip"
+	exit 1
+fi
