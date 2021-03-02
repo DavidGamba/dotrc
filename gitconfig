@@ -33,6 +33,9 @@
 [diff]
 	noprefix = true
 
+[commit]
+	template = ~/dotrc/git-commit-template
+
 [alias]
 	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
 	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
