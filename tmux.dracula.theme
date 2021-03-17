@@ -40,5 +40,5 @@ set-option -g window-status-format "#[bg=#90a7dd,fg=#282a36] #I:#W "
 # Remove padding at the left hand side
 set -g status-left ""
 # Show a clock at the right hand side
-set -g status-right "#[bg=#68789e,fg=#f8f8f2,bold] 🗒  %F ⌚ %H:%M "
+set -g status-right "#[bg=#68789e,fg=#f8f8f2,bold] 📅 %F 🕘 %H:%M"
 # set -g status-right "#[bg=#68789e,fg=#f8f8f2,bold]   %F %H:%M "
