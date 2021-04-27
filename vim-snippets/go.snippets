@@ -2,6 +2,7 @@ snippet new
 package main
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -10,7 +11,7 @@ import (
 	"github.com/DavidGamba/go-getoptions"
 )
 
-var logger = log.New(ioutil.Discard, "", log.LstdFlags)
+var Logger = log.New(ioutil.Discard, "", log.LstdFlags)
 
 func main() {
 	os.Exit(program(os.Args))
@@ -30,10 +31,14 @@ func program(args []string) int {
 		return 1
 	}
 	if opt.Called("debug") {
-		logger.SetOutput(os.Stderr)
+		Logger.SetOutput(os.Stderr)
 	}
-	logger.Println(remaining)
-	err = realMain()
+	Logger.Println(remaining)
+
+	ctx, cancel, done := opt.InterruptContext()
+	defer func() { cancel(); <-done }()
+
+	err = realMain(ctx)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 		return 1
@@ -41,7 +46,7 @@ func program(args []string) int {
 	return 0
 }
 
-func realMain() error {
+func realMain(ctx context.Context) error {
 	return nil
 }
 endsnippet
