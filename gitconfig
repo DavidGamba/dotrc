@@ -40,7 +40,7 @@
 	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
 	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
 
-	lg = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ar, %an)%Creset %n%b' --no-prefix
+	lg = log --date=format:'%Y-%m-%d %H:%M' --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ad, %an)%Creset %n%b' --no-prefix
 	date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
 	st = status --short --branch --untracked-files=no
 	stu = status --short --branch
