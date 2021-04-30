@@ -150,6 +150,7 @@ alias tinit='time ./terraform init'
 alias tplan='time ./terraform plan -no-color -out tf.plan'
 alias tapply='time ./terraform apply -input tf.plan'
 alias tcopy='./terraform show -no-color tf.plan | copy'
+alias tshow='./terraform show tf.plan'
 
 if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
