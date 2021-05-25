@@ -148,7 +148,7 @@ alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias myip="curl https://ifconfig.co"
 alias tinit='time ./terraform init'
 alias tplan='time ./terraform plan -no-color -out tf.plan'
-alias tapply='time ./terraform apply -input tf.plan'
+alias tapply='time ./terraform apply -input tf.plan && rm tf.plan'
 alias tcopy='./terraform show -no-color tf.plan | copy'
 alias tshow='./terraform show tf.plan'
 
