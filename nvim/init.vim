@@ -84,6 +84,8 @@ Plug 'vim-scripts/vis' " Visual mode B
 " <leader>e to search/replace word under cursor
 Plug 'wincent/scalpel'
 
+Plug 'bfredl/nvim-miniyank'
+
 
 """""""""""""""""""""""""""""""""""""""
 " Tools
@@ -401,6 +403,14 @@ let g:airline_section_c = '%F'
 " https://ddrscott.github.io/blog/2016/yank-without-jank/
 vnoremap <expr>y "my\"" . v:register . "y`y"
 vnoremap Y myY`y
+
+"""""""""""""""""""""""""""""""""""""""
+" bfredl/nvim-miniyank
+map p <Plug>(miniyank-autoput)
+map P <Plug>(miniyank-autoPut)
+map <leader>n <Plug>(miniyank-cycle)
+map <leader>N <Plug>(miniyank-cycleback)
+"""""""""""""""""""""""""""""""""""""""
 
 hi MyNormalNC ctermbg=darkblue guibg='#32302f'
 set winhighlight=NormalNC:MyNormalNC
