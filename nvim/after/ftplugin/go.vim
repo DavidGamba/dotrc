@@ -8,5 +8,3 @@ autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
 setlocal signcolumn=yes
 
 nnoremap <leader>t :!go test ./...<CR>
-
-set nospell
