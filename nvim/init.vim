@@ -105,6 +105,9 @@ Plug 'airblade/vim-gitgutter'
 
 Plug 'wincent/corpus'
 
+" Git support
+Plug 'tpope/vim-fugitive'
+
 """""""""""""""""""""""""""""""""""""""
 " Language support
 """""""""""""""""""""""""""""""""""""""
