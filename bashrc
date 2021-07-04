@@ -276,5 +276,6 @@ fi
 
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
+complete -C $HOME/opt/bin/aws_completer aws
 
 complete -C ~/general/code/go/src/github.com/DavidGamba/go-completion/go-completion go-completion
