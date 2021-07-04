@@ -165,8 +165,7 @@ augroup auto_ch_dir
 	autocmd BufEnter * silent! lcd %:p:h
 augroup END
 
-set spell spelllang=en_ca
-"set spellfile=~/vim-local-spell.utf-8.add
+set diffopt=internal,filler,closeoff,algorithm:minimal
 
 """""""""""""""""""""""""""""""""""""""
 " Completion
@@ -412,6 +411,14 @@ let g:airline_section_c = '%F'
 " https://ddrscott.github.io/blog/2016/yank-without-jank/
 vnoremap <expr>y "my\"" . v:register . "y`y"
 vnoremap Y myY`y
+
+"""""""""""""""""""""""""""""""""""""""
+" Spell and highlights
+"""""""""""""""""""""""""""""""""""""""
+set spell spelllang=en_ca
+hi clear SpellBad
+hi SpellBad term=undercurl cterm=undercurl gui=undercurl guisp=Red
+"set spellfile=~/vim-local-spell.utf-8.add
 
 """""""""""""""""""""""""""""""""""""""
 " bfredl/nvim-miniyank
