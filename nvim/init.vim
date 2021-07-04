@@ -86,6 +86,8 @@ Plug 'wincent/scalpel'
 
 Plug 'bfredl/nvim-miniyank'
 
+" <leader>sf
+Plug 'obreitwi/vim-sort-folds'
 
 """""""""""""""""""""""""""""""""""""""
 " Tools
