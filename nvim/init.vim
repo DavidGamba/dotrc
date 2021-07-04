@@ -113,6 +113,7 @@ Plug 'tpope/vim-fugitive'
 """""""""""""""""""""""""""""""""""""""
 Plug 'hashivim/vim-terraform', { 'for': ['terraform'] }
 Plug 'suoto/vim-antlr', { 'for': ['antlr4'] }
+Plug 'sebdah/vim-delve', { 'for': ['go'] }
 
 " All of your Plugins must be added before the following line
 call plug#end()            " required
