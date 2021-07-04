@@ -278,4 +278,5 @@ complete -o default -C ffind ffind
 complete -o default -C grepp grepp
 complete -C $HOME/opt/bin/aws_completer aws
 
-complete -C ~/general/code/go/src/github.com/DavidGamba/go-completion/go-completion go-completion
+# Consider personal repos as private and don't check their checksums against Go Proxy
+export GOPRIVATE="${GOPRIVATE}:github.com/DavidGamba"
