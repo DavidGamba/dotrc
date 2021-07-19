@@ -36,8 +36,8 @@ Plug 'nvim-lua/completion-nvim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/echodoc.vim'
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Plug 'Shougo/echodoc.vim'
 Plug 'neomake/neomake'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
@@ -51,7 +51,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'nvim-treesitter/nvim-treesitter'
 
 " Add a line of context showing the function when you scroll
-Plug 'romgrk/nvim-treesitter-context'
+" Plug 'romgrk/nvim-treesitter-context'
 
 " Tagbar like symbol view | Not in use because gopls doesn't support symbols yet.
 " Plug 'liuchengxu/vista.vim'
@@ -231,9 +231,9 @@ nnoremap <F2> :%s/<C-R>///g<left><left>
 lua << EOF
 	local lspconfig = require'lspconfig'
 
-	local on_attach = function(_, bufnr)
+	local on_attach = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-		require'completion'.on_attach()
+		-- require'completion'.on_attach()
 
 		-- Mappings.
 		local opts = { noremap=true, silent=true }
@@ -269,6 +269,9 @@ lua << EOF
 		-- go line diagnostic
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gld', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>', opts)
 
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+		vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+
 		-- go action
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 		-- vim.api.nvim_buf_set_keymap(bufnr, 'v', '<leader>a', '<cmd>lua vim.lsp.buf.range_code_action()<CR>', opts)
@@ -287,13 +290,27 @@ lua << EOF
 
 		-- go Workspace
 		vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>', opts)
+
+		-- Set autocommands conditional on server_capabilities
+		if client.resolved_capabilities.document_highlight then
+			vim.api.nvim_exec([[
+				hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
+				hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
+				hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
+				augroup lsp_document_highlight
+					autocmd! * <buffer>
+					autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+					autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+				augroup END
+			]], false)
+		end
+
 	end
 
 	-- custom client capabilities: https://gist.github.com/PatOConnor43/88156409b03794f5e05280dbfb42faa6
 
 	lspconfig.gopls.setup {
 		on_attach = on_attach,
-		cmd = {"gopls", "serve"},
 		-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 		settings = {
 			gopls = {
@@ -305,7 +322,7 @@ lua << EOF
 				-- usePlaceholders = true,
 				-- hoverKind = "SingleLine", -- "FullDocumentation" seems broken
 				-- linksInHover = false,
-				experimentalWorkspaceModule  = false,
+				-- experimentalWorkspaceModule  = false,
 			},
 		},
 	}
@@ -322,13 +339,21 @@ require'nvim-treesitter.configs'.setup {
 
 EOF
 
+"""""" nvim-lua/completion-nvim
+autocmd BufEnter * lua require'completion'.on_attach()
+
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_enable_fuzzy_match = 1
 let g:completion_matching_ignore_case = 1
+" possible value: "length", "alphabet", "none"
+let g:completion_sorting = "none"
 
-" fix conflict between completion-nvim and autopairs
-let g:completion_confirm_key = ""
-inoremap <expr> <cr>    pumvisible() ? "\<Plug>(completion_confirm_completion)" : "\<cr>"
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+
+" Avoid showing extra message when using completion
+set shortmess+=c
+""""""
 
 let g:fzf_layout = { 'up': '~40%' }
 nmap <C-p> :Files<CR>
