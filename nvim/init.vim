@@ -204,11 +204,6 @@ let g:echodoc#type = 'signature'
 autocmd! BufWritePost * Neomake
 let g:neomake_shellcheck_args = ['-fgcc']
 
-" Launch gopls when Go files are in use
-let g:LanguageClient_serverCommands = {
-	\ 'go': ['gopls']
-	\ }
-
 nnoremap <F2> :%s/<C-R>///g<left><left>
 
 " TODO:
