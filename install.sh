@@ -140,6 +140,7 @@ function install_dotrc() {
 	create_link_for "$HOME/.hgrc"       "dotrc/hgrc"
 	create_link_for "$HOME/.nvimrc"     "dotrc/nvimrc"
 	create_link_for "$HOME/.config/nvim" "$HOME/dotrc/nvim"
+	create_link_for "$HOME/.terraformrc"  "dotrc/terraformrc"
 
 	echo done installing dotrc!
 }
