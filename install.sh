@@ -200,7 +200,7 @@ function install_nvim() {
 	echo "Download app image"
 	mkdir -p $HOME/opt/bin
 	cd $HOME/opt/
-	curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim.appimage
+	curl -LO https://github.com/neovim/neovim/releases/download/v0.5.1/nvim.appimage
 	chmod u+x nvim.appimage
 	echo "Download app image update tool"
 	wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O "$HOME/opt/bin/appimageupdatetool"

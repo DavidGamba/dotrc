@@ -30,7 +30,12 @@ Plug 'christoomey/vim-tmux-navigator'
 " Completion
 """""""""""""""""""""""""""""""""""""""
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+" Plug 'nvim-lua/completion-nvim'
+
+" https://github.com/hrsh7th/nvim-cmp/
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -41,6 +46,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'neomake/neomake'
 
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 """""""""""""""""""""""""""""""""""""""
 " Styling
@@ -179,10 +185,11 @@ set wildoptions=pum
 " set completeopt+=noselect
 
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
+" set completeopt=menuone,noinsert,noselect
+set completeopt=menu,menuone,noselect
 
 " Avoid showing message extra message when using completion
-set shortmess+=c
+" set shortmess+=c
 
 " call deoplete#custom#source('LanguageClient', 'max_menu_width', 150)
 " let g:deoplete#enable_at_startup = 1
@@ -224,7 +231,7 @@ nnoremap <F2> :%s/<C-R>///g<left><left>
 " https://github.com/golang/tools/blob/master/gopls/doc/vim.md
 " https://www.reddit.com/r/neovim/comments/h0ndj0/to_those_who_have_integrated_lsp_functionality/
 lua << EOF
-	local lspconfig = require'lspconfig'
+	local lspconfig = require('lspconfig')
 
 	local on_attach = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -302,10 +309,38 @@ lua << EOF
 
 	end
 
+	-- Setup nvim-cmp.
+	local cmp = require'cmp'
+
+	cmp.setup({
+		snippet = {
+			expand = function(args)
+				-- For `ultisnips` user.
+				vim.fn["UltiSnips#Anon"](args.body)
+			end,
+		},
+		mapping = {
+			['<C-d>'] = cmp.mapping.scroll_docs(-4),
+			['<C-f>'] = cmp.mapping.scroll_docs(4),
+			['<C-Space>'] = cmp.mapping.complete(),
+			['<C-e>'] = cmp.mapping.close(),
+			['<CR>'] = cmp.mapping.confirm({ select = true }),
+		},
+		sources = {
+			{ name = 'nvim_lsp' },
+
+			-- For ultisnips user.
+			{ name = 'ultisnips' },
+
+			{ name = 'buffer' },
+		}
+	})
+
 	-- custom client capabilities: https://gist.github.com/PatOConnor43/88156409b03794f5e05280dbfb42faa6
 
 	lspconfig.gopls.setup {
 		on_attach = on_attach,
+		-- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
 		-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 		settings = {
 			gopls = {
@@ -335,13 +370,16 @@ require'nvim-treesitter.configs'.setup {
 EOF
 
 """""" nvim-lua/completion-nvim
-autocmd BufEnter * lua require'completion'.on_attach()
+" autocmd BufEnter * lua require'completion'.on_attach()
 
 let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_enable_fuzzy_match = 1
 let g:completion_matching_ignore_case = 1
 " possible value: "length", "alphabet", "none"
 let g:completion_sorting = "none"
+
+"map <c-p> to manually trigger completion
+imap <silent> <c-p> <Plug>(completion_trigger)
 
 " Set completeopt to have a better completion experience
 set completeopt=menuone,noinsert,noselect
