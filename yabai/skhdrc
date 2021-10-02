@@ -1,0 +1,20 @@
+#shift + cmd - l : yabai -m window --swap east
+#shift + cmd - h : yabai -m window --swap west
+#shift + cmd - j : yabai -m window --swap south
+#shift + cmd - k : yabai -m window --swap north
+shift + cmd - l : yabai -m window --swap east
+shift + cmd - h : yabai -m window --swap west
+shift + cmd - k : yabai -m window --swap north
+shift + cmd - j : yabai -m window --swap south
+
+cmd - left : yabai -m window --swap west
+cmd - right : yabai -m window --swap east
+cmd - up : yabai -m window --swap north
+cmd - down : yabai -m window --swap south
+
+shift + cmd - left : /Users/david/dotrc/yabai/move_window_left.sh
+shift + cmd - right : /Users/david/dotrc/yabai/move_window_right.sh
+
+shift + cmd - s : yabai -m window --stack next
+shift + cmd - u : yabai -m window --warp next
+shift + cmd - r : yabai -m space --layout bsp
