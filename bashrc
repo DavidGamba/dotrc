@@ -78,7 +78,7 @@ path_prepend "$HOME/go/bin"     # Go binaries
 path_prepend "/snap/bin"        # Snap binaries
 path_prepend "$HOME/local/bin"
 path_prepend "$HOME/opt/bin"
-path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/private-bin"
 
