@@ -1,0 +1,8 @@
+Include work_config
+Include private_config
+
+Host *
+	IgnoreUnknown UseKeychain
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/id_rsa
