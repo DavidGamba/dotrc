@@ -27,14 +27,19 @@ function cdd()
 		# will change dir to /home/david/qa/a/b
 		local dir
 		dir=$(__cdd_find_in_path "$*")
+		# >&2 echo "found: $dir"
 		retval=$?
 		if [[ $retval -eq 1 ]]; then
 			cd "$*"
 		else
 			local rel
-			rel=$(echo "$PWD" | sed "s!^$dir/[^/]\+!!")
-			# echo "pwd $PWD, dir $dir, rel $rel"
-			# echo "$dir/$1/$rel"
+			if [[ $(uname) =~ "Darwin" ]]; then
+				rel=$(echo "$PWD" | sed -E "s#^$dir/[^/]+##")
+			else
+				rel=$(echo "$PWD" | sed "s#^$dir/[^/]\+##")
+			fi
+			# >&2 echo "pwd $PWD, dir $dir, rel $rel"
+			# >&2 echo "$dir/$1/$rel"
 			cd "$dir/$1/$rel"
 		fi
 	fi
