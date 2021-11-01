@@ -5,8 +5,8 @@ function git_repo {
         PROMT_CHAR='$'
 }
 function smiley {
-    [ $RET -eq 0 ] && echo -ne "\e[37;1m:)"
-    [ $RET -ne 0 ] && echo -ne "\e[31;1m⛔ 🙄 ⛔"
+    [ $RET -eq 0 ] && echo -ne "👌"
+    [ $RET -ne 0 ] && echo -ne "⛔ 🙄 ⛔"
     # [ $RET -ne 0 ] && echo -ne "\e[31;1m:("
 }
 function ps1() {
