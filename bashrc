@@ -156,6 +156,9 @@ if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
 	alias copy-file='win32yank.exe -i <<<'
 	alias copy-path='pwd | tr -d "\n" | win32yank.exe -i'
+elif [[ $(uname) =~ "Darwin" ]]; then
+	alias copy-file='pbcopy <'
+	alias copy-path='pwd | tr -d "\n" | pbcopy'
 else
 	# alias copy-file="xsel -i -b < "
 	alias copy-file='xclip -selection clipboard'
