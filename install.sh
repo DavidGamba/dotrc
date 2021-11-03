@@ -190,6 +190,12 @@ function install_bin() {
 	create_link_for "$HOME/bin/password-cache" "$CODE_DIR/dgtools/password-cache/password-cache"
 	cd "$CODE_DIR/dgtools/password-cache/" && go build
 
+	create_link_for "$HOME/bin/yaml-parse" "$CODE_DIR/dgtools/yaml-parse/yaml-parse"
+	cd "$CODE_DIR/dgtools/yaml-parse/" && go build
+
+	create_link_for "$HOME/bin/webserve" "$CODE_DIR/dgtools/webserve/webserve"
+	cd "$CODE_DIR/dgtools/webserve/" && go build
+
 	echo done installing bin!
 }
 
