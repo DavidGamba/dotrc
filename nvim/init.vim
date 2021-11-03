@@ -30,12 +30,13 @@ Plug 'christoomey/vim-tmux-navigator'
 " Completion
 """""""""""""""""""""""""""""""""""""""
 Plug 'neovim/nvim-lspconfig'
-" Plug 'nvim-lua/completion-nvim'
-
-" https://github.com/hrsh7th/nvim-cmp/
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
+
+Plug 'ray-x/lsp_signature.nvim'
 
 " (Optional) Multi-entry selection UI.
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -166,17 +167,16 @@ set inccommand=split
 " autochdir conflicts with dirvish
 " https://github.com/justinmk/vim-dirvish/issues/19
 set noautochdir
-augroup auto_ch_dir
-	autocmd!
-	autocmd BufEnter * silent! lcd %:p:h
-augroup END
+" augroup auto_ch_dir
+" 	autocmd!
+" 	autocmd BufEnter * silent! lcd %:p:h
+" augroup END
 
 set diffopt=internal,filler,closeoff,algorithm:minimal
 
 """""""""""""""""""""""""""""""""""""""
 " Completion
 """""""""""""""""""""""""""""""""""""""
-set wildoptions=pum
 "set complete=.,w,b,u,t,i,kspell
 
 " neocomplete like
@@ -236,6 +236,8 @@ lua << EOF
 	local on_attach = function(client, bufnr)
 		vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 		-- require'completion'.on_attach()
+
+		require "lsp_signature".on_attach()
 
 		-- Mappings.
 		local opts = { noremap=true, silent=true }
@@ -315,32 +317,43 @@ lua << EOF
 	cmp.setup({
 		snippet = {
 			expand = function(args)
-				-- For `ultisnips` user.
-				vim.fn["UltiSnips#Anon"](args.body)
+			-- For `ultisnips` user.
+			vim.fn["UltiSnips#Anon"](args.body)
 			end,
 		},
 		mapping = {
-			['<C-d>'] = cmp.mapping.scroll_docs(-4),
-			['<C-f>'] = cmp.mapping.scroll_docs(4),
-			['<C-Space>'] = cmp.mapping.complete(),
-			['<C-e>'] = cmp.mapping.close(),
+			['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+			['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+			['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+			-- ['<C-y>'] = cmp.config.disable, -- remove the default `<C-y>` mapping.
 			['<CR>'] = cmp.mapping.confirm({ select = true }),
 		},
-		sources = {
+		sources = cmp.config.sources({
 			{ name = 'nvim_lsp' },
 
 			-- For ultisnips user.
 			{ name = 'ultisnips' },
 
 			{ name = 'buffer' },
-		}
+		})
 	})
+
+	cmp.setup.cmdline('/', { sources = { { name = 'buffer' } } } )
+
+	cmp.setup.cmdline(':', {
+		sources = cmp.config.sources({
+			{ name = 'path' },
+			{ name = 'cmdline' },
+		}),
+	})
+
+	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 	-- custom client capabilities: https://gist.github.com/PatOConnor43/88156409b03794f5e05280dbfb42faa6
 
 	lspconfig.gopls.setup {
 		on_attach = on_attach,
-		-- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+		capabilities = capabilities,
 		-- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
 		settings = {
 			gopls = {
@@ -540,9 +553,7 @@ nmap <DOWN> <C-E>
 " This maps Leader + e to exit terminal mode.
 tnoremap <Leader>e <C-\><C-n>
 
-if has('nvim')
-	nmap <BS> <C-h>
-endif
+nmap <BS> <C-h>
 
 " Move around splits
 nmap <C-J> :wincmd j<CR>
