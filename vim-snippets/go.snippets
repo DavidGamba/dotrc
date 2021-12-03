@@ -173,6 +173,11 @@ for _, test := range tests {
 }
 endsnippet
 
+snippet trun
+	t.Run("$0", func(t *testing.T) {
+	})
+endsnippet
+
 snippet iota
 const (
   A = iota
