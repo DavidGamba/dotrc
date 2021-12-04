@@ -135,24 +135,18 @@ vim.cmd('map <Leader>k <Plug>(easymotion-k)')
 -- nnoremap Y y$
 --
 
--- function! Preserve(command)
---   " Preparation: save last search, and cursor position.
---   let _s=@/
---   let l = line(".")
---   let c = col(".")
---   " Do the business:
---   execute a:command
---   " Clean up: restore previous search history, and cursor position
---   let @/=_s
---   call cursor(l, c)
--- endfunction
--- " Remove trailing spaces
--- nmap _$ :call Preserve("%s/\\s\\+$//e")<CR>
--- " Indent entire file
--- nmap _= :call Preserve("normal gg=G")<CR>
+-- https://bit.ly/3g6vYIW
+function _G.preserve(cmd)
+    cmd = string.format('keepjumps keeppatterns execute %q', cmd)
+    local original_cursor = vim.fn.winsaveview()
+    vim.api.nvim_command(cmd)
+    vim.fn.winrestview(original_cursor)
+end
+map('n', '_$', [[:lua preserve('%s/\\s\\+$//e')<CR>]]) -- Remove trailing spaces
+-- map('n', '_=', [[:lua preserve("normal gg=G")<CR>]]) -- Indent entire file
 
--- " Buffer delete
--- nmap <leader>d :bp<bar>sp<bar>bn<bar>bd<CR>
+
+map('n', '<leader>d', ':bp<bar>sp<bar>bn<bar>bd<CR>') -- Buffer delete
 
 -- " restore position in file
 -- au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif

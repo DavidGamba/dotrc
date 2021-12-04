@@ -63,3 +63,5 @@ vim.cmd('set nofoldenable')
 
 vim.cmd('set ignorecase')
 vim.cmd('set smartcase')
+
+vim.api.nvim_command("autocmd FileType asciidoc set expandtab")
