@@ -164,3 +164,10 @@ map('n', '<leader>d', ':bp<bar>sp<bar>bn<bar>bd<CR>') -- Buffer delete
 -- nmap [h <Plug>(GitGutterPrevHunk)
 -- nmap <leader>h <Plug>(GitGutterPreviewHunk)
 -- let g:gitgutter_preview_win_floating = 0
+
+-- Debugging
+map('n', '<leader>td', ":lua require('dap-go').debug_test()<CR>:lua require('dapui').toggle()<CR>")
+map('n', '<leader>tb', ":lua require('dap').toggle_breakpoint()<CR>")
+map('n', 'dc', ":lua require('dap').continue()<CR>:lua require('dapui').toggle()<CR>")
+map('n', '<F10>', ":lua require('dap').step_over()<CR>")
+map('n', '<F11>', ":lua require('dap').step_into()<CR>")
