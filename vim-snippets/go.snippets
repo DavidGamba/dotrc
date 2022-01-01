@@ -4,14 +4,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 
 	"github.com/DavidGamba/go-getoptions"
 )
 
-var Logger = log.New(ioutil.Discard, "", log.LstdFlags)
+var Logger = log.New(io.Discard, "", log.LstdFlags)
 
 func main() {
 	os.Exit(program(os.Args))
@@ -35,10 +35,10 @@ func program(args []string) int {
 	}
 	Logger.Println(remaining)
 
-	ctx, cancel, done := opt.InterruptContext()
+	ctx, cancel, done := getoptions.InterruptContext()
 	defer func() { cancel(); <-done }()
 
-	err = realMain(ctx)
+	err = run(ctx)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
 		return 1
@@ -46,7 +46,7 @@ func program(args []string) int {
 	return 0
 }
 
-func realMain(ctx context.Context) error {
+func run(ctx context.Context) error {
 	return nil
 }
 endsnippet
@@ -58,14 +58,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 
 	"github.com/DavidGamba/go-getoptions"
 )
 
-var Logger = log.New(ioutil.Discard, "", log.LstdFlags)
+var Logger = log.New(io.Discard, "", log.LstdFlags)
 
 func main() {
 	os.Exit(program(os.Args))
@@ -73,11 +73,10 @@ func main() {
 
 func program(args []string) int {
 	opt := getoptions.New()
-	opt.Bool("help", false, opt.Alias("?"))
 	opt.Bool("debug", false, opt.GetEnv("DEBUG"))
 	opt.SetUnknownMode(getoptions.Pass)
 	opt.NewCommand("cmd", "description").SetCommandFn(Run)
-	opt.HelpCommand("")
+	opt.HelpCommand("help", opt.Alias("?"))
 	remaining, err := opt.Parse(args[1:])
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
@@ -88,10 +87,10 @@ func program(args []string) int {
 	}
 	Logger.Println(remaining)
 
-	ctx, cancel, done := opt.InterruptContext()
+	ctx, cancel, done := getoptions.InterruptContext()
 	defer func() { cancel(); <-done }()
 
-	err = opt.Dispatch(ctx, "help", remaining)
+	err = opt.Dispatch(ctx, remaining)
 	if err != nil {
 		if errors.Is(err, getoptions.ErrorHelpCalled) {
 			return 1
