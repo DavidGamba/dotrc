@@ -1,0 +1,4 @@
+github.com/DavidGamba/dgtools/fsmodtime v0.0.0-20211119051643-503788f3770b h1:D8ZNJ7f8sPyuLrNL1xYV+fOmmhC4VQ9uVFwIAhnwWh0=
+github.com/DavidGamba/dgtools/fsmodtime v0.0.0-20211119051643-503788f3770b/go.mod h1:ruwqMvW2pWDbSQlAupP7F0QaojfbuXPyUOUKR4Ev3pQ=
+github.com/DavidGamba/go-getoptions v0.25.0 h1:lc66nzD7BPN9RtNN6us8FWFFUjKi7C4+EF8MPMj+I9U=
+github.com/DavidGamba/go-getoptions v0.25.0/go.mod h1:qLaLSYeQ8sUVOfKuu5JT5qKKS3OCwyhkYSJnoG+ggmo=
