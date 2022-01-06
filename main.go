@@ -7,9 +7,12 @@ import (
 	"io"
 	"log"
 	"os"
-	"time"
+	"path/filepath"
+	"strings"
 
+	"github.com/DavidGamba/dgtools/buildutils"
 	"github.com/DavidGamba/dgtools/fsmodtime"
+	"github.com/DavidGamba/dgtools/run"
 	"github.com/DavidGamba/go-getoptions"
 )
 
@@ -22,8 +25,12 @@ func main() {
 func program(args []string) int {
 	opt := getoptions.New()
 	opt.Bool("quiet", false)
-	opt.SetUnknownMode(getoptions.Pass)
-	opt.NewCommand("cmd", "description").SetCommandFn(Run)
+	opt.NewCommand("symlinks", "Install dotrc files").SetCommandFn(DotRCSymlinks)
+	opt.NewCommand("nvim", "Install Neovim").SetCommandFn(NeovimInstall)
+	opt.NewCommand("tmux", "Install TMUX").SetCommandFn(TMuxInstall)
+	opt.NewCommand("awscli", "Install AWS CLI v2").SetCommandFn(AWSCLIInstall)
+	opt.NewCommand("dev", "Setup dev environment").SetCommandFn(DevDeps)
+	opt.NewCommand("toolbox", "Setup toolbox").SetCommandFn(ToolBox)
 	opt.HelpCommand("help", opt.Alias("?"))
 	remaining, err := opt.Parse(args[1:])
 	if err != nil {
@@ -38,6 +45,12 @@ func program(args []string) int {
 	ctx, cancel, done := getoptions.InterruptContext()
 	defer func() { cancel(); <-done }()
 
+	err = checkSelf(ctx)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "ERROR: %s\n", err)
+		return 1
+	}
+
 	err = opt.Dispatch(ctx, remaining)
 	if err != nil {
 		if errors.Is(err, getoptions.ErrorHelpCalled) {
@@ -49,66 +62,278 @@ func program(args []string) int {
 	return 0
 }
 
-func Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
-	Logger.Printf("Running")
+func checkSelf(ctx context.Context) error {
+	wd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	err = buildutils.CDGitRepoRoot()
+	if err != nil {
+		return err
+	}
+	files, modified, err := fsmodtime.Target(os.DirFS("."),
+		[]string{"build"},
+		[]string{"go.mod", "go.sum", "*.go"})
+	if err != nil {
+		return err
+	}
+	if modified {
+		Logger.Printf("file modified: %v\n", files)
+		err := run.CMD("go", "build", "-o", "build").Log().Run()
+		if err != nil {
+			return fmt.Errorf("failed to rebuild itself: %w", err)
+		}
+		return fmt.Errorf("source files changed so the binary was rebuilt: plese run again!")
+	}
+	err = os.Chdir(wd)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	Logger.Printf("DotRCSymlinks")
 
-	dirs, err := fsmodtime.ExpandEnv([]string{"$HOME/opt", "$HOME/mnt", "$HOME/general/code", "$HOME/general/projects", "$HOME/work"})
+	os.Chdir(os.Getenv("HOME"))
+
+	dirs, err := fsmodtime.ExpandEnv([]string{
+		"$HOME/opt/bin",
+		"$HOME/mnt",
+		"$HOME/general/code",
+		"$HOME/general/projects",
+		"$HOME/work",
+		"$HOME/.ssh",
+		"$HOME/.aws",
+		"$HOME/.terraform.d/plugin-cache",
+	})
 	if err != nil {
 		return err
 	}
 	for _, d := range dirs {
+		Logger.Printf("Create dir %s\n", d)
 		err := os.MkdirAll(d, 0755)
 		if err != nil {
 			return err
 		}
 	}
 
-	symlink := func(target, name string) {
-		if err != nil {
-			return
-		}
-		_ = os.Remove(name)
-		err = os.Symlink(target, name)
+	cg := CMDGroup{}
+	cg.symlink("dotrc/bashrc", "$HOME/.bashrc")
+	cg.symlink("dotrc/screenrc", "$HOME/.screenrc")
+	cg.symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
+	cg.symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
+	cg.symlink("dotrc/inputrc", "$HOME/.inputrc")
+	cg.symlink("dotrc/gitignore", "$HOME/.gitignore")
+	cg.symlink("dotrc/gitconfig", "$HOME/.gitconfig")
+	cg.symlink("dotrc/hgrc", "$HOME/.hgrc")
+	cg.symlink("dotrc/nvimrc", "$HOME/.nvimrc")
+	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
+	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
+	cg.symlink("$HOME/opt/nvim.appimage", "$HOME/opt/bin/nvim")
+
+	return err
+}
+
+func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	version := "0.6.1"
+	Logger.Printf("NVIM %s\n", version)
+
+	os.Chdir(os.Getenv("HOME") + "/opt")
+
+	cg := CMDGroup{}
+	cg.cmd("sudo yum install git xclip")
+	cg.cmd("python3 -m pip install --user --upgrade pynvim")
+	cg.cmdIgnore("python2 -m pip install --user --upgrade pynvim")
+	cg.cmd(fmt.Sprintf("curl -LO https://github.com/neovim/neovim/releases/download/v%s/nvim.appimage", version))
+	cg.cmd("chmod u+x nvim.appimage")
+	// Download app image update tool
+	// cmd("wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O bin/appimageupdatetool")
+	// cmd("chmod u+x bin/appimageupdatetool")
+	// "$HOME/opt/bin/appimageupdatetool" "$HOME/opt/nvim.appimage"
+
+	return cg.Error
+}
+
+func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	os.Chdir(os.Getenv("HOME"))
+
+	out, err := run.CMD("curl", "https://sh.rustup.rs", "-sSf").Log().PrintErr().STDOutOutput()
+	if err != nil {
+		return err
 	}
-
-	symlink("dotrc/bashrc", "$HOME/.bashrc")
-	symlink("dotrc/screenrc", "$HOME/.screenrc")
-	symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
-	symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
-	symlink("dotrc/inputrc", "$HOME/.inputrc")
-	symlink("dotrc/gitignore", "$HOME/.gitignore")
-	symlink("dotrc/gitconfig", "$HOME/.gitconfig")
-	symlink("dotrc/hgrc", "$HOME/.hgrc")
-	symlink("dotrc/nvimrc", "$HOME/.nvimrc")
-	symlink("$HOME/dotrc/nvim", "$HOME/.config/nvim")
-	symlink("dotrc/terraformrc", "$HOME/.terraformrc")
-
+	err = run.CMD("sh").Log().PrintErr().In(out).Run()
 	if err != nil {
 		return err
 	}
 
-	return nil
+	cg := CMDGroup{}
+	cg.cmd("go install golang.org/x/tools/gopls@latest")
+	cg.cmd("go install arp242.net/uni@latest")
+
+	cg.cmd("cargo install diffr")
+	cg.cmd("cargo install ripgrep")
+	cg.cmd("cargo install tealdeer")
+	cg.cmd("cargo install code-minimap")
+
+	cg.cmd("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
+	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
+	cg.cmd("git pull")
+	cg.cmd("$HOME/.fzf/install")
+
+	return cg.Error
 }
 
-func touch(filename string) error {
-	_, err := os.Stat(filename)
-	if os.IsNotExist(err) {
-		file, err := os.Create(filename)
-		if err != nil {
-			return err
-		}
-		defer file.Close()
-	} else {
-		currentTime := time.Now().Local()
-		err = os.Chtimes(filename, currentTime, currentTime)
-		if err != nil {
-			return err
-		}
+func TMuxInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	os.Chdir(filepath.Join(os.Getenv("HOME"), "general/code"))
+
+	cg := CMDGroup{}
+	cg.cmd("sudo yum install git autoconf automake")
+	cg.cmd("sudo yum install libevent-devel ncurses-devel gcc make bison pkg-config")
+	cg.cmd("git clone https://github.com/tmux/tmux.git")
+	os.Chdir("tmux")
+	cg.cmd("sh autogen.sh")
+	cg.cmd("./configure")
+	cg.cmd("make")
+	cg.cmd("sudo make install")
+
+	return cg.Error
+}
+
+func AWSCLIInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	os.Chdir(filepath.Join(os.Getenv("HOME"), "opt"))
+
+	cg := CMDGroup{}
+	cg.cmd("curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o awscliv2.zip")
+	cg.cmd("unzip awscliv2.zip")
+	cg.cmd("./aws/install --install-dir $HOME/opt/aws-cli --bin-dir $HOME/opt/bin")
+	cg.cmd("rm aws/ -rf")
+	return cg.Error
+}
+
+func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	cg := CMDGroup{}
+	cg.clone("https://github.com/DavidGamba/bin.git", "$HOME/bin")
+
+	cg.clone("https://github.com/DavidGamba/dgtools.git", "$HOME/general/code/dgtools")
+
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/grepp")
+	cg.symlink("$HOME/general/code/dgtools/grepp/grepp", "$HOME/bin/grepp")
+
+	cg.symlink("$HOME/general/code/dgtools/ffind/ffind", "$HOME/bin/ffind")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/ffind")
+
+	cg.symlink("$HOME/general/code/dgtools/cli-bookmarks/cli-bookmarks", "$HOME/bin/cli-bookmarks")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/cli-bookmarks")
+
+	cg.symlink("$HOME/general/code/dgtools/joinlines/joinlines", "$HOME/bin/joinlines")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/joinlines")
+
+	cg.symlink("$HOME/general/code/dgtools/password-cache/password-cache", "$HOME/bin/password-cache")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/password-cache")
+
+	cg.symlink("$HOME/general/code/dgtools/yaml-parse/yaml-parse", "$HOME/bin/yaml-parse")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/yaml-parse")
+
+	cg.symlink("$HOME/general/code/dgtools/webserve/webserve", "$HOME/bin/webserve")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/webserve")
+
+	cg.clone("https://github.com/DavidGamba/go-wardley.git", "$HOME/general/code/go-wardley")
+	cg.cmdDir("go build", "$HOME/general/code/go-wardley")
+	cg.symlink("$HOME/general/code/go-wardley/go-wardley", "$HOME/bin/wardley")
+
+	cg.cmd("git clone https://github.com/DavidGamba/go-getoptions.git $HOME/general/code/go-getoptions")
+
+	return cg.Error
+}
+
+type CMDGroup struct {
+	Error error
+}
+
+func (cg *CMDGroup) cmd(command string) {
+	if cg.Error != nil {
+		return
 	}
-	return nil
+	var c []string
+	c, cg.Error = fsmodtime.ExpandEnv(strings.Split(command, " "))
+	if cg.Error != nil {
+		return
+	}
+	cg.Error = run.CMD(c...).Log().PrintErr().Stdin().Run()
+}
+
+func (cg *CMDGroup) cmdIgnore(command string) {
+	if cg.Error != nil {
+		return
+	}
+	var c []string
+	c, cg.Error = fsmodtime.ExpandEnv(strings.Split(command, " "))
+	if cg.Error != nil {
+		return
+	}
+	_ = run.CMD(c...).Log().PrintErr().Stdin().Run()
+}
+
+func (cg *CMDGroup) cmdDir(command, dir string) {
+	if cg.Error != nil {
+		return
+	}
+	var c []string
+	c, cg.Error = fsmodtime.ExpandEnv(strings.Split(command, " "))
+	if cg.Error != nil {
+		return
+	}
+	var d []string
+	d, cg.Error = fsmodtime.ExpandEnv(strings.Split(dir, " "))
+	if cg.Error != nil {
+		return
+	}
+	cg.Error = run.CMD(c...).Dir(d[0]).Log().PrintErr().Stdin().Run()
+}
+
+func (cg *CMDGroup) symlink(target, name string) {
+	if cg.Error != nil {
+		return
+	}
+	var t, n []string
+	t, cg.Error = fsmodtime.ExpandEnv([]string{target})
+	if cg.Error != nil {
+		return
+	}
+	n, cg.Error = fsmodtime.ExpandEnv([]string{name})
+	if cg.Error != nil {
+		return
+	}
+	_ = os.Remove(n[0])
+	Logger.Printf("Create symlink %s <- %s\n", t[0], n[0])
+	cg.Error = os.Symlink(t[0], n[0])
+}
+
+func (cg *CMDGroup) cloneUpdate(repo, dir string) {
+	if cg.Error != nil {
+		return
+	}
+	var d []string
+	d, cg.Error = fsmodtime.ExpandEnv([]string{dir})
+	if cg.Error != nil {
+		return
+	}
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		cg.Error = run.CMD("git", "clone", repo, d[0]).Dir(d[0]).Log().PrintErr().Stdin().Run()
+	} else {
+		cg.Error = run.CMD("git", "pull").Dir(d[0]).Log().PrintErr().Stdin().Run()
+	}
+}
+
+func (cg *CMDGroup) clone(repo, dir string) {
+	if cg.Error != nil {
+		return
+	}
+	var d []string
+	d, cg.Error = fsmodtime.ExpandEnv([]string{dir})
+	if cg.Error != nil {
+		return
+	}
+	_ = run.CMD("git", "clone", repo, d[0]).Log().PrintErr().Stdin().Run()
 }
