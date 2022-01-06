@@ -23,7 +23,7 @@ return require('packer').startup(function(use)
 			},
 		},
 	}
-	vim.cmd('colorscheme papercolor')
+	vim.cmd('colorscheme PaperColor')
 	-- vim.cmd('set background=light')
 	vim.cmd('set background=dark')
 	use 'itchyny/lightline.vim'
