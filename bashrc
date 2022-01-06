@@ -94,6 +94,10 @@ export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
 #LESSOPEN="|lesspipe.sh %s"
 #export LESSOPEN
 
+if [[ $(uname -a) =~ "amzn2" ]]; then
+    export TERM=tmux-256color
+fi
+
 # History Stuff
 export HISTTIMEFORMAT="%H:%M > "
 export HISTIGNORE="&:[bf]g:clear:exit"
