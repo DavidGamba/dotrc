@@ -128,6 +128,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("dotrc/gitconfig", "$HOME/.gitconfig")
 	cg.symlink("dotrc/hgrc", "$HOME/.hgrc")
 	cg.symlink("dotrc/nvimrc", "$HOME/.nvimrc")
+	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/opt/nvim.appimage", "$HOME/opt/bin/nvim")
