@@ -78,6 +78,9 @@
 	merge-log = "!f() { git log --stat \"$1^..$1\"; }; f"
 	pushset = "!sh -c 'git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD 2>/dev/null)'"
 
+	most = "!sh -c 'git rev-list --objects --all | git cat-file --batch-check=\"%(objecttype) %(objectname) %(objectsize) %(rest)\" | sed -n \"s/^blob //p\" | sort --numeric-sort --key=2 | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'"
+	blob-log = log --all --find-object
+
 [help]
 #    autocorrect = 1
 
