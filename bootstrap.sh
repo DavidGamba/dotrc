@@ -26,4 +26,4 @@ function install_go() {
 }
 
 install_go "1.17.5"
-go build -o build
+~/opt/bin/go build -o build
