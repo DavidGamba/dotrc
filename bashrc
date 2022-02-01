@@ -281,8 +281,15 @@ if [ -f "${HOME}/private-bin/private.bashrc" ]; then
     . "${HOME}/private-bin/private.bashrc"
 fi
 
+complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
+complete -o default -C joinlines joinlines
+complete -o default -C password-cache password-cache
+complete -o default -C wardley wardley
+complete -o default -C webserve webserve
+complete -o default -C yaml-parse yaml-parse
+
 complete -C $HOME/opt/bin/aws_completer aws
 
 # Consider personal repos as private and don't check their checksums against Go Proxy
