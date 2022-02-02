@@ -29,7 +29,7 @@ func program(args []string) int {
 	opt.NewCommand("nvim", "Install Neovim").SetCommandFn(NeovimInstall)
 	opt.NewCommand("tmux", "Install TMUX").SetCommandFn(TMuxInstall)
 	opt.NewCommand("awscli", "Install AWS CLI v2").SetCommandFn(AWSCLIInstall)
-	opt.NewCommand("dev", "Setup dev environment").SetCommandFn(DevDeps)
+	opt.NewCommand("dev", "Setup dev environment: some cargo and golang tools").SetCommandFn(DevDeps)
 	opt.NewCommand("toolbox", "Setup toolbox").SetCommandFn(ToolBox)
 	opt.HelpCommand("help", opt.Alias("?"))
 	remaining, err := opt.Parse(args[1:])
@@ -176,8 +176,9 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install ripgrep")
 	cg.cmd("cargo install tealdeer")
 	cg.cmd("cargo install code-minimap")
+	cg.cmd("cargo install fd-find")
 
-	cg.cmd("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
+	_ = run.CMD(strings.Split("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf", " ")...).Log().PrintErr().Stdin().Run()
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
 	cg.cmd("git pull")
 	cg.cmd("$HOME/.fzf/install")
@@ -238,6 +239,9 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg.symlink("$HOME/general/code/dgtools/webserve/webserve", "$HOME/bin/webserve")
 	cg.cmdDir("go build", "$HOME/general/code/dgtools/webserve")
+
+	cg.symlink("$HOME/general/code/dgtools/diffdir/diffdir", "$HOME/bin/diffdir")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/diffdir")
 
 	cg.clone("https://github.com/DavidGamba/go-wardley.git", "$HOME/general/code/go-wardley")
 	cg.cmdDir("go build", "$HOME/general/code/go-wardley")
