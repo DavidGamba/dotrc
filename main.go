@@ -171,6 +171,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg := CMDGroup{}
 	cg.cmd("go install golang.org/x/tools/gopls@latest")
 	cg.cmd("go install arp242.net/uni@latest")
+	cg.cmd("go install github.com/jesseduffield/lazygit@latest")
 
 	cg.cmd("cargo install diffr")
 	cg.cmd("cargo install ripgrep")
