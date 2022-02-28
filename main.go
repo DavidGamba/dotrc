@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/DavidGamba/dgtools/buildutils"
@@ -132,6 +133,15 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/opt/nvim.appimage", "$HOME/opt/bin/nvim")
+
+	switch runtime.GOOS {
+	case "darwin":
+		_ = os.Mkdir(os.ExpandEnv("$HOME/Library/Application Support/lazygit"), 0755)
+		cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/Library/Application Support/lazygit/config.yml")
+	default:
+		_ = os.Mkdir(os.ExpandEnv("$HOME/.config/lazygit"), 0755)
+		cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/.config/lazygit/config.yml")
+	}
 
 	return err
 }
