@@ -189,6 +189,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install tealdeer")
 	cg.cmd("cargo install code-minimap")
 	cg.cmd("cargo install fd-find")
+	cg.cmd("cargo install igrep")
 
 	_ = run.CMD(strings.Split("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf", " ")...).Log().PrintErr().Stdin().Run()
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
