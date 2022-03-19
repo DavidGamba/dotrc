@@ -256,6 +256,9 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.symlink("$HOME/general/code/dgtools/diffdir/diffdir", "$HOME/bin/diffdir")
 	cg.cmdDir("go build", "$HOME/general/code/dgtools/diffdir")
 
+	cg.symlink("$HOME/general/code/dgtools/reverseproxy/reverseproxy", "$HOME/bin/reverseproxy")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/reverseproxy")
+
 	cg.clone("https://github.com/DavidGamba/go-wardley.git", "$HOME/general/code/go-wardley")
 	cg.cmdDir("go build", "$HOME/general/code/go-wardley")
 	cg.symlink("$HOME/general/code/go-wardley/go-wardley", "$HOME/bin/wardley")

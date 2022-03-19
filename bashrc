@@ -289,6 +289,7 @@ complete -o default -C password-cache password-cache
 complete -o default -C wardley wardley
 complete -o default -C webserve webserve
 complete -o default -C yaml-parse yaml-parse
+complete -o default -C reverseproxy reverseproxy
 
 complete -C $HOME/opt/bin/aws_completer aws
 
