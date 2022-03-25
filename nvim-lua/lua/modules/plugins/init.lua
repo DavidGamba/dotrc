@@ -24,8 +24,8 @@ return require('packer').startup(function(use)
 		},
 	}
 	vim.cmd('colorscheme PaperColor')
-	-- vim.cmd('set background=light')
-	vim.cmd('set background=dark')
+	vim.cmd('set background=light')
+	-- vim.cmd('set background=dark')
 	use 'itchyny/lightline.vim'
 	use 'mengelbrecht/lightline-bufferline'
 	vim.g.lightline = {
@@ -190,7 +190,7 @@ return require('packer').startup(function(use)
 	--------------------------------------
 	-- Editing
 	--------------------------------------
-	use 'LunarWatcher/auto-pairs'
+	-- use 'LunarWatcher/auto-pairs'
 	use 'tpope/vim-commentary'
 	use 'tpope/vim-surround'
 
