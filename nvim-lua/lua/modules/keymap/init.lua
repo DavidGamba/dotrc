@@ -16,14 +16,51 @@ map('n', '<leader>cd', ':cd %:p:h<CR>')
 map('n', 'cp', ':let @+ = expand("%")<CR>')
 
 -- navigation
-map('n', 'k', 'gk')
-map('n', 'j', 'gj')
+-- qwerty
+-- map('n', 'k', 'gk')
+-- map('n', 'j', 'gj')
 
--- Move around splits
-map('n', '<C-J>', ':wincmd j<CR>')
-map('n', '<C-K>', ':wincmd k<CR>')
-map('n', '<C-H>', ':wincmd h<CR>')
-map('n', '<C-L>', ':wincmd l<CR>')
+local colemak = function()
+
+	-- lets edit for insert
+	map('n','l', 'i')
+	map('v','l', 'i')
+	--map('n','L', 'I')
+	--map('v','L', 'I')
+	--map('n','I', '<nop>')
+	--map('v','I', '<nop>')
+
+	-- motion
+	map('n','i', 'l')
+	map('v','i', 'l')
+	map('n','n', 'j')
+	map('v','n', 'j')
+	map('n','e', 'k')
+	map('v','e', 'k')
+
+	-- next/prev
+	map('n', 'k', 'n')
+	map('n', 'K', 'N')
+
+	-- end of word
+	map('n', 'j', 'e')
+	map('v', 'j', 'e')
+
+	-- Move around splits
+	map('n', '<C-I>', ':wincmd l<CR>')
+	map('n', '<C-N>', ':wincmd j<CR>')
+	map('n', '<C-E>', ':wincmd k<CR>')
+end
+--colemak()
+
+local qwerty = function()
+	-- Move around splits
+	map('n', '<C-J>', ':wincmd j<CR>')
+	map('n', '<C-K>', ':wincmd k<CR>')
+	map('n', '<C-H>', ':wincmd h<CR>')
+	map('n', '<C-L>', ':wincmd l<CR>')
+end
+qwerty()
 
 -- Keep visual selection after indentation in visual mode
 map('v', '<', '<gv')
