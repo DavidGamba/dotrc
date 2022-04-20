@@ -1,5 +1,3 @@
-vim.g.mapleader = ','
-
 local o = vim.opt
 
 o.fileencoding = "utf-8" -- the encoding written to a file
@@ -8,6 +6,7 @@ o.hidden = true -- Allow changing to another file with unsaved changes on the cu
 o.swapfile = false
 
 o.clipboard :append "unnamedplus" -- allows neovim to access the system clipboard
+-- o.clipboard = "unnamedplus" -- allows neovim to access the system clipboard
 
 -- https://github.com/neovim/neovim/issues/2127
 -- Neovim doesn't check file changes after focus is lost
@@ -58,7 +57,7 @@ o.number = true
 o.textwidth = 0
 
 o.sidescroll = 30 -- Jump several characters to the side instead of waiting one at a time.
-o.scrolloff = 8
+o.scrolloff = 3
 
 o.wrap = false
 o.linebreak = true -- Visually break long lines at 'breakat' character

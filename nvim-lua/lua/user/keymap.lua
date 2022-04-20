@@ -1,4 +1,13 @@
+vim.g.mapleader = ','
+
 -- keymap function
+-- Modes:
+--   normal_mode = "n",
+--   insert_mode = "i",
+--   visual_mode = "v",
+--   visual_block_mode = "x",
+--   term_mode = "t",
+--   command_mode = "c",
 local map = function(mode, key, result)
   vim.api.nvim_set_keymap(mode, key, result, {
     noremap = true,
@@ -14,6 +23,8 @@ map('n', '<C-s>', ':w<CR>')
 map('n', '<leader>cd', ':cd %:p:h<CR>')
 -- Copy current path
 map('n', 'cp', ':let @+ = expand("%")<CR>')
+
+-- map("v", "p", '"_dP') -- hold on to copied text for next paste operation
 
 -- navigation
 -- qwerty
@@ -47,13 +58,22 @@ local colemak = function()
 	map('v', 'j', 'e')
 
 	-- Move around splits
-	map('n', '<C-I>', ':wincmd l<CR>')
 	map('n', '<C-N>', ':wincmd j<CR>')
 	map('n', '<C-E>', ':wincmd k<CR>')
+	map('n', '<C-H>', ':wincmd h<CR>')
+	map('n', '<C-I>', ':wincmd l<CR>')
 end
 --colemak()
 
 local qwerty = function()
+	-- Move visually selected text up and down
+	map("x", "J", ":move '>+1<CR>gv-gv")
+	map("x", "K", ":move '<-2<CR>gv-gv")
+
+	-- Navigate buffers
+	map("n", "LL", ":bnext<CR>")
+	map("n", "HH", ":bprevious<CR>")
+
 	-- Move around splits
 	map('n', '<C-J>', ':wincmd j<CR>')
 	map('n', '<C-K>', ':wincmd k<CR>')
