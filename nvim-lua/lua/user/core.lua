@@ -1,0 +1,71 @@
+vim.g.mapleader = ','
+
+local o = vim.opt
+
+o.mouse = "a"
+o.hidden = true -- Allow changing to another file with unsaved changes on the current file.
+o.swapfile = false
+
+o.clipboard :append "unnamedplus" -- allows neovim to access the system clipboard
+
+-- https://github.com/neovim/neovim/issues/2127
+-- Neovim doesn't check file changes after focus is lost
+-- vim.cmd([[
+-- 	autocmd BufEnter,FocusGained * checktime
+-- ]], false)
+
+-- Autosave
+-- vim.cmd([[
+-- 	autocmd InsertLeave <buffer> silent write
+-- ]], false)
+
+o.autowriteall = true -- Write file on Make
+o.undofile = true
+o.backupdir = "."
+o.inccommand = "split"
+
+o.diffopt = { "internal", "filler", "closeoff", "algorithm:minimal" }
+o.completeopt = { "menu", "menuone", "noselect" }
+o.shortmess :append "c"
+
+---------------------------------------
+-- Styling
+---------------------------------------
+o.showtabline = 2
+o.signcolumn = "yes"
+o.showmode = false
+o.termguicolors = true
+-- hi Cursor guifg=green guibg=green
+-- hi Cursor2 guifg=red guibg=red
+-- set guicursor=n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor2/lCursor2,r-cr:hor20,o:hor50
+-- au VimLeave * set guicursor=a:block-blinkon0
+
+vim.cmd('au VimLeave * set guicursor=a:block-blinkon0')
+o.list = true -- shows tabbed spaces
+
+vim.cmd("set listchars=tab:˲\\ ,trail:·,extends:»,precedes:«") -- Unprintable chars mapping
+-- ▸ ˲ ˃ ˍ
+
+o.tabstop = 2
+o.expandtab = false
+o.shiftwidth = 2
+o.softtabstop = 2
+o.number = true
+o.textwidth = 0
+
+o.sidescroll = 30 -- Jump several characters to the side instead of waiting one at a time.
+o.wrap = false
+o.linebreak = true -- Visually break long lines at 'breakat' character
+o.whichwrap = "b,s,<,>"
+
+-- Folding setup
+-- set foldmethod=syntax
+o.foldmethod = "expr"
+vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
+o.foldnestmax = 3
+o.foldenable = false
+
+o.ignorecase = true
+o.smartcase = true
+
+vim.api.nvim_command("autocmd FileType asciidoc set expandtab")
