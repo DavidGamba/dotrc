@@ -2,6 +2,7 @@ vim.g.mapleader = ','
 
 local o = vim.opt
 
+o.fileencoding = "utf-8" -- the encoding written to a file
 o.mouse = "a"
 o.hidden = true -- Allow changing to another file with unsaved changes on the current file.
 o.swapfile = false
@@ -27,6 +28,9 @@ o.inccommand = "split"
 o.diffopt = { "internal", "filler", "closeoff", "algorithm:minimal" }
 o.completeopt = { "menu", "menuone", "noselect" }
 o.shortmess :append "c"
+
+o.splitbelow = true -- force all horizontal splits to go below current window
+o.splitright = true -- force all vertical splits to go to the right of current window
 
 ---------------------------------------
 -- Styling
@@ -54,9 +58,12 @@ o.number = true
 o.textwidth = 0
 
 o.sidescroll = 30 -- Jump several characters to the side instead of waiting one at a time.
+o.scrolloff = 8
+
 o.wrap = false
 o.linebreak = true -- Visually break long lines at 'breakat' character
 o.whichwrap = "b,s,<,>"
+o.iskeyword :append "-"
 
 -- Folding setup
 -- set foldmethod=syntax
@@ -69,3 +76,5 @@ o.ignorecase = true
 o.smartcase = true
 
 vim.api.nvim_command("autocmd FileType asciidoc set expandtab")
+
+o.updatetime = 300 -- faster completion (4000ms default)
