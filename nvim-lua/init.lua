@@ -1,4 +1,4 @@
-require 'modules.core'
-require 'modules.plugins'
-require 'modules.keymap'
-require 'modules.lsp'
+require 'user.core'
+require 'user.plugins'
+require 'user.keymap'
+require 'user.lsp'
