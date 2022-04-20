@@ -83,7 +83,7 @@ map('n', 'glt', '<cmd>lua vim.lsp.buf.type_definition()<CR>') -- go to type
 
 map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>') -- Rename with same keymapping as vscode
 
-map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>') -- go references
+map('n', 'glr', '<cmd>lua vim.lsp.buf.references()<CR>') -- go list references
 
 map('n', 'gld', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>') -- go line diagnostic
 map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
