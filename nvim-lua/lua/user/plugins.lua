@@ -1,15 +1,53 @@
--- Bootstrap
--- https://github.com/wbthomason/packer.nvim
---- install packer if unable to load
-if not pcall(require, 'packer') then
-  local packer_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
-  vim.cmd('!git clone https://github.com/wbthomason/packer.nvim ' .. packer_path)
-  print 'packer.vim installed ... please restart neovim'
+local fn = vim.fn
+
+-- Automatically install packer
+local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+  PACKER_BOOTSTRAP = fn.system {
+    "git",
+    "clone",
+    "--depth",
+    "1",
+    "https://github.com/wbthomason/packer.nvim",
+    install_path,
+  }
+  print "Installing packer close and reopen Neovim..."
+  vim.cmd [[packadd packer.nvim]]
 end
 
--- Plugins
-return require('packer').startup(function(use)
-	use 'wbthomason/packer.nvim'
+-- Autocommand that reloads neovim whenever you save the plugins.lua file
+vim.cmd [[
+  augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]]
+
+-- Use a protected call so we don't error out on first use
+local status_ok, packer = pcall(require, "packer")
+if not status_ok then
+  print "ERROR: Failed to load packer!"
+  return
+end
+
+-- Have packer use a popup window
+packer.init {
+  display = {
+    open_fn = function()
+      return require("packer.util").float { border = "rounded" }
+    end,
+  },
+}
+
+-- Install your plugins here
+return packer.startup(function(use)
+	use 'wbthomason/packer.nvim' -- manage self
+
+	--------------------------------------
+	-- Dependencies for other plugins
+	--------------------------------------
+  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 	
 	--------------------------------------
 	-- colorscheme
@@ -23,9 +61,7 @@ return require('packer').startup(function(use)
 			},
 		},
 	}
-	vim.cmd('colorscheme PaperColor')
-	vim.cmd('set background=light')
-	-- vim.cmd('set background=dark')
+
 	use 'itchyny/lightline.vim'
 	use 'mengelbrecht/lightline-bufferline'
 	vim.g.lightline = {
@@ -48,12 +84,15 @@ return require('packer').startup(function(use)
 	--------------------------------------
 	-- core
 	--------------------------------------
+  use "antoinemadec/FixCursorHold.nvim" -- Fix CursorHold event slowness
+  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+
 	use 'bfredl/nvim-miniyank'
 	vim.g.miniyank_filename = os.getenv("HOME") .. "/.miniyank.mpack"
 
 	-- Enable submodes, used for window submode
-	use 'Iron-E/nvim-libmodal'
-	use 'DavidGamba/nvim-window-mode'
+	-- use 'Iron-E/nvim-libmodal'
+	-- use 'DavidGamba/nvim-window-mode'
 
 	use 'christoomey/vim-tmux-navigator'
 
@@ -88,19 +127,6 @@ return require('packer').startup(function(use)
 	use { 'mfussenegger/nvim-dap' }
 	use { 'rcarriga/nvim-dap-ui' }
 	use { 'leoluz/nvim-dap-go' } -- configuration for dap to work with delve
-	require'dap-go'.setup {}
-	require'dapui'.setup {}
-	-- require'go'.setup {
-	-- 	goimport = 'gopls', -- if set to 'gopls' will use golsp format
-	-- 	gofmt = 'gopls', -- if set to gopls will use golsp format
-	-- 	lsp_cfg = true,
-	-- 	dap_debug = true,
-	-- 	dap_debug_keymap = true,
-	-- 	dap_debug_gui = true,
-	-- }
-	-- local protocol = require'vim.lsp.protocol'
-	-- use {'sebdah/vim-delve', ft = {'go'} }
-	vim.api.nvim_command("autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)")
 	--------------------------------------
 	
 	--------------------------------------
@@ -117,7 +143,7 @@ return require('packer').startup(function(use)
 	if not vim.g.UltiSnipsSnippetDirectories then
 		vim.g.UltiSnipsSnippetDirectories = { os.getenv("HOME") .. "/dotrc/vim-snippets" }
 	else
-		table.inser(vim.g.UltiSnipsSnippetDirectories, os.getenv("HOME") .. "/dotrc/vim-snippets")
+		table.insert(vim.g.UltiSnipsSnippetDirectories, os.getenv("HOME") .. "/dotrc/vim-snippets")
 	end
 	vim.g.UltiSnipsJumpForwardTrigger="<tab>"
 	vim.g.UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -131,60 +157,21 @@ return require('packer').startup(function(use)
 		requires = {
 			'hrsh7th/cmp-buffer',
 			'hrsh7th/cmp-path',
-			'hrsh7th/cmp-nvim-lua',
+			'hrsh7th/cmp-cmdline',
 			'hrsh7th/cmp-nvim-lsp',
+			'hrsh7th/cmp-nvim-lua',
+			"saadparwaiz1/cmp_luasnip", -- snippet completions
 		},
 	}
-	-- Setup nvim-cmp
-	local cmp = require'cmp'
-
-	cmp.setup({
-		snippet = {
-			expand = function(args)
-			-- For `ultisnips` user.
-			vim.fn["UltiSnips#Anon"](args.body)
-			end,
-		},
-		mapping = {
-			['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-			['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-			-- ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-			-- -- ['<C-y>'] = cmp.config.disable, -- remove the default `<C-y>` mapping.
-			-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
-
-			['<CR>'] = cmp.mapping.confirm {
-				behavior = cmp.ConfirmBehavior.Replace,
-				select = false,
-			},
-			['<Tab>'] = cmp.mapping.select_next_item(),
-			['<S-Tab>'] = cmp.mapping.select_prev_item(),
-		},
-		sources = cmp.config.sources({
-			-- For ultisnips user.
-			{ name = 'ultisnips' },
-
-			{ name = 'nvim_lsp' },
-			{ name = 'buffer' },
-			{ name = 'path' },
-			{ name = 'nvim_lua' },
-		})
-	})
-	cmp.setup.cmdline('/', { sources = { { name = 'buffer' } } } )
 	--------------------------------------
 
 	--------------------------------------
 	-- Treesitter
 	--------------------------------------
-	use 'nvim-treesitter/nvim-treesitter'
-	require'nvim-treesitter.configs'.setup {
-		highlight             = {
-			enable = true,
-			additional_vim_regex_highlighting = true, -- fixes spell check on comments only
-		},
-		indent                = { enable = true },
-		incremental_selection = { enable = true },
-		textobjects           = { enable = true },
-	}
+  use {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  }
 	--------------------------------------
 
 	--------------------------------------
@@ -253,4 +240,10 @@ return require('packer').startup(function(use)
 	use { 'hashivim/vim-terraform' }
 	use {'suoto/vim-antlr', ft = {'antlr4'} }
 	--------------------------------------
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if PACKER_BOOTSTRAP then
+    require("packer").sync()
+  end
 end)
