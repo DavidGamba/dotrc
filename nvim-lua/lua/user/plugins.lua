@@ -87,8 +87,8 @@ return packer.startup(function(use)
   use "antoinemadec/FixCursorHold.nvim" -- Fix CursorHold event slowness
   use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
 
-	use 'bfredl/nvim-miniyank'
-	vim.g.miniyank_filename = os.getenv("HOME") .. "/.miniyank.mpack"
+	-- use 'bfredl/nvim-miniyank'
+	-- vim.g.miniyank_filename = os.getenv("HOME") .. "/.miniyank.mpack"
 
 	-- Enable submodes, used for window submode
 	-- use 'Iron-E/nvim-libmodal'

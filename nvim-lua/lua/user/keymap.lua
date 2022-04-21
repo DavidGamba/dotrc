@@ -145,12 +145,12 @@ map('n', '<leader>gs', ':lua require"telescope.builtin".git_status()<CR>')
 -- gcc -- comment/uncomment with motions allowed
 
 -- miniyank
-vim.cmd('map p <Plug>(miniyank-autoput)')
-vim.cmd('map P <Plug>(miniyank-autoPut)')
-vim.cmd('map <leader>p <Plug>(miniyank-startput)')
-vim.cmd('map <leader>P <Plug>(miniyank-startPut)')
-vim.cmd('map <leader>n <Plug>(miniyank-cycle)')
-vim.cmd('map <leader>N <Plug>(miniyank-cycleback)')
+-- vim.cmd('map p <Plug>(miniyank-autoput)')
+-- vim.cmd('map P <Plug>(miniyank-autoPut)')
+-- vim.cmd('map <leader>p <Plug>(miniyank-startput)')
+-- vim.cmd('map <leader>P <Plug>(miniyank-startPut)')
+-- vim.cmd('map <leader>n <Plug>(miniyank-cycle)')
+-- vim.cmd('map <leader>N <Plug>(miniyank-cycleback)')
 
 ---
 vim.cmd('nmap s <Plug>(easymotion-s)')

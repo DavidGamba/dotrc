@@ -1,5 +1,10 @@
+local cmp_nvim_lsp_status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not cmp_nvim_lsp_status_ok then
+  return
+end
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
 
 local lspconfig = require 'lspconfig'
 local on_attach = function(client, bufnr)
@@ -40,3 +45,5 @@ lspconfig.gopls.setup {
 	capabilities = capabilities,
 	on_attach = on_attach,
 }
+
+vim.api.nvim_command("autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)")
