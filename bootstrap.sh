@@ -25,5 +25,5 @@ function install_go() {
 	ln -sf ~/opt/go/bin/gofmt ~/opt/bin/gofmt
 }
 
-install_go "1.17.5"
+install_go "1.18.1"
 ~/opt/bin/go build -o build
