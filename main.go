@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -152,8 +153,23 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 
 	os.Chdir(os.Getenv("HOME") + "/opt")
 
+	switch runtime.GOOS {
+	case "darwin":
+		cg := CMDGroup{}
+		cg.cmd("brew install --HEAD neovim")
+		return cg.Error
+	}
+
+	release, err := ioutil.ReadFile("/etc/os-release")
+	if err != nil {
+		return err
+	}
 	cg := CMDGroup{}
-	cg.cmd("sudo yum install git xclip")
+	if strings.Contains(string(release), "ubuntu") {
+		cg.cmd("sudo apt install git xclip")
+	} else {
+		cg.cmd("sudo yum install git xclip")
+	}
 	cg.cmd("python3 -m pip install --user --upgrade pynvim")
 	cg.cmdIgnore("python2 -m pip install --user --upgrade pynvim")
 	cg.cmd(fmt.Sprintf("curl -LO https://github.com/neovim/neovim/releases/download/v%s/nvim.appimage", version))
@@ -233,6 +249,9 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg.clone("https://github.com/DavidGamba/dgtools.git", "$HOME/general/code/dgtools")
 
+	cg.symlink("$HOME/general/code/dgtools/clitable/cmd/csvtable/csvtable", "$HOME/bin/csvtable")
+	cg.cmdDir("go build", "$HOME/general/code/dgtools/clitable/cmd/csvtable")
+
 	cg.cmdDir("go build", "$HOME/general/code/dgtools/grepp")
 	cg.symlink("$HOME/general/code/dgtools/grepp/grepp", "$HOME/bin/grepp")
 
@@ -259,9 +278,6 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg.symlink("$HOME/general/code/dgtools/reverseproxy/reverseproxy", "$HOME/bin/reverseproxy")
 	cg.cmdDir("go build", "$HOME/general/code/dgtools/reverseproxy")
-
-	cg.symlink("$HOME/general/code/dgtools/csvtable/cmd/csvtable/csvtable", "$HOME/bin/csvtable")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/csvtable/cmd/csvtable")
 
 	cg.clone("https://github.com/DavidGamba/go-wardley.git", "$HOME/general/code/go-wardley")
 	cg.cmdDir("go build", "$HOME/general/code/go-wardley")
