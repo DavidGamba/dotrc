@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-# Enable SSH:
-# mkdir ~/.ssh
-# curl https://github.com/DavidGamba.keys | tee -a ~/.ssh/authorized_keys
+# Setup:
+#   $ mkdir -p ~/.ssh
+#   $ curl https://github.com/DavidGamba.keys | tee -a ~/.ssh/authorized_keys
+#   $ sudo apt install openssh-server
+#   Copy private key: 
+#   $ scp ~/.ssh/id_rsa david@<host>:~/.ssh/
+#   Back to new machine:
+#   $ git clone git@github.com:DavidGamba/dotrc.git
+#   $ cd dotrc; ./bootstrap.sh
 
 function error() {
 	>&2 echo $@
@@ -26,4 +32,5 @@ function install_go() {
 }
 
 install_go "1.18.1"
+cd ~/dotrc
 ~/opt/bin/go build -o build
