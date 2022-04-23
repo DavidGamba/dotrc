@@ -50,10 +50,12 @@ function ps1() {
     HOST_COLOR=${CYAN}
     if [[ $(uname -a) =~ "amzn2" ]]; then
         HOST_COLOR=${MAGENTA}
+    elif [[ $(uname -a) =~ "Ubuntu" ]]; then
+        HOST_COLOR=${MAGENTA}
     fi
 
     local TERM_TITLE="\[\033]2; \h \w\007\]"
-    local FIRST_LINE="${CB}${B_DEFAULT};${HOST_COLOR};${BOLD}${CE}\h ${CB}${FAINT};${CYAN}${CE}\D{%F %T} ${CB}${CYAN}${CE}\w${CB}${DEFAULT};${RESET}${CE} \$(smiley)${CB}${CYAN};${NORMAL}${CE} \${GIT_BRANCH}"
+    local FIRST_LINE="${CB}${B_DEFAULT};${HOST_COLOR};${BOLD}${CE}\h ${CB}${FAINT};${HOST_COLOR}${CE}\D{%F %T} ${CB}${CYAN}${CE}\w${CB}${DEFAULT};${RESET}${CE} \$(smiley)${CB}${HOST_COLOR};${NORMAL}${CE} \${GIT_BRANCH}"
     local SECOND_LINE="\n${CB}${B_DEFAULT};${BLUE};${BOLD}${CE}\${PROMT_CHAR} "
     local REGULAR_TEXT="${CB}${DEFAULT};${RESET}${CE}"
     PS1=${TERM_RESET}${TERM_TITLE}${FIRST_LINE}${SECOND_LINE}${REGULAR_TEXT}
