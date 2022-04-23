@@ -108,6 +108,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.ssh",
 		"$HOME/.aws",
 		"$HOME/.terraform.d/plugin-cache",
+		"$HOME/.config/bat",
 	})
 	if err != nil {
 		return err
@@ -132,6 +133,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("dotrc/nvimrc", "$HOME/.nvimrc")
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
+	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 
 	switch runtime.GOOS {
@@ -214,6 +216,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install fd-find")
 	cg.cmd("cargo install igrep")
 	cg.cmd("cargo install watchexec-cli")
+	cg.cmd("cargo install --locked bat")
 
 	_ = run.CMD(strings.Split("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf", " ")...).Log().PrintErr().Stdin().Run()
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
