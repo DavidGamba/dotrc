@@ -205,11 +205,12 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg := CMDGroup{}
 	cg.cmd("go install golang.org/x/tools/gopls@latest")
-	cg.cmd("go install arp242.net/uni@latest")
+	cg.cmdIgnore("go install arp242.net/uni@latest")
 	cg.cmd("go install github.com/jesseduffield/lazygit@latest")
 	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master")
 
 	cg.cmd("cargo install diffr")
+	cg.cmd("cargo install git-delta")
 	cg.cmd("cargo install ripgrep")
 	cg.cmd("cargo install tealdeer")
 	cg.cmd("cargo install code-minimap")
@@ -293,7 +294,7 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmdDir("go build", "$HOME/general/code/go-wardley")
 	cg.symlink("$HOME/general/code/go-wardley/go-wardley", "$HOME/bin/wardley")
 
-	cg.cmd("git clone https://github.com/DavidGamba/go-getoptions.git $HOME/general/code/go-getoptions")
+	cg.clone("https://github.com/DavidGamba/go-getoptions.git", "$HOME/general/code/go-getoptions")
 
 	return cg.Error
 }
