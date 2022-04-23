@@ -133,7 +133,6 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
-	cg.symlink("$HOME/opt/nvim.appimage", "$HOME/opt/bin/nvim")
 
 	switch runtime.GOOS {
 	case "darwin":
@@ -166,18 +165,26 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	}
 	cg := CMDGroup{}
 	if strings.Contains(string(release), "ubuntu") {
-		cg.cmd("sudo apt install git xclip")
+		cg.cmd("sudo apt-get install software-properties-common git xclip")
+		cg.cmd("sudo add-apt-repository ppa:neovim-ppa/unstable")
+		cg.cmd("sudo apt-get update")
+		cg.cmd("sudo apt-get install neovim")
+		cg.cmdIgnore("sudo apt-get install python-dev python-pip")
+		cg.cmd("sudo apt-get install python3-dev python3-pip")
+		cg.cmdIgnore("python2 -m pip install --user --upgrade pynvim")
+		cg.cmd("python3 -m pip install --user --upgrade pynvim")
 	} else {
 		cg.cmd("sudo yum install git xclip")
+		cg.cmd("python3 -m pip install --user --upgrade pynvim")
+		cg.cmdIgnore("python2 -m pip install --user --upgrade pynvim")
+		cg.cmd(fmt.Sprintf("curl -LO https://github.com/neovim/neovim/releases/download/v%s/nvim.appimage", version))
+		cg.cmd("chmod u+x nvim.appimage")
+		cg.symlink("$HOME/opt/nvim.appimage", "$HOME/opt/bin/nvim")
+		// Download app image update tool
+		// cmd("wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O bin/appimageupdatetool")
+		// cmd("chmod u+x bin/appimageupdatetool")
+		// "$HOME/opt/bin/appimageupdatetool" "$HOME/opt/nvim.appimage"
 	}
-	cg.cmd("python3 -m pip install --user --upgrade pynvim")
-	cg.cmdIgnore("python2 -m pip install --user --upgrade pynvim")
-	cg.cmd(fmt.Sprintf("curl -LO https://github.com/neovim/neovim/releases/download/v%s/nvim.appimage", version))
-	cg.cmd("chmod u+x nvim.appimage")
-	// Download app image update tool
-	// cmd("wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O bin/appimageupdatetool")
-	// cmd("chmod u+x bin/appimageupdatetool")
-	// "$HOME/opt/bin/appimageupdatetool" "$HOME/opt/nvim.appimage"
 
 	return cg.Error
 }
