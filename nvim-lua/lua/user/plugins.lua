@@ -94,12 +94,15 @@ return packer.startup(function(use)
 	-- use 'Iron-E/nvim-libmodal'
 	-- use 'DavidGamba/nvim-window-mode'
 
-	use 'christoomey/vim-tmux-navigator'
+	-- Conflicts with toggleterm
+	-- use 'christoomey/vim-tmux-navigator'
 
 	use 'editorconfig/editorconfig-vim'
 
 	use 'neomake/neomake'
 	vim.g.neomake_shellcheck_args = {'-fgcc'}
+
+	use "akinsho/toggleterm.nvim"
 	--------------------------------------
 
 	--------------------------------------

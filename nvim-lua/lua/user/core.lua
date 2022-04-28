@@ -2,7 +2,10 @@ local o = vim.opt
 
 o.fileencoding = "utf-8" -- the encoding written to a file
 o.mouse = "a"
-o.hidden = true -- Allow changing to another file with unsaved changes on the current file.
+
+-- Allow changing to another file with unsaved changes on the current file.
+-- Also required by toggleterm
+o.hidden = true
 o.swapfile = false
 
 o.clipboard :append "unnamedplus" -- allows neovim to access the system clipboard
