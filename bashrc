@@ -143,7 +143,7 @@ alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
 # alias asciidoctor='docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor'
 alias path='PATH="${PATH//":$PWD"/}:$PWD"; echo $PATH'
-alias rg='rg -i --color=always -u'
+alias rg='rg -i --color=always'
 alias ccat='source-highlight --out-format=esc -o STDOUT -i'
 alias color='source-highlight --out-format=esc -o STDOUT -s'
 alias csvlook='csvlook -I | less -S'
