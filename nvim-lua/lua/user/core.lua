@@ -65,7 +65,8 @@ o.scrolloff = 3
 o.wrap = false
 o.linebreak = true -- Visually break long lines at 'breakat' character
 o.whichwrap = "b,s,<,>"
-o.iskeyword :append "-"
+o.iskeyword :remove "-"
+o.iskeyword :remove "_"
 
 -- Folding setup
 -- set foldmethod=syntax

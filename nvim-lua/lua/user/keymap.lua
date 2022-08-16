@@ -9,10 +9,10 @@ vim.g.mapleader = ','
 --   term_mode = "t",
 --   command_mode = "c",
 local map = function(mode, key, result)
-  vim.api.nvim_set_keymap(mode, key, result, {
-    noremap = true,
-    silent = true,
-  })
+	vim.keymap.set(mode, key, result, {
+		noremap = true,
+		silent = true,
+	})
 end
 
 map('n', ';', ':')
@@ -34,20 +34,20 @@ map('n', 'cp', ':let @+ = expand("%")<CR>')
 local colemak = function()
 
 	-- lets edit for insert
-	map('n','l', 'i')
-	map('v','l', 'i')
+	map('n', 'l', 'i')
+	map('v', 'l', 'i')
 	--map('n','L', 'I')
 	--map('v','L', 'I')
 	--map('n','I', '<nop>')
 	--map('v','I', '<nop>')
 
 	-- motion
-	map('n','i', 'l')
-	map('v','i', 'l')
-	map('n','n', 'j')
-	map('v','n', 'j')
-	map('n','e', 'k')
-	map('v','e', 'k')
+	map('n', 'i', 'l')
+	map('v', 'i', 'l')
+	map('n', 'n', 'j')
+	map('v', 'n', 'j')
+	map('n', 'e', 'k')
+	map('v', 'e', 'k')
 
 	-- next/prev
 	map('n', 'k', 'n')
@@ -86,34 +86,33 @@ qwerty()
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
-map('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>') -- go Declaration
-map('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>') -- go definition
-map('n', '<C-]>', '<Cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>')
+map('n', 'gD', vim.lsp.buf.declaration) -- go Declaration
+map('n', 'gd', vim.lsp.buf.definition) -- go definition
+map('n', '<C-]>', vim.lsp.buf.definition)
+map('n', 'K', vim.lsp.buf.hover)
 -- Not implemented in gopls
 -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.peek_definition()<CR>', opts)
 
-map('n', 'gh', '<Cmd>lua vim.lsp.buf.hover()<CR>') -- go hover
+map('n', 'gh', vim.lsp.buf.hover) -- go hover
 
-map('n', 'gli', '<cmd>lua vim.lsp.buf.implementation()<CR>') -- go list imlementation
+map('n', 'gli', vim.lsp.buf.implementation) -- go list imlementation
 
-map('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<CR>') -- go signature
+map('n', '<C-K>', vim.lsp.buf.signature_help) -- go signature
 
-map('n', 'glt', '<cmd>lua vim.lsp.buf.type_definition()<CR>') -- go to type
+map('n', 'glt', vim.lsp.buf.type_definition) -- go to type
 
-map('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<CR>') -- Rename with same keymapping as vscode
+map('n', '<F2>', vim.lsp.buf.rename) -- Rename with same keymapping as vscode
 
-map('n', 'glr', '<cmd>lua vim.lsp.buf.references()<CR>') -- go list references
+map('n', 'glr', vim.lsp.buf.references) -- go list references
 
-map('n', 'gld', '<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>') -- go line diagnostic
-map('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
-map('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
+map('n', 'gld', vim.diagnostic.setloclist) -- go list diagnostic
+map('n', '[d', vim.diagnostic.goto_prev)
+map('n', ']d', vim.diagnostic.goto_next)
 
-map('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>') -- go action
--- map('v', '<leader>a', '<cmd>lua vim.lsp.buf.range_code_action()<CR>')
-map('v', '<leader>a', ':lua vim.lsp.buf.range_code_action()<CR>')
+map('n', 'ga', vim.lsp.buf.code_action) -- go action
+map('v', '<leader>a', vim.lsp.buf.range_code_action)
 
-map('n', '=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('n', '=', vim.lsp.buf.format)
 
 -- go calls incoming
 -- map('n', 'gci', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
@@ -121,25 +120,32 @@ map('n', '=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 -- go calls outgoing
 -- map('n', 'gco', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
 
--- go workspace
-map('n', 'gw', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+-- go symbols
+map('n', 'gs', vim.lsp.buf.document_symbol)
+map('n', 'gS', vim.lsp.buf.workspace_symbol)
 
--- go Workspace
-map('n', 'gW', '<cmd>lua vim.lsp.buf.workspace_symbol()<CR>')
+-- go workspace
+map('n', 'gwl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end)
+map('n', 'gwa', vim.lsp.buf.add_workspace_folder)
+map('n', 'gwr', vim.lsp.buf.remove_workspace_folder)
 
 -- telescope
 -- Default mappings:
 -- https://github.com/nvim-telescope/telescope.nvim#default-mappings
 -- <C-x> open selection as split
 -- <C-v> open selection as vsplit
-map('n', '<C-p>', ':lua require"telescope.builtin".find_files { previewer = false }<CR>')
-map('n', '<M-b>', ':lua require"telescope.builtin".buffers()<CR>')
-map('n', '<M-f>', ':lua require"telescope.builtin".live_grep()<CR>')
+map('n', '<C-p>', function() require"telescope.builtin".find_files { previewer = false } end)
+map('n', '<M-b>', function() require"telescope.builtin".buffers() end)
+map('n', '<M-f>', function() require"telescope.builtin".live_grep() end)
 -- <C-e> creates files and dirs
 -- map('n', '-', ':lua require"telescope.builtin".file_browser()<CR>')
-map('n', '<leader>fh', ':lua require"telescope.builtin".help_tags()<CR>')
-map('n', '<leader>gf', ':lua require"telescope.builtin".git_files { previewer = false }<CR>')
-map('n', '<leader>gs', ':lua require"telescope.builtin".git_status()<CR>')
+map('n', '<leader>fh', function() require"telescope.builtin".help_tags() end)
+map('n', '<leader>gf', function() require"telescope.builtin".git_files { previewer = false } end)
+map('n', '<leader>gs', function() require"telescope.builtin".git_status() end)
+
+map('n', 'gb', ':JABSOpen<CR>')
 
 -- gc -- vmode comment/uncomment
 -- gcc -- comment/uncomment with motions allowed
@@ -194,11 +200,12 @@ vim.cmd('map <Leader>k <Plug>(easymotion-k)')
 
 -- https://bit.ly/3g6vYIW
 function _G.preserve(cmd)
-    cmd = string.format('keepjumps keeppatterns execute %q', cmd)
-    local original_cursor = vim.fn.winsaveview()
-    vim.api.nvim_command(cmd)
-    vim.fn.winrestview(original_cursor)
+	cmd = string.format('keepjumps keeppatterns execute %q', cmd)
+	local original_cursor = vim.fn.winsaveview()
+	vim.api.nvim_command(cmd)
+	vim.fn.winrestview(original_cursor)
 end
+
 map('n', '_$', [[:lua preserve('%s/\\s\\+$//e')<CR>]]) -- Remove trailing spaces
 -- map('n', '_=', [[:lua preserve("normal gg=G")<CR>]]) -- Indent entire file
 
@@ -227,4 +234,7 @@ map('n', '<leader>td', ":lua require('dap-go').debug_test()<CR>:lua require('dap
 map('n', '<leader>tb', ":lua require('dap').toggle_breakpoint()<CR>")
 map('n', 'dc', ":lua require('dap').continue()<CR>:lua require('dapui').toggle()<CR>")
 map('n', '<F10>', ":lua require('dap').step_over()<CR>")
+map('n', '<F11>', ":lua require('dap').step_into()<CR>")
+map('n', '<F11>', ":lua require('dap').step_into()<CR>")
+map('n', '<F11>', ":lua require('dap').step_into()<CR>")
 map('n', '<F11>', ":lua require('dap').step_into()<CR>")

@@ -62,23 +62,31 @@ return packer.startup(function(use)
 		},
 	}
 
-	use 'itchyny/lightline.vim'
-	use 'mengelbrecht/lightline-bufferline'
-	vim.g.lightline = {
-		component = {
-			filename= '%F',
-		},
-		tabline = {
-			left = { {'buffers'} },
-			right = { {'close'} },
-		},
-		component_expand = {
-			buffers = 'lightline#bufferline#buffers',
-		},
-		component_type = {
-			buffers = 'tabsel',
-		},
+	-- use 'itchyny/lightline.vim'
+	-- use 'mengelbrecht/lightline-bufferline'
+	-- vim.g.lightline = {
+	-- 	component = {
+	-- 		filename= '%F',
+	-- 	},
+	-- 	tabline = {
+	-- 		left = { {'buffers'} },
+	-- 		right = { {'close'} },
+	-- 	},
+	-- 	component_expand = {
+	-- 		buffers = 'lightline#bufferline#buffers',
+	-- 	},
+	-- 	component_type = {
+	-- 		buffers = 'tabsel',
+	-- 	},
+	-- }
+	
+	use { 'feline-nvim/feline.nvim', 
+		requires = {
+			"SmiteshP/nvim-navic",
+		}
 	}
+
+	use 'kyazdani42/nvim-web-devicons'
 	--------------------------------------
 
 	--------------------------------------
@@ -130,6 +138,13 @@ return packer.startup(function(use)
 	use { 'mfussenegger/nvim-dap' }
 	use { 'rcarriga/nvim-dap-ui' }
 	use { 'leoluz/nvim-dap-go' } -- configuration for dap to work with delve
+
+
+	-- GPS
+	use {
+		"SmiteshP/nvim-navic",
+		requires = "neovim/nvim-lspconfig"
+	}
 	--------------------------------------
 	
 	--------------------------------------
@@ -175,6 +190,7 @@ return packer.startup(function(use)
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
   }
+	use 'nvim-treesitter/nvim-treesitter-context'
 	--------------------------------------
 
 	--------------------------------------
@@ -212,7 +228,13 @@ return packer.startup(function(use)
 	-- :NERDTreeToggle
 	-- use 'scrooloose/nerdtree'
 
-	use 'airblade/vim-gitgutter'
+	-- use 'airblade/vim-gitgutter'
+	use {
+		'lewis6991/gitsigns.nvim',
+		config = function()
+			require('gitsigns').setup()
+		end
+	}
 	-- use {
 	-- 	'lewis6991/gitsigns.nvim',
 	-- 	requires = {
@@ -235,6 +257,9 @@ return packer.startup(function(use)
 
 	-- :SemanticHighlightToggle
 	use 'jaxbot/semantic-highlight.vim'
+
+	-- buffer switcher window
+	use 'matbme/JABS.nvim'
 	--------------------------------------
 
 	--------------------------------------
