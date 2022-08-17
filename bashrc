@@ -263,6 +263,10 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
+# brew install bash-completion@2
+export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+
 
 # for PyEnv
 # export PYENV_ROOT="$HOME/.pyenv"
@@ -281,12 +285,14 @@ complete -r cd 2>/dev/null
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # local bash overrides defaults
-if [ -f "${HOME}/local/bash_local.bash" ]; then
-    . "${HOME}/local/bash_local.bash"
+if [ -f "$HOME/local/bash_local.bash" ]; then
+    . "$HOME/local/bash_local.bash"
 fi
-if [ -f "${HOME}/private-bin/private.bashrc" ]; then
-    . "${HOME}/private-bin/private.bashrc"
+if [ -f "$HOME/private-bin/private.bashrc" ]; then
+    . "$HOME/private-bin/private.bashrc"
 fi
+
+export BASH_SILENCE_DEPRECATION_WARNING=1
 
 complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
@@ -302,3 +308,13 @@ complete -C $HOME/opt/bin/aws_completer aws
 
 # Consider personal repos as private and don't check their checksums against Go Proxy
 export GOPRIVATE="${GOPRIVATE}:github.com/DavidGamba"
+
+# Depends on https://github.com/scop/bash-completion#installation
+source <(kubectl completion bash)
+source <(kubectl completion bash | sed 's/kubectl/k/g')
+alias k=kubectl
+# complete -o default -F __start_kubectl k
+
+. "$HOME/.cargo/env"
+
+complete -C /Users/david/opt/bin/terraform terraform
