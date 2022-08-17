@@ -4,12 +4,18 @@ function git_repo {
         GIT_BRANCH=" $GIT_BRANCH" &&\
         PROMT_CHAR='$'
 }
+
 function smiley {
     [ $RET -eq 0 ] && echo -ne "👌"
     [ $RET -ne 0 ] && echo -ne "⛔ 🙄 ⛔"
     # [ $RET -ne 0 ] && echo -ne "\e[31;1m:("
 }
-function ps1() {
+
+function k8s_ps1 {
+	K8S_CONTEXT=$(kubectl config view --minify --output 'jsonpath={.clusters[].name} {..namespace}')
+}
+
+function ps1 {
     local BLACK="30"
     local RED="31"
     local GREEN="32"
@@ -55,11 +61,11 @@ function ps1() {
     fi
 
     local TERM_TITLE="\[\033]2; \h \w\007\]"
-    local FIRST_LINE="${CB}${B_DEFAULT};${HOST_COLOR};${BOLD}${CE}\h ${CB}${FAINT};${HOST_COLOR}${CE}\D{%F %T} ${CB}${CYAN}${CE}\w${CB}${DEFAULT};${RESET}${CE} \$(smiley)${CB}${HOST_COLOR};${NORMAL}${CE} \${GIT_BRANCH}"
+    local FIRST_LINE="${CB}${B_DEFAULT};${HOST_COLOR};${BOLD}${CE}\h ${CB}${FAINT};${HOST_COLOR}${CE}\D{%F %T} ${CB}${CYAN}${CE}\w${CB}${DEFAULT};${RESET}${CE} \$(smiley)${CB}${HOST_COLOR};${NORMAL}${CE} \${GIT_BRANCH} ${CB}${GREEN};${NORMAL}${CE}\${K8S_CONTEXT}"
     local SECOND_LINE="\n${CB}${B_DEFAULT};${BLUE};${BOLD}${CE}\${PROMT_CHAR} "
     local REGULAR_TEXT="${CB}${DEFAULT};${RESET}${CE}"
     PS1=${TERM_RESET}${TERM_TITLE}${FIRST_LINE}${SECOND_LINE}${REGULAR_TEXT}
 }
 
-PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; history -a; git_repo'
+PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; history -a; git_repo; k8s_ps1'
 ps1
