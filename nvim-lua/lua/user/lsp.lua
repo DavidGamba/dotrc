@@ -83,4 +83,19 @@ lspconfig.sumneko_lua.setup {
 	},
 }
 
-vim.api.nvim_command("autocmd BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)")
+lspconfig.terraformls.setup {
+	capabilities = capabilities,
+	on_attach = on_attach,
+	filetypes = { 'terraform', 'tf', 'tfvars' },
+}
+
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.tf", "*.tfvars"},
+  callback = vim.lsp.buf.formatting_sync,
+})
+
+-- vim.lsp.buf.formatting_sync(nil, 1000)
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.go"},
+  callback = vim.lsp.buf.formatting_sync,
+})
