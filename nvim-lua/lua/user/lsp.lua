@@ -38,6 +38,8 @@ local on_attach = function(client, bufnr)
 	end
 end
 
+vim.api.nvim_set_hl(0, 'LspCodeLens', {fg='#88C0D0', underline=true})
+
 
 -- [lsp] typescript
 lspconfig.tsserver.setup {
@@ -50,12 +52,27 @@ lspconfig.tsserver.setup {
 lspconfig.gopls.setup {
 	capabilities = capabilities,
 	on_attach = on_attach,
-	gopls = {
+	init_options = {
 		analyses = {
-			unusedparams = true,
+			unusedparams = false,
 		},
+		codelenses = {
+			generate           = true,
+			gc_details         = true,
+			test               = true,
+			tidy               = true,
+			upgrade_dependency = true,
+		},
+		usePlaceholders = true,
+		completeUnimported = true,
+		staticcheck = true,
+		matcher = 'fuzzy',
+		diagnosticsDelay = '500ms',
+		experimentalWatchedFileDelay = '1000ms',
+		symbolMatcher = 'fuzzy',
+		gofumpt = false, -- true, -- turn on for new repos, gofmpt is good but also create code turmoils
+		buildFlags = { '-tags', 'integration' },
 	},
-	staticcheck = true,
 }
 
 lspconfig.sumneko_lua.setup {
@@ -89,13 +106,17 @@ lspconfig.terraformls.setup {
 	filetypes = { 'terraform', 'tf', 'tfvars' },
 }
 
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-  pattern = {"*.tf", "*.tfvars"},
-  callback = vim.lsp.buf.formatting_sync,
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = { "*.tf", "*.tfvars" },
+	callback = vim.lsp.buf.formatting_sync,
 })
 
 -- vim.lsp.buf.formatting_sync(nil, 1000)
-vim.api.nvim_create_autocmd({"BufWritePre"}, {
-  pattern = {"*.go"},
-  callback = vim.lsp.buf.formatting_sync,
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = { "*.go" },
+	callback = vim.lsp.buf.formatting_sync,
+})
+
+vim.api.nvim_create_autocmd({ "CursorHold","InsertLeave" }, {
+	callback = vim.lsp.codelens.refresh,
 })

@@ -48,7 +48,7 @@ return packer.startup(function(use)
 	--------------------------------------
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
-	
+
 	--------------------------------------
 	-- colorscheme
 	--------------------------------------
@@ -79,8 +79,8 @@ return packer.startup(function(use)
 	-- 		buffers = 'tabsel',
 	-- 	},
 	-- }
-	
-	use { 'feline-nvim/feline.nvim', 
+
+	use { 'feline-nvim/feline.nvim',
 		requires = {
 			"SmiteshP/nvim-navic",
 		}
@@ -101,6 +101,7 @@ return packer.startup(function(use)
 	-- Enable submodes, used for window submode
 	-- use 'Iron-E/nvim-libmodal'
 	-- use 'DavidGamba/nvim-window-mode'
+	-- use {'Iron-E/nvim-bufmode', wants='nvim-libmodal'}
 
 	-- Conflicts with toggleterm
 	-- use 'christoomey/vim-tmux-navigator'
@@ -146,11 +147,11 @@ return packer.startup(function(use)
 		requires = "neovim/nvim-lspconfig"
 	}
 	--------------------------------------
-	
+
 	--------------------------------------
 	-- snippets
 	--------------------------------------
-	use { 
+	use {
 		'SirVer/ultisnips',
 		requires = {
 			'honza/vim-snippets',
@@ -202,7 +203,7 @@ return packer.startup(function(use)
 
 	-- Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
 	use 'tpope/vim-abolish'
-	
+
 	-- use 'junegunn/vim-easy-align'
 	-- use 'vim-scripts/vis' -- Visual mode B
 
@@ -249,7 +250,7 @@ return packer.startup(function(use)
 
 	-- Git support
 	use 'tpope/vim-fugitive'
-	
+
 	-- Extra command pairs to do many things
 	-- A mnemonic for the "a" commands is "args" and for the "q" commands is "quickfix"
 	-- The mnemonic for y is that if you tilt it a bit it looks like a switch.

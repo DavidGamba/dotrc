@@ -82,6 +82,11 @@ local qwerty = function()
 end
 qwerty()
 
+local kakoune = function()
+	map('n', 'w', '<esc>ve')
+end
+--kakoune()
+
 -- Keep visual selection after indentation in visual mode
 map('v', '<', '<gv')
 map('v', '>', '>gv')
@@ -110,7 +115,8 @@ map('n', '[d', vim.diagnostic.goto_prev)
 map('n', ']d', vim.diagnostic.goto_next)
 
 map('n', 'ga', vim.lsp.buf.code_action) -- go action
-map('v', '<leader>a', vim.lsp.buf.range_code_action)
+map('v', 'ga', ':lua vim.lsp.buf.range_code_action()<CR>')
+map('n', 'ge', vim.lsp.codelens.run) -- go exec
 
 map('n', '=', vim.lsp.buf.format)
 
