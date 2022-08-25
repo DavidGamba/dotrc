@@ -187,8 +187,9 @@ endsnippet
 
 snippet ife
 if err != nil {
-	return err
+	return fmt.Errorf("${1:reason}: %w", err)
 }
+$0
 endsnippet
 
 snippet open
