@@ -149,7 +149,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 }
 
 func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
-	version := "0.6.1"
+	version := "0.7.0"
 	Logger.Printf("NVIM %s\n", version)
 
 	os.Chdir(os.Getenv("HOME") + "/opt")
@@ -208,6 +208,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmdIgnore("go install arp242.net/uni@latest")
 	cg.cmd("go install github.com/jesseduffield/lazygit@latest")
 	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master")
+	cg.cmd("go install github.com/sachaos/viddy@latest")
 
 	cg.cmd("cargo install diffr")
 	cg.cmd("cargo install git-delta")
@@ -218,11 +219,33 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install igrep")
 	cg.cmd("cargo install watchexec-cli")
 	cg.cmd("cargo install --locked bat")
+	cg.cmd("cargo install tuc")
 
 	_ = run.CMD(strings.Split("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf", " ")...).Log().PrintErr().Stdin().Run()
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
 	cg.cmd("git pull")
 	cg.cmd("$HOME/.fzf/install")
+
+	switch runtime.GOOS {
+	case "darwin":
+		cg.cmd("brew install yabai")
+		cg.cmd("brew install skhd")
+		cg.cmd("brew install --cask alt-tab")
+
+		cg.cmd("brew install age")
+		cg.cmd("brew install asciidoctor")
+		cg.cmd("brew install bash")
+		cg.cmd("brew install bash-completion@2")
+		cg.cmd("brew install gawk")
+		cg.cmd("brew install graphviz")
+		cg.cmd("brew install gron")
+		cg.cmd("brew install nmap")
+		cg.cmd("brew install terraform-ls")
+		cg.cmd("brew install tree-sitter")
+		cg.cmd("brew install watch")
+		cg.cmd("brew install wget")
+		cg.cmd("brew install yamllint")
+	}
 
 	return cg.Error
 }
@@ -231,6 +254,12 @@ func TMuxInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) err
 	os.Chdir(filepath.Join(os.Getenv("HOME"), "general/code"))
 
 	cg := CMDGroup{}
+	switch runtime.GOOS {
+	case "darwin":
+		cg.cmd("brew install tmux")
+		return cg.Error
+	}
+
 	cg.cmd("sudo yum install git autoconf automake")
 	cg.cmd("sudo yum install libevent-devel ncurses-devel gcc make bison pkg-config")
 	cg.cmd("git clone https://github.com/tmux/tmux.git")
