@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-yabai -m config mouse_follows_focus on
+yabai -m config mouse_follows_focus off
 
 yabai -m space 1 --label one
 yabai -m space 2 --label two

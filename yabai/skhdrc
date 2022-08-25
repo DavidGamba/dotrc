@@ -15,6 +15,7 @@ cmd - down : yabai -m window --swap south
 shift + cmd - left : /Users/david/dotrc/yabai/move_window_left.sh
 shift + cmd - right : /Users/david/dotrc/yabai/move_window_right.sh
 
-shift + cmd - s : yabai -m window --stack next
+# shift + cmd - s -> screenshot
+#shift + cmd - s : yabai -m window --stack next
 shift + cmd - u : yabai -m window --warp next
 shift + cmd - r : yabai -m space --layout bsp
