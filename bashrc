@@ -168,6 +168,11 @@ alias tapply='time terraform apply -input tf.plan && rm tf.plan'
 alias tcopy='terraform show -no-color tf.plan | copy'
 alias tshow='terraform show tf.plan'
 
+# kubernetes
+alias kcd='kubectl config set-context --current --namespace '
+alias kgc='kubectl config get-contexts'
+alias kuc='kubectl config use-context '
+
 if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
 	alias copy-file='win32yank.exe -i <<<'
