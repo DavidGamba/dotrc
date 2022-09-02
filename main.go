@@ -231,6 +231,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install yabai")
 		cg.cmd("brew install skhd")
 		cg.cmd("brew install --cask alt-tab")
+		cg.cmd("brew install --cask jumpcut")
 
 		cg.cmd("brew install age")
 		cg.cmd("brew install asciidoctor")
