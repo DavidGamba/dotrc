@@ -1,3 +1,7 @@
+KeepAlive yes
+ServerAliveInterval 30
+ServerAliveCountMax 6
+
 Include work_config
 Include private_config
 
