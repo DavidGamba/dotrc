@@ -29,6 +29,13 @@ set keymap vi-insert
 Control-w: "dBxi "
 Control-l: clear-screen
 
+# colemak
+# set keymap vi-command
+# i: "l"
+# n: "j"
+# e: "k"
+# j: "e"
+
 $endif
 
 
