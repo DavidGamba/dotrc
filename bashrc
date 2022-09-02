@@ -72,6 +72,11 @@ if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
 	path_prepend "/mnt/c/WINDOWS/system32"
 fi
 
+if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
+  export JAVA_HOME=/usr/local/opt/openjdk/
+	path_prepend "/usr/local/opt/openjdk/bin"
+fi
+
 path_prepend "$HOME/.local/bin" # Python binaries
 path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/go/bin"     # Go binaries
