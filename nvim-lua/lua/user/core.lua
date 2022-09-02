@@ -81,3 +81,5 @@ o.smartcase = true
 vim.api.nvim_command("autocmd FileType asciidoc set expandtab")
 
 o.updatetime = 300 -- faster completion (4000ms default)
+
+o.spell = true

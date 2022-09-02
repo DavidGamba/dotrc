@@ -3,16 +3,16 @@ local fn = vim.fn
 -- Automatically install packer
 local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system {
-    "git",
-    "clone",
-    "--depth",
-    "1",
-    "https://github.com/wbthomason/packer.nvim",
-    install_path,
-  }
-  print "Installing packer close and reopen Neovim..."
-  vim.cmd [[packadd packer.nvim]]
+	PACKER_BOOTSTRAP = fn.system {
+		"git",
+		"clone",
+		"--depth",
+		"1",
+		"https://github.com/wbthomason/packer.nvim",
+		install_path,
+	}
+	print "Installing packer close and reopen Neovim..."
+	vim.cmd [[packadd packer.nvim]]
 end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
@@ -26,17 +26,17 @@ vim.cmd [[
 -- Use a protected call so we don't error out on first use
 local status_ok, packer = pcall(require, "packer")
 if not status_ok then
-  print "ERROR: Failed to load packer!"
-  return
+	print "ERROR: Failed to load packer!"
+	return
 end
 
 -- Have packer use a popup window
 packer.init {
-  display = {
-    open_fn = function()
-      return require("packer.util").float { border = "rounded" }
-    end,
-  },
+	display = {
+		open_fn = function()
+			return require("packer.util").float { border = "rounded" }
+		end,
+	},
 }
 
 -- Install your plugins here
@@ -46,8 +46,8 @@ return packer.startup(function(use)
 	--------------------------------------
 	-- Dependencies for other plugins
 	--------------------------------------
-  use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-  use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
+	use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
+	use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
 
 	--------------------------------------
 	-- colorscheme
@@ -92,8 +92,8 @@ return packer.startup(function(use)
 	--------------------------------------
 	-- core
 	--------------------------------------
-  use "antoinemadec/FixCursorHold.nvim" -- Fix CursorHold event slowness
-  use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+	use "antoinemadec/FixCursorHold.nvim" -- Fix CursorHold event slowness
+	use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
 
 	-- use 'bfredl/nvim-miniyank'
 	-- vim.g.miniyank_filename = os.getenv("HOME") .. "/.miniyank.mpack"
@@ -109,7 +109,7 @@ return packer.startup(function(use)
 	use 'editorconfig/editorconfig-vim'
 
 	use 'neomake/neomake'
-	vim.g.neomake_shellcheck_args = {'-fgcc'}
+	vim.g.neomake_shellcheck_args = { '-fgcc' }
 
 	use "akinsho/toggleterm.nvim"
 	--------------------------------------
@@ -158,14 +158,14 @@ return packer.startup(function(use)
 			'quangnguyen30192/cmp-nvim-ultisnips',
 		}
 	}
-	vim.g.UltiSnipsExpandTrigger="<tab>"
+	vim.g.UltiSnipsExpandTrigger = "<tab>"
 	if not vim.g.UltiSnipsSnippetDirectories then
 		vim.g.UltiSnipsSnippetDirectories = { os.getenv("HOME") .. "/dotrc/vim-snippets" }
 	else
 		table.insert(vim.g.UltiSnipsSnippetDirectories, os.getenv("HOME") .. "/dotrc/vim-snippets")
 	end
-	vim.g.UltiSnipsJumpForwardTrigger="<tab>"
-	vim.g.UltiSnipsJumpBackwardTrigger="<s-tab>"
+	vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
+	vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
 	--------------------------------------
 
 	--------------------------------------
@@ -187,10 +187,10 @@ return packer.startup(function(use)
 	--------------------------------------
 	-- Treesitter
 	--------------------------------------
-  use {
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-  }
+	use {
+		"nvim-treesitter/nvim-treesitter",
+		run = ":TSUpdate",
+	}
 	use 'nvim-treesitter/nvim-treesitter-context'
 	--------------------------------------
 
@@ -254,7 +254,7 @@ return packer.startup(function(use)
 	-- Extra command pairs to do many things
 	-- A mnemonic for the "a" commands is "args" and for the "q" commands is "quickfix"
 	-- The mnemonic for y is that if you tilt it a bit it looks like a switch.
-	use'tpope/vim-unimpaired'
+	use 'tpope/vim-unimpaired'
 
 	-- :SemanticHighlightToggle
 	use 'jaxbot/semantic-highlight.vim'
@@ -267,12 +267,15 @@ return packer.startup(function(use)
 	-- Language support
 	--------------------------------------
 	use { 'hashivim/vim-terraform' }
-	use {'suoto/vim-antlr', ft = {'antlr4'} }
+	use { 'suoto/vim-antlr', ft = { 'antlr4' } }
 	--------------------------------------
 
-  -- Automatically set up your configuration after cloning packer.nvim
-  -- Put this at the end after all plugins
-  if PACKER_BOOTSTRAP then
-    require("packer").sync()
-  end
+	use { 'lewis6991/spellsitter.nvim' }
+
+
+	-- Automatically set up your configuration after cloning packer.nvim
+	-- Put this at the end after all plugins
+	if PACKER_BOOTSTRAP then
+		require("packer").sync()
+	end
 end)
