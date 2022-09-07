@@ -12,7 +12,7 @@ function smiley {
 }
 
 function k8s_ps1 {
-	K8S_CONTEXT=$(kubectl config view --minify --output 'jsonpath={.clusters[].name} {..namespace}')
+	K8S_CONTEXT=$(kubectl config view --minify --output 'jsonpath={.clusters[].name} {..namespace}' 2>/dev/null)
 }
 
 function ps1 {
