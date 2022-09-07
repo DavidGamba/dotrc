@@ -158,6 +158,7 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	case "darwin":
 		cg := CMDGroup{}
 		cg.cmd("brew install --HEAD neovim")
+		cg.cmd("python3 -m pip install --user --upgrade pynvim")
 		return cg.Error
 	}
 
