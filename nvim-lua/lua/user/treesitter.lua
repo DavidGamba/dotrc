@@ -3,12 +3,17 @@ if not nvim_treesitter_status_ok then
   return
 end
 
-local nvim_treesitter_context_status_ok, nvim_treesitter_context = pcall(require, "nvim-treesitter-context")
-if not nvim_treesitter_context_status_ok then
-  return
-end
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.cue = {
+  install_info = {
+    url = "https://github.com/eonpatapon/tree-sitter-cue",
+    files = {"src/parser.c", "src/scanner.c"},
+    branch = "main"
+  },
+  filetype = "cue",
+}
 
-nvim_treesitter.configs.setup {
+require 'nvim-treesitter.configs'.setup {
 	highlight             = {
 		enable = true,
 		additional_vim_regex_highlighting = true, -- fixes spell check on comments only
@@ -39,15 +44,10 @@ nvim_treesitter.configs.setup {
 	}
 }
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.cue = {
-  install_info = {
-    url = "https://github.com/eonpatapon/tree-sitter-cue",
-    files = {"src/parser.c", "src/scanner.c"},
-    branch = "main"
-  },
-  filetype = "cue",
-}
+local nvim_treesitter_context_status_ok, nvim_treesitter_context = pcall(require, "nvim-treesitter-context")
+if not nvim_treesitter_context_status_ok then
+  return
+end
 
 nvim_treesitter_context.setup {
 	enable = true,
