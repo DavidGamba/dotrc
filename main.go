@@ -85,7 +85,7 @@ func checkSelf(ctx context.Context) error {
 		if err != nil {
 			return fmt.Errorf("failed to rebuild itself: %w", err)
 		}
-		return fmt.Errorf("source files changed so the binary was rebuilt: plese run again!")
+		return fmt.Errorf("source files changed so the binary was rebuilt: plese run again")
 	}
 	err = os.Chdir(wd)
 	if err != nil {
@@ -223,15 +223,15 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install --locked bat")
 	cg.cmd("cargo install tuc")
 
-	_ = run.CMD(strings.Split("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf", " ")...).Log().PrintErr().Stdin().Run()
+	cg.cmdIgnore("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
 	cg.cmd("git pull")
 	cg.cmd("$HOME/.fzf/install")
 
 	switch runtime.GOOS {
 	case "darwin":
-		cg.cmd("brew install yabai")
-		cg.cmd("brew install skhd")
+		cg.cmd("brew install koekeishiya/formulae/yabai")
+		cg.cmd("brew install koekeishiya/formulae/skhd")
 		cg.cmd("brew install --cask alt-tab")
 		cg.cmd("brew install --cask jumpcut")
 
