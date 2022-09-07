@@ -134,6 +134,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
+	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 
 	switch runtime.GOOS {
