@@ -73,7 +73,8 @@ if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
 fi
 
 if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
-  export JAVA_HOME=/usr/local/opt/openjdk/
+	export JAVA_HOME=/usr/local/opt/openjdk/
+	export SHELL="/opt/homebrew/bin/bash"
 	path_prepend "/usr/local/opt/openjdk/bin"
 fi
 
@@ -84,6 +85,7 @@ path_prepend "/snap/bin"        # Snap binaries
 path_prepend "$HOME/local/bin"
 path_prepend "$HOME/opt/bin"
 path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin"
+path_prepend "/opt/homebrew/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/private-bin"
 
