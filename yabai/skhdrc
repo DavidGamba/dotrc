@@ -2,20 +2,30 @@
 #shift + cmd - h : yabai -m window --swap west
 #shift + cmd - j : yabai -m window --swap south
 #shift + cmd - k : yabai -m window --swap north
-shift + cmd - l : yabai -m window --swap east
 shift + cmd - h : yabai -m window --swap west
+shift + cmd - l : yabai -m window --swap east
 shift + cmd - k : yabai -m window --swap north
 shift + cmd - j : yabai -m window --swap south
 
-cmd - left : yabai -m window --swap west
+cmd - left  : yabai -m window --swap west
 cmd - right : yabai -m window --swap east
-cmd - up : yabai -m window --swap north
-cmd - down : yabai -m window --swap south
+cmd - up    : yabai -m window --swap north
+cmd - down  : yabai -m window --swap south
 
-shift + cmd - left : /Users/david/dotrc/yabai/move_window_left.sh
-shift + cmd - right : /Users/david/dotrc/yabai/move_window_right.sh
+alt - k : if [ "$(yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then (yabai -m window --focus stack.next || yabai -m window --focus stack.first); else yabai -m window --focus next || yabai -m window --focus first; fi
+alt - j : if [ "$(yabai -m query --spaces --space | jq -r '.type')" = "stack" ]; then (yabai -m window --focus stack.prev || yabai -m window --focus stack.last); else yabai -m window --focus prev || yabai -m window --focus last; fi
 
-# shift + cmd - s -> screenshot
-#shift + cmd - s : yabai -m window --stack next
+shift + cmd - left : $HOME/dotrc/yabai/move_window_left.sh
+shift + cmd - right : $HOME/dotrc/yabai/move_window_right.sh
+
+#shift + cmd - p -> screenshot
+shift + cmd - 0 : yabai -m space --balance
+shift + cmd - s : yabai -m window --stack next
+shift + cmd - f : yabai -m window --toggle float && yabai -m window --grid 1:1:0:0:1:1
 shift + cmd - u : yabai -m window --warp next
-shift + cmd - r : yabai -m space --layout bsp
+shift + cmd - r : yabai -m space --rotate 90
+shift + cmd - y : yabai -m space --mirror y-axis
+
+# resize window
+shift + cmd - a : yabai -m window --resize left:-20:0 || yabai -m window --resize right:-20:0
+shift + cmd - d : yabai -m window --resize right:20:0 || yabai -m window --resize left:20:0

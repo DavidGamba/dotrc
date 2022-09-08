@@ -136,6 +136,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
+	cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
+	cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
 
 	switch runtime.GOOS {
 	case "darwin":
@@ -230,6 +232,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
+		cg.cmd("brew install jq")
 		cg.cmd("brew install koekeishiya/formulae/yabai")
 		cg.cmd("brew install koekeishiya/formulae/skhd")
 		cg.cmd("brew install --cask alt-tab")
