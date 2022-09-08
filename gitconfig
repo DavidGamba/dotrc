@@ -2,6 +2,9 @@
 	name = David Gamba
 	email = davidgamba@gmail.com
 
+[includeIf "gitdir:~/work/"]
+    path = ~/work/.gitconfig
+
 [core]
 	#pager = less -FRX
 	pager = delta

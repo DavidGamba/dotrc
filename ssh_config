@@ -9,4 +9,14 @@ Host *
 	IgnoreUnknown UseKeychain
 	AddKeysToAgent yes
 	UseKeychain yes
-	IdentityFile ~/.ssh/id_rsa
+	IdentityFile ~/.ssh/id_ed25519_work
+
+Host github.com
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_work
+
+Host github.com-personal
+	HostName github.com
+	User git
+	IdentityFile ~/.ssh/id_ed25519_personal
