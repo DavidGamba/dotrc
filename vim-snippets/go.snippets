@@ -160,6 +160,36 @@ func Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 }
 endsnippet
 
+snippet newcommand
+package ${1:packagename}
+
+import (
+	"log"
+	"os"
+
+	"github.com/DavidGamba/go-getoptions"
+)
+
+var Logger = log.New(os.Stderr, "", log.LstdFlags)
+
+func NewCommand(parent *getoptions.GetOpt) *getoptions.GetOpt {
+	opt := parent.NewCommand("$1", "$1 related tasks")
+	return opt
+}
+endsnippet
+
+snippet newsubcommand
+func ${1:subcommandname}CMD(parent *getoptions.GetOpt) *getoptions.GetOpt {
+	opt := parent.NewCommand("$1$0", "")
+	opt.SetCommandFn($1Run)
+	return opt
+}
+
+func $1Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	return nil
+}
+endsnippet
+
 snippet dispatch
 	ctx, cancel, done := opt.InterruptContext()
 	defer func() { cancel(); <-done }()

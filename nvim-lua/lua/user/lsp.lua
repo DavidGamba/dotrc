@@ -108,13 +108,12 @@ lspconfig.terraformls.setup {
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.tf", "*.tfvars" },
-	callback = vim.lsp.buf.formatting_sync,
+	callback = vim.lsp.buf.formatting,
 })
 
--- vim.lsp.buf.formatting_sync(nil, 1000)
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.go" },
-	callback = vim.lsp.buf.formatting_sync,
+	callback = vim.lsp.buf.formatting,
 })
 
 vim.api.nvim_create_autocmd({ "CursorHold","InsertLeave" }, {
