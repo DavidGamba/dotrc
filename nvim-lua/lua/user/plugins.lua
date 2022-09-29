@@ -164,8 +164,8 @@ return packer.startup(function(use)
 	else
 		table.insert(vim.g.UltiSnipsSnippetDirectories, os.getenv("HOME") .. "/dotrc/vim-snippets")
 	end
-	vim.g.UltiSnipsJumpForwardTrigger = "<tab>"
-	vim.g.UltiSnipsJumpBackwardTrigger = "<s-tab>"
+	vim.g.UltiSnipsJumpForwardTrigger = "<c-l>"
+	vim.g.UltiSnipsJumpBackwardTrigger = "<c-h>"
 	--------------------------------------
 
 	--------------------------------------

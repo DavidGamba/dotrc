@@ -102,7 +102,7 @@ map('n', 'gh', vim.lsp.buf.hover) -- go hover
 
 map('n', 'gli', vim.lsp.buf.implementation) -- go list imlementation
 
-map('n', '<C-K>', vim.lsp.buf.signature_help) -- go signature
+map('n', 'gH', vim.lsp.buf.signature_help) -- go signature
 
 map('n', 'glt', vim.lsp.buf.type_definition) -- go to type
 

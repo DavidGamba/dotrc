@@ -209,7 +209,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg := CMDGroup{}
 	cg.cmd("go install golang.org/x/tools/gopls@latest")
-	cg.cmdIgnore("go install arp242.net/uni@latest")
+	cg.cmd("go install github.com/philpennock/character@latest")
 	cg.cmd("go install github.com/jesseduffield/lazygit@latest")
 	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master")
 	cg.cmd("go install github.com/sachaos/viddy@latest")

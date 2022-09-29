@@ -180,12 +180,13 @@ endsnippet
 
 snippet newsubcommand
 func ${1:subcommandname}CMD(parent *getoptions.GetOpt) *getoptions.GetOpt {
-	opt := parent.NewCommand("$1$0", "")
+	opt := parent.NewCommand("`!p snip.rv = t[1].lower()`", "")
 	opt.SetCommandFn($1Run)
 	return opt
 }
 
 func $1Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	$0
 	return nil
 }
 endsnippet
