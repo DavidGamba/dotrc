@@ -152,7 +152,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 }
 
 func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
-	version := "0.7.0"
+	version := "0.8.0"
 	Logger.Printf("NVIM %s\n", version)
 
 	os.Chdir(os.Getenv("HOME") + "/opt")
@@ -160,8 +160,8 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	switch runtime.GOOS {
 	case "darwin":
 		cg := CMDGroup{}
-		cg.cmd("brew install --HEAD neovim")
 		cg.cmd("python3 -m pip install --user --upgrade pynvim")
+		cg.cmd("brew install --HEAD neovim")
 		return cg.Error
 	}
 
@@ -246,11 +246,14 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install graphviz")
 		cg.cmd("brew install gron")
 		cg.cmd("brew install nmap")
-		cg.cmd("brew install terraform-ls")
-		cg.cmd("brew install tree-sitter")
 		cg.cmd("brew install watch")
 		cg.cmd("brew install wget")
 		cg.cmd("brew install yamllint")
+
+		cg.cmd("brew install tree-sitter")
+		cg.cmd("brew install terraform-ls")
+		cg.cmd("brew install lua-language-server")
+		cg.cmd("brew install shellcheck")
 	}
 
 	return cg.Error
