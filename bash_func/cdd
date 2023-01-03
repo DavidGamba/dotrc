@@ -29,9 +29,7 @@ function cdd()
 		dir=$(__cdd_find_in_path "$*")
 		# >&2 echo "found: $dir"
 		retval=$?
-		if [[ $retval -eq 1 ]]; then
-			cd "$*"
-		else
+		if [[ $retval -ne 1 ]]; then
 			local rel
 			if [[ $(uname) =~ "Darwin" ]]; then
 				rel=$(echo "$PWD" | sed -E "s#^$dir/[^/]+##")
@@ -40,17 +38,41 @@ function cdd()
 			fi
 			# >&2 echo "pwd $PWD, dir $dir, rel $rel"
 			# >&2 echo "$dir/$1/$rel"
-			cd "$dir/$1/$rel"
+			if [[ -d "$dir/$1/$rel" ]]; then
+				cd "$dir/$1/$rel"
+			elif [ -d $dir/*$1/$rel ]; then
+				cd $dir/*$1/$rel
+			elif [ -d $dir/$1*/$rel ]; then
+				cd $dir/$1*/$rel
+			else
+				cd $dir/$1/$rel
+			fi
+		else
+			cd "$*"
 		fi
 	fi
 }
 
+# Returns the top level dir
+# Input can be either the full dirname or its prefix or suffix
+# For this to work, the prefix or suffix glob must return a single result.
 function __cdd_find_in_path()
 {
 	local dir
 	dir="../$(dirname "$1")"
-	# >&2 echo "searching for $1, recursing to $dir"
+	local base
+	base=$(basename "$1")
+
+	# >&2 echo "searching for $1, recursing to $dir, $dir/*$base*"
 	if [[ -d "../$1" ]]; then
+		realpath "$dir"
+		return 0
+	elif [ -d $dir/*$base ]; then
+		# suffix
+		realpath "$dir"
+		return 0
+	elif [ -d $dir/$base* ]; then
+		# prefix
 		realpath "$dir"
 		return 0
 	else
