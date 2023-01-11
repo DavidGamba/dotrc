@@ -8,7 +8,7 @@ if not dapui_status_ok then
   return
 end
 
-dap_go.setup {}
+dap_go.setup()
 dapui.setup {}
 -- require'go'.setup {
 -- 	goimport = 'gopls', -- if set to 'gopls' will use golsp format

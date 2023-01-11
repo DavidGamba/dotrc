@@ -104,7 +104,7 @@ map('n', 'gli', vim.lsp.buf.implementation) -- go list imlementation
 
 map('n', 'gH', vim.lsp.buf.signature_help) -- go signature
 
-map('n', 'glt', vim.lsp.buf.type_definition) -- go to type
+map('n', 'glt', vim.lsp.buf.type_definition) -- go list type
 
 map('n', '<F2>', vim.lsp.buf.rename) -- Rename with same keymapping as vscode
 
@@ -145,6 +145,7 @@ map('n', 'gwr', vim.lsp.buf.remove_workspace_folder)
 map('n', '<C-p>', function() require"telescope.builtin".find_files { previewer = false } end)
 map('n', '<M-b>', function() require"telescope.builtin".buffers() end)
 map('n', '<M-f>', function() require"telescope.builtin".live_grep() end)
+map('n', '<m-8>', function() require"telescope.builtin".grep_string() end)
 -- <C-e> creates files and dirs
 -- map('n', '-', ':lua require"telescope.builtin".file_browser()<CR>')
 map('n', '<leader>fh', function() require"telescope.builtin".help_tags() end)
@@ -183,9 +184,6 @@ vim.cmd('map <Leader>k <Plug>(easymotion-k)')
 
 -- inoremap jj <esc>
 
--- Quickly get out of the closign paren
--- inoremap <C-l><C-l> <ESC>la
-
 -- nmap <UP> <C-Y>
 -- nmap <DOWN> <C-E>
 --
@@ -217,6 +215,15 @@ map('n', '_$', [[:lua preserve('%s/\\s\\+$//e')<CR>]]) -- Remove trailing spaces
 
 
 map('n', '<leader>d', ':bp<bar>sp<bar>bn<bar>bd<CR>') -- Buffer delete
+
+-- move closing paren to next word
+-- test(wordhello)
+map('i', '<c-u>', '<esc>lxepi')
+
+-- Quickly get out of the closign paren
+-- Use arrows instead
+-- map('i', '<c-l><c-l>', '<esc>la')
+
 
 -- " restore position in file
 -- au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | execute "normal g'\"" | endif

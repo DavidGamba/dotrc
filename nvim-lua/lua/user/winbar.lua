@@ -1,3 +1,8 @@
+local nvim_web_devicons_ok, nvim_web_devicons = pcall(require, "nvim-web-devicons")
+if not nvim_web_devicons_ok then
+  return
+end
+
 local M = {}
 
 M.winbar_filetype_exclude = {
@@ -21,7 +26,7 @@ local get_filename = function()
   local f = require "user.functions"
 
   if not f.isempty(filename) then
-    local file_icon, file_icon_color = require("nvim-web-devicons").get_icon_color(
+    local file_icon, file_icon_color = nvim_web_devicons.get_icon_color(
       filename,
       extension,
       { default = true }

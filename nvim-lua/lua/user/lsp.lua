@@ -8,15 +8,23 @@ if not status_ok then
 	return
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = cmp_nvim_lsp.update_capabilities(capabilities)
+local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_ok then
+	return
+end
 
-local lspconfig = require 'lspconfig'
+local lsp_signature_ok, lsp_signature = pcall(require, "lsp_signature")
+if not lsp_signature_ok then
+	return
+end
+
+local capabilities = cmp_nvim_lsp.default_capabilities()
+
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 	navic.attach(client, bufnr)
 
-	require "lsp_signature".on_attach({
+	lsp_signature.on_attach({
 		bind = true, -- This is mandatory, otherwise border config won't get registered.
 		handler_opts = {
 			border = "rounded"

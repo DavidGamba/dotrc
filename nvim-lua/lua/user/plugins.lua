@@ -261,6 +261,15 @@ return packer.startup(function(use)
 
 	-- buffer switcher window
 	use 'matbme/JABS.nvim'
+
+	-- Flow state reading in neovim:
+	-- :FSRead
+	-- :FSClear
+	-- :FSToggle
+	use 'nullchilly/fsread.nvim'
+
+	-- Autoclose
+	use 'm4xshen/autoclose.nvim'
 	--------------------------------------
 
 	--------------------------------------

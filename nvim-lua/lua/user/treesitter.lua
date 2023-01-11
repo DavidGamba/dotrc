@@ -3,7 +3,7 @@ if not nvim_treesitter_status_ok then
   return
 end
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
 parser_config.cue = {
   install_info = {
     url = "https://github.com/eonpatapon/tree-sitter-cue",
@@ -13,7 +13,7 @@ parser_config.cue = {
   filetype = "cue",
 }
 
-require 'nvim-treesitter.configs'.setup {
+require'nvim-treesitter.configs'.setup {
 	highlight             = {
 		enable = true,
 		additional_vim_regex_highlighting = true, -- fixes spell check on comments only
