@@ -96,7 +96,7 @@ export EDITOR="nvim"
 export GIT_EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
-export LESS="-I -j6 -M -R -F -X"
+export LESS="-I -j6 -M -R -X"
 export HOSTFILE=$HOME/.hosts    # Put list of remote hosts in ~/.hosts
 #LESSOPEN="|lesspipe.sh %s"
 #export LESSOPEN
