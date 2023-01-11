@@ -117,17 +117,20 @@ export HISTCONTROl=ignoreboth
 #-------------------------------------------------------------
 # Darwin = mac
 if [ `uname | grep Darwin` ]; then
-    # G is color in mac
-    alias ls='ls -GhF'
-    alias ll='ls -Gl'
-    alias la='ls -Gla'
-    alias l='ls -GCF'
-    alias chromium='/Applications/Chromium.app/Contents/MacOS/Chromium'
+	# use coreutils: brew install coreutils
+	alias ll='gls -l --color=auto'
+	alias ls='gls -hF --color=auto'
+	alias la='gls -la --color=auto'
+	alias l='gls -CF --color=auto'
+
+	alias rm='grm'
+
+	alias chromium='/Applications/Chromium.app/Contents/MacOS/Chromium'
 else
-    alias ls='ls -hF --color=auto'
-    alias ll='ls -l --color=auto'
-    alias la='ls -la --color=auto'
-    alias l='ls -CF --color=auto'
+	alias ls='ls -hF --color=auto'
+	alias ll='ls -l --color=auto'
+	alias la='ls -la --color=auto'
+	alias l='ls -CF --color=auto'
 fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -180,6 +183,7 @@ if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy-file='win32yank.exe -i <<<'
 	alias copy-path='pwd | tr -d "\n" | win32yank.exe -i'
 elif [[ $(uname) =~ "Darwin" ]]; then
+	alias copy='pbcopy'
 	alias copy-file='pbcopy <'
 	alias copy-path='pwd | tr -d "\n" | pbcopy'
 else
