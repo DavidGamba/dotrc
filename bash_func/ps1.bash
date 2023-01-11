@@ -53,6 +53,10 @@ function ps1 {
     local CE="m\]"   # Color End
     local TERM_RESET="\[\017\]"
 
+    local PS1_START_MARK="\[\e]133;A\a\]"
+    local PS2_START_MARK="\[\e]133;A;k=s\a\]"
+    local COMMAND_START_MARK="\[\e]133;C\a\]"
+
     HOST_COLOR=${CYAN}
     if [[ $(uname -a) =~ "amzn2" ]]; then
         HOST_COLOR=${MAGENTA}
@@ -64,7 +68,7 @@ function ps1 {
     local FIRST_LINE="${CB}${B_DEFAULT};${HOST_COLOR};${BOLD}${CE}\h ${CB}${FAINT};${HOST_COLOR}${CE}\D{%F %T} ${CB}${CYAN}${CE}\w${CB}${DEFAULT};${RESET}${CE} \$(smiley)${CB}${HOST_COLOR};${NORMAL}${CE} \${GIT_BRANCH} ${CB}${GREEN};${NORMAL}${CE}\${K8S_CONTEXT}"
     local SECOND_LINE="\n${CB}${B_DEFAULT};${BLUE};${BOLD}${CE}\${PROMT_CHAR} "
     local REGULAR_TEXT="${CB}${DEFAULT};${RESET}${CE}"
-    PS1=${TERM_RESET}${TERM_TITLE}${FIRST_LINE}${SECOND_LINE}${REGULAR_TEXT}
+    PS1=${TERM_RESET}${PS1_START_MARK}${TERM_TITLE}${FIRST_LINE}${SECOND_LINE}${REGULAR_TEXT}${COMMAND_START_MARK}
 }
 
 PROMPT_COMMAND='RET=$?; stty sane; tput rmacs; history -a; git_repo; k8s_ps1'
