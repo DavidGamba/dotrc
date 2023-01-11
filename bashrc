@@ -160,6 +160,8 @@ alias csvlook='csvlook -I | less -S'
 # alias csvtable='csvtable | less -S'
 alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
 alias myip="curl https://ifconfig.co"
+alias root="cd \$(git rev-parse --show-toplevel)"
+alias dotpng="dot -ograph.png -Tpng"
 
 # Terraform aliases
 alias .tinit='time ./terraform init'
