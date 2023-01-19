@@ -62,29 +62,12 @@ return packer.startup(function(use)
 		},
 	}
 
-	-- use 'itchyny/lightline.vim'
-	-- use 'mengelbrecht/lightline-bufferline'
-	-- vim.g.lightline = {
-	-- 	component = {
-	-- 		filename= '%F',
-	-- 	},
-	-- 	tabline = {
-	-- 		left = { {'buffers'} },
-	-- 		right = { {'close'} },
-	-- 	},
-	-- 	component_expand = {
-	-- 		buffers = 'lightline#bufferline#buffers',
-	-- 	},
-	-- 	component_type = {
-	-- 		buffers = 'tabsel',
-	-- 	},
-	-- }
-
-	use { 'feline-nvim/feline.nvim',
-		requires = {
-			"SmiteshP/nvim-navic",
-		}
+	use {
+		'nvim-lualine/lualine.nvim',
+		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 	}
+
+	-- use 'luukvbaal/statuscol.nvim'
 
 	use 'kyazdani42/nvim-web-devicons'
 	--------------------------------------
@@ -105,8 +88,6 @@ return packer.startup(function(use)
 
 	-- Conflicts with toggleterm
 	-- use 'christoomey/vim-tmux-navigator'
-
-	use 'editorconfig/editorconfig-vim'
 
 	use 'neomake/neomake'
 	vim.g.neomake_shellcheck_args = { '-fgcc' }
