@@ -67,7 +67,7 @@ return packer.startup(function(use)
 		requires = { 'kyazdani42/nvim-web-devicons', opt = true }
 	}
 
-	-- use 'luukvbaal/statuscol.nvim'
+	use 'luukvbaal/statuscol.nvim'
 
 	use 'kyazdani42/nvim-web-devicons'
 	--------------------------------------

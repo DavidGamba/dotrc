@@ -3,8 +3,8 @@ if not cmp_nvim_lsp_status_ok then
 	return
 end
 
-local status_ok, navic = pcall(require, "nvim-navic")
-if not status_ok then
+local navic_ok, navic = pcall(require, "nvim-navic")
+if not navic_ok then
 	return
 end
 
@@ -20,9 +20,10 @@ end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
 
+vim.lsp.set_log_level("off")
+
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-	navic.attach(client, bufnr)
 
 	lsp_signature.on_attach({
 		bind = true, -- This is mandatory, otherwise border config won't get registered.
@@ -30,6 +31,16 @@ local on_attach = function(client, bufnr)
 			border = "rounded"
 		}
 	})
+
+	if client.server_capabilities.documentSymbolProvider then
+		navic.attach(client, bufnr)
+	end
+
+	if client.supports_method("textDocument/codeLens") then
+		vim.api.nvim_create_autocmd({ "CursorHold","InsertLeave" }, {
+			callback = vim.lsp.codelens.refresh,
+		})
+	end
 
 	-- Set autocommands conditional on server_capabilities
 	if client.server_capabilities.document_highlight then
@@ -76,7 +87,6 @@ lspconfig.gopls.setup {
 		staticcheck = true,
 		matcher = 'fuzzy',
 		diagnosticsDelay = '500ms',
-		experimentalWatchedFileDelay = '1000ms',
 		symbolMatcher = 'fuzzy',
 		gofumpt = false, -- true, -- turn on for new repos, gofmpt is good but also create code turmoils
 		buildFlags = { '-tags', 'integration' },
@@ -122,8 +132,4 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.go" },
 	callback = function() vim.lsp.buf.format { async = true } end
-})
-
-vim.api.nvim_create_autocmd({ "CursorHold","InsertLeave" }, {
-	callback = vim.lsp.codelens.refresh,
 })
