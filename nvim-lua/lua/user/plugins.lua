@@ -232,6 +232,10 @@ return packer.startup(function(use)
 	-- Git support
 	use 'tpope/vim-fugitive'
 
+	-- :OpenInGHRepo
+	-- :OpenInGHFile
+	use 'almo7aya/openingh.nvim'
+
 	-- Extra command pairs to do many things
 	-- A mnemonic for the "a" commands is "args" and for the "q" commands is "quickfix"
 	-- The mnemonic for y is that if you tilt it a bit it looks like a switch.
