@@ -77,10 +77,11 @@ lspconfig.gopls.setup {
 		},
 		codelenses = {
 			generate           = true,
-			gc_details         = true,
+			gc_details         = false,
 			test               = true,
 			tidy               = true,
 			upgrade_dependency = true,
+			run_govulncheck    = true,
 		},
 		usePlaceholders = true,
 		completeUnimported = true,
@@ -90,10 +91,11 @@ lspconfig.gopls.setup {
 		symbolMatcher = 'fuzzy',
 		gofumpt = false, -- true, -- turn on for new repos, gofmpt is good but also create code turmoils
 		buildFlags = { '-tags', 'integration' },
+		expandWorkspaceToModule = true,
 	},
 }
 
-lspconfig.sumneko_lua.setup {
+lspconfig.lua_ls.setup {
 	capabilities = capabilities,
 	on_attach = on_attach,
 	settings = {

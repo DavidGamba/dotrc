@@ -1,4 +1,18 @@
-vim.g.mapleader = ','
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
 
 -- keymap function
 -- Modes:
@@ -23,6 +37,8 @@ map('n', '<C-s>', ':w<CR>')
 map('n', '<leader>cd', ':cd %:p:h<CR>')
 -- Copy current path
 map('n', 'cp', ':let @+ = expand("%")<CR>')
+
+vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
 -- map("v", "p", '"_dP') -- hold on to copied text for next paste operation
 
@@ -113,6 +129,8 @@ map('n', 'glr', vim.lsp.buf.references) -- go list references
 map('n', 'gld', vim.diagnostic.setloclist) -- go list diagnostic
 map('n', '[d', vim.diagnostic.goto_prev)
 map('n', ']d', vim.diagnostic.goto_next)
+map('n', '<leader>e', vim.diagnostic.open_float)
+map('n', '<leader>q', vim.diagnostic.setloclist)
 
 map('n', 'ga', vim.lsp.buf.code_action) -- go action
 map('v', 'ga', ':lua vim.lsp.buf.range_code_action()<CR>')
@@ -142,17 +160,45 @@ map('n', 'gwr', vim.lsp.buf.remove_workspace_folder)
 -- https://github.com/nvim-telescope/telescope.nvim#default-mappings
 -- <C-x> open selection as split
 -- <C-v> open selection as vsplit
-map('n', '<C-p>', function() require"telescope.builtin".find_files { previewer = false } end)
-map('n', '<M-b>', function() require"telescope.builtin".buffers() end)
-map('n', '<M-f>', function() require"telescope.builtin".live_grep() end)
-map('n', '<m-8>', function() require"telescope.builtin".grep_string() end)
+
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ['<C-u>'] = false,
+        ['<C-d>'] = false,
+      },
+    },
+  },
+}
+
+-- Enable telescope fzf native, if installed
+pcall(require('telescope').load_extension, 'fzf')
+
+-- See `:help telescope.builtin`
+vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader>/', function()
+  -- You can pass additional configuration to telescope to change theme, layout, etc.
+  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+    winblend = 10,
+    previewer = false,
+  })
+end, { desc = '[/] Fuzzily search in current buffer]' })
+
+vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>st', require('telescope.builtin').lsp_dynamic_workspace_symbols, { desc = '[S]earch [T]ree' })
+
 -- <C-e> creates files and dirs
 -- map('n', '-', ':lua require"telescope.builtin".file_browser()<CR>')
-map('n', '<leader>fh', function() require"telescope.builtin".help_tags() end)
 map('n', '<leader>gf', function() require"telescope.builtin".git_files { previewer = false } end)
 map('n', '<leader>gs', function() require"telescope.builtin".git_status() end)
 
-map('n', 'gb', ':JABSOpen<CR>')
+map('n', '<leader>b', ':JABSOpen<CR>')
 
 -- gc -- vmode comment/uncomment
 -- gcc -- comment/uncomment with motions allowed
@@ -251,3 +297,7 @@ map('n', '<F11>', ":lua require('dap').step_into()<CR>")
 map('n', '<F11>', ":lua require('dap').step_into()<CR>")
 map('n', '<F11>', ":lua require('dap').step_into()<CR>")
 map('n', '<F11>', ":lua require('dap').step_into()<CR>")
+
+-- Bind <leader>fp to Telescope projections
+require('telescope').load_extension('projections')
+vim.keymap.set("n", "<leader>fp", function() vim.cmd("Telescope projections") end)

@@ -1,18 +1,10 @@
-local fn = vim.fn
-
--- Automatically install packer
-local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	PACKER_BOOTSTRAP = fn.system {
-		"git",
-		"clone",
-		"--depth",
-		"1",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	}
-	print "Installing packer close and reopen Neovim..."
-	vim.cmd [[packadd packer.nvim]]
+-- Install packer
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.system { 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path }
+  vim.cmd [[packadd packer.nvim]]
 end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
@@ -40,7 +32,7 @@ packer.init {
 }
 
 -- Install your plugins here
-return packer.startup(function(use)
+packer.startup(function(use)
 	use 'wbthomason/packer.nvim' -- manage self
 
 	--------------------------------------
@@ -69,6 +61,8 @@ return packer.startup(function(use)
 
 	use 'luukvbaal/statuscol.nvim'
 
+	-- use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
+
 	use 'kyazdani42/nvim-web-devicons'
 	--------------------------------------
 
@@ -76,14 +70,13 @@ return packer.startup(function(use)
 	-- core
 	--------------------------------------
 	use "antoinemadec/FixCursorHold.nvim" -- Fix CursorHold event slowness
-	use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
 
 	-- use 'bfredl/nvim-miniyank'
 	-- vim.g.miniyank_filename = os.getenv("HOME") .. "/.miniyank.mpack"
 
 	-- Enable submodes, used for window submode
-	-- use 'Iron-E/nvim-libmodal'
-	-- use 'DavidGamba/nvim-window-mode'
+	use 'Iron-E/nvim-libmodal'
+	use 'DavidGamba/nvim-window-mode'
 	-- use {'Iron-E/nvim-bufmode', wants='nvim-libmodal'}
 
 	-- Conflicts with toggleterm
@@ -107,6 +100,7 @@ return packer.startup(function(use)
 	use {
 		'nvim-telescope/telescope-fzf-native.nvim',
 		run = 'make',
+		cond = vim.fn.executable 'make' == 1
 	}
 	--------------------------------------
 
@@ -170,7 +164,9 @@ return packer.startup(function(use)
 	--------------------------------------
 	use {
 		"nvim-treesitter/nvim-treesitter",
-		run = ":TSUpdate",
+    run = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end
 	}
 	use 'nvim-treesitter/nvim-treesitter-context'
 	--------------------------------------
@@ -179,7 +175,9 @@ return packer.startup(function(use)
 	-- Editing
 	--------------------------------------
 	-- use 'LunarWatcher/auto-pairs'
-	use 'tpope/vim-commentary'
+	use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
+	-- use 'tpope/vim-commentary'
+	use 'numToStr/Comment.nvim'
 	use 'tpope/vim-surround'
 
 	-- Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
@@ -205,10 +203,11 @@ return packer.startup(function(use)
 	vim.g.EasyMotion_use_smartsign_us = 1
 
 	-- :Explore
-	use 'justinmk/vim-dirvish'
+	-- use 'justinmk/vim-dirvish'
 	-- use 'tpope/vim-vinegar'
 	-- :NERDTreeToggle
 	-- use 'scrooloose/nerdtree'
+	use 'stevearc/oil.nvim'
 
 	-- use 'airblade/vim-gitgutter'
 	use {
@@ -254,7 +253,15 @@ return packer.startup(function(use)
 	use 'nullchilly/fsread.nvim'
 
 	-- Autoclose
-	use 'm4xshen/autoclose.nvim'
+	-- use 'm4xshen/autoclose.nvim'
+
+	use 'gnikdroy/projections.nvim'
+
+	-- use 'stevearc/aerial.nvim'
+
+	use 'Wansmer/treesj'
+
+
 	--------------------------------------
 
 	--------------------------------------
@@ -271,9 +278,29 @@ return packer.startup(function(use)
 	--------------------------------------
 	use {'edluffy/hologram.nvim'}
 
-	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
-	if PACKER_BOOTSTRAP then
-		require("packer").sync()
-	end
+  -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
+  local has_plugins, plugins = pcall(require, 'custom.plugins')
+  if has_plugins then
+    plugins(use)
+  end
+
+  if is_bootstrap then
+    require('packer').sync()
+  end
 end)
+
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+	return
+end
+
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | silent! LspStop | silent! LspStart | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})

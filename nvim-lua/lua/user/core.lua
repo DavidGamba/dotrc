@@ -48,8 +48,13 @@ o.termguicolors = true
 
 vim.cmd('au VimLeave * set guicursor=a:block-blinkon0')
 o.list = true -- shows tabbed spaces
+-- o.listchars:append "tab: ˲"
+o.listchars:append "tab:˲ "
+o.listchars:append "trail:·"
+o.listchars:append "extends:»"
+o.listchars:append "precedes:«"
 
-vim.cmd("set listchars=tab:˲\\ ,trail:·,extends:»,precedes:«") -- Unprintable chars mapping
+-- vim.cmd("set listchars=tab:˲\\ ,trail:·,extends:»,precedes:«") -- Unprintable chars mapping
 -- ▸ ˲ ˃ ˍ
 
 o.tabstop = 2
@@ -83,3 +88,5 @@ vim.api.nvim_command("autocmd FileType asciidoc set expandtab")
 o.updatetime = 300 -- faster completion (4000ms default)
 
 o.spell = true
+
+o.sessionoptions:append("localoptions")       -- Save localoptions to session file

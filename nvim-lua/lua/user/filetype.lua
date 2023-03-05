@@ -6,3 +6,7 @@ local filetype = function(ext, type)
 end
 
 filetype("*.cue", "cue")
+
+if vim.bo.filetype == 'cue' then
+	vim.bo.commentstring = '//%s'
+end
