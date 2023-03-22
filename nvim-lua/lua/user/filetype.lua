@@ -10,3 +10,7 @@ filetype("*.cue", "cue")
 if vim.bo.filetype == 'cue' then
 	vim.bo.commentstring = '//%s'
 end
+
+if vim.bo.filetype == 'asciidoc' then
+	vim.bo.expandtab = true
+end

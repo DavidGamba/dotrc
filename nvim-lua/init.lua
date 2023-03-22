@@ -1,7 +1,7 @@
 require 'user.core'
+require 'user.plugins'
 require 'user.statuscol'
 require 'user.lualine'
-require 'user.plugins'
 require 'user.colorscheme'
 require 'user.keymap'
 require 'user.cmp'

@@ -34,7 +34,7 @@ require'nvim-treesitter.configs'.setup {
 		"json",
 		"hcl",
 		"toml",
-		"dockerfile",
+		-- "dockerfile",
 		"dot",
 
 		"cue",

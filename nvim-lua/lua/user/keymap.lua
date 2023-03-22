@@ -200,6 +200,11 @@ map('n', '<leader>gs', function() require"telescope.builtin".git_status() end)
 
 map('n', '<leader>b', ':JABSOpen<CR>')
 
+
+-- nvim-cmp and Ultisnips completions
+-- ForwardTrigger = "<c-l>"
+-- BackwardTrigger = "<c-h>"
+
 -- gc -- vmode comment/uncomment
 -- gcc -- comment/uncomment with motions allowed
 
