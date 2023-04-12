@@ -10,20 +10,27 @@ cmp.setup({
 		vim.fn["UltiSnips#Anon"](args.body)
 		end,
 	},
-	mapping = {
+	completion = {
+		autocomplete = false,
+	},
+	mapping = cmp.mapping.preset.insert {
 		['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
 		['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-		-- ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+		['<C-j>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+		['<C-e>'] = cmp.mapping {
+			i = cmp.mapping.abort(),
+			c = cmp.mapping.close(),
+		},
 		-- -- ['<C-y>'] = cmp.config.disable, -- remove the default `<C-y>` mapping.
 		-- ['<CR>'] = cmp.mapping.confirm({ select = true }),
 
 		['<CR>'] = cmp.mapping.confirm {
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = false,
+			select = true,
+			-- behavior = cmp.ConfirmBehavior.Replace,
 		},
-		['<Tab>'] = cmp.mapping.select_next_item(),
+		-- ['<Tab>'] = cmp.mapping.select_next_item(),
 		['<C-n>'] = cmp.mapping.select_next_item(),
-		['<S-Tab>'] = cmp.mapping.select_prev_item(),
+		-- ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 		['<C-p>'] = cmp.mapping.select_prev_item(),
 	},
 	sources = cmp.config.sources({

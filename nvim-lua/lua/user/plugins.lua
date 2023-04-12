@@ -82,8 +82,11 @@ packer.startup(function(use)
 	-- Conflicts with toggleterm
 	-- use 'christoomey/vim-tmux-navigator'
 
-	use 'neomake/neomake'
-	vim.g.neomake_shellcheck_args = { '-fgcc' }
+	-- use 'neomake/neomake'
+	-- vim.g.neomake_shellcheck_args = { '-fgcc' }
+
+	-- use 'dense-analysis/ale'
+	use 'mfussenegger/nvim-lint'
 
 	use "akinsho/toggleterm.nvim"
 	--------------------------------------
@@ -121,6 +124,8 @@ packer.startup(function(use)
 		"SmiteshP/nvim-navic",
 		requires = "neovim/nvim-lspconfig"
 	}
+
+	use 'github/copilot.vim'
 	--------------------------------------
 
 	--------------------------------------
@@ -188,6 +193,8 @@ packer.startup(function(use)
 
 	-- " <leader>e to search/replace word under cursor
 	-- use 'wincent/scalpel'
+	
+	use 'ziontee113/SelectEase'
 	--------------------------------------
 
 	--------------------------------------
