@@ -109,6 +109,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.aws",
 		"$HOME/.terraform.d/plugin-cache",
 		"$HOME/.config/bat",
+		"$HOME/.config/yamllint",
 	})
 	if err != nil {
 		return err
@@ -135,6 +136,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
+	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
