@@ -138,8 +138,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
-	cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
-	cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
+	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
+	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
 
 	switch runtime.GOOS {
 	case "darwin":
@@ -210,22 +210,22 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	}
 
 	cg := CMDGroup{}
-	cg.cmd("go install golang.org/x/tools/gopls@latest")
-	cg.cmd("go install github.com/philpennock/character@latest")
-	cg.cmd("go install github.com/jesseduffield/lazygit@latest")
-	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master")
-	cg.cmd("go install github.com/sachaos/viddy@latest")
+	cg.cmd("go install golang.org/x/tools/gopls@latest")             // golang language server
+	cg.cmd("go install github.com/philpennock/character@latest")     // emoji picker
+	cg.cmd("go install github.com/jesseduffield/lazygit@latest")     // git cli gui
+	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master") // data selector
+	cg.cmd("go install github.com/sachaos/viddy@latest")             // watch command with rewind and other options
 
-	cg.cmd("cargo install diffr")
-	cg.cmd("cargo install git-delta")
-	cg.cmd("cargo install ripgrep")
-	cg.cmd("cargo install tealdeer")
-	cg.cmd("cargo install code-minimap")
-	cg.cmd("cargo install fd-find")
-	cg.cmd("cargo install igrep")
-	cg.cmd("cargo install watchexec-cli")
-	cg.cmd("cargo install --locked bat")
-	cg.cmd("cargo install tuc")
+	cg.cmd("cargo install diffr")         // diff tool
+	cg.cmd("cargo install git-delta")     // diff tool
+	cg.cmd("cargo install ripgrep")       // grep tool
+	cg.cmd("cargo install tealdeer")      // man page summaries
+	cg.cmd("cargo install code-minimap")  // code minimap for vim
+	cg.cmd("cargo install fd-find")       // find tool
+	cg.cmd("cargo install igrep")         // interactive grep
+	cg.cmd("cargo install watchexec-cli") // watch and run command
+	cg.cmd("cargo install --locked bat")  // cat replacement
+	cg.cmd("cargo install tuc")           // cut replacement
 
 	cg.cmdIgnore("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
@@ -234,28 +234,30 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
-		cg.cmd("brew install jq")
-		cg.cmd("brew install koekeishiya/formulae/yabai")
-		cg.cmd("brew install koekeishiya/formulae/skhd")
-		cg.cmd("brew install --cask alt-tab")
-		cg.cmd("brew install --cask jumpcut")
+		cg.cmd("brew install jq")                         // json parsing
+		cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
+		cg.cmd("brew install koekeishiya/formulae/skhd")  // hotkey daemon
+		cg.cmd("brew install --cask alt-tab")             // alt-tab replacement
+		cg.cmd("brew install --cask jumpcut")             // clipboard manager
+		cg.cmd("brew install xsv")                        // csv parsing
 
-		cg.cmd("brew install age")
-		cg.cmd("brew install asciidoctor")
-		cg.cmd("brew install bash")
-		cg.cmd("brew install bash-completion@2")
-		cg.cmd("brew install gawk")
-		cg.cmd("brew install graphviz")
-		cg.cmd("brew install gron")
-		cg.cmd("brew install nmap")
-		cg.cmd("brew install watch")
-		cg.cmd("brew install wget")
-		cg.cmd("brew install yamllint")
+		cg.cmd("brew install age")               // encryption
+		cg.cmd("brew install asciidoctor")       // asciidoc to html
+		cg.cmd("brew install bash")              // bash 5
+		cg.cmd("brew install bash-completion@2") // bash completion
+		cg.cmd("brew install gawk")              // GNU awk
+		cg.cmd("brew install graphviz")          // graphviz
+		cg.cmd("brew install gron")              // json parsing
+		cg.cmd("brew install nmap")              // network scanning
+		cg.cmd("brew install watch")             // watch command
+		cg.cmd("brew install wget")              // wget
+		cg.cmd("brew install yamllint")          // yaml linting
+		cg.cmd("brew install tree")              // tree command
 
-		cg.cmd("brew install tree-sitter")
-		cg.cmd("brew install terraform-ls")
-		cg.cmd("brew install lua-language-server")
-		cg.cmd("brew install shellcheck")
+		cg.cmd("brew install tree-sitter")         // tree-sitter
+		cg.cmd("brew install terraform-ls")        // terraform language server
+		cg.cmd("brew install lua-language-server") // lua language server
+		cg.cmd("brew install shellcheck")          // bash linting
 	}
 
 	return cg.Error

@@ -21,7 +21,8 @@
 
 [interactive]
 	#diffFilter = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0
-	diffFilter = delta --color-only
+	diffFilter = delta --color-only --features=interactive
+	# diffFilter = diff-highlight
 
 [color]
 	ui = auto
@@ -59,6 +60,8 @@
 	ds = diff --minimal --staged --find-copies
 	dsw = diff --minimal --staged --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	d  = diff --minimal --no-prefix --relative --find-copies
+	dl = -c core.pager=less d
+	diffl = -c core.pager=less diff
 	wd = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dw = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dws = diff --minimal --no-prefix --relative --word-diff --word-diff-regex='\\s' --find-copies
@@ -72,6 +75,7 @@
 	cp = cherry-pick
 	rebaseIgnore = rebase -x 'git commit --amend --reset-author -CHEAD'
 	resetauthor = commit --amend --reset-author --no-edit
+	resetauthor-sha = rebase -x 'git commit --amend --reset-author --no-edit' -i
 	rebaseroot = rebase -i --root
 	s = show --relative
 	sw = show --relative --word-diff-regex=.
@@ -118,3 +122,5 @@
 	syntax-theme = GitHub
 	line-numbers = true
 	side-by-side = true
+[init]
+	templatedir = ~/.git_template

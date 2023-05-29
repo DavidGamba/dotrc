@@ -6,3 +6,9 @@
 .vscode/
 *.iml
 .DS_Store
+*.out
+tf.init
+tf.plan
+tf.apply
+go.work
+bake.so

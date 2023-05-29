@@ -86,6 +86,9 @@ path_prepend "$HOME/local/bin"
 path_prepend "$HOME/opt/bin"
 path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin"
 path_prepend "/opt/homebrew/bin"
+path_prepend "/opt/homebrew/opt/sqlite/bin"
+path_prepend "/opt/homebrew/opt/make/libexec/gnubin"
+path_prepend "$HOME/opt/n/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/private-bin"
 
@@ -282,8 +285,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 # brew install bash-completion@2
-export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
-[[ -r "/usr/local/etc/profile.d/bash_completion.sh" ]] && . "/usr/local/etc/profile.d/bash_completion.sh"
+export BASH_COMPLETION_COMPAT_DIR="/opt/homebrew/etc/bash_completion.d/"
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 
 # for PyEnv
@@ -312,17 +315,22 @@ fi
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+complete -o default -C csvtable csvtable
 complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
 complete -o default -C joinlines joinlines
+complete -o default -C kcherry kcherry
 complete -o default -C password-cache password-cache
+complete -o default -C patch-seam patch-seam
+complete -o default -C reverseproxy reverseproxy
+complete -o default -C tz tz
 complete -o default -C wardley wardley
 complete -o default -C webserve webserve
 complete -o default -C yaml-parse yaml-parse
-complete -o default -C reverseproxy reverseproxy
+complete -o default -C yaml-seam yaml-seam
 
-complete -C $HOME/opt/bin/aws_completer aws
+complete -C /opt/homebrew/bin/aws_completer aws
 
 # Consider personal repos as private and don't check their checksums against Go Proxy
 export GOPRIVATE="${GOPRIVATE}:github.com/DavidGamba"
@@ -330,9 +338,9 @@ export GOPRIVATE="${GOPRIVATE}:github.com/DavidGamba"
 # Depends on https://github.com/scop/bash-completion#installation
 source <(kubectl completion bash)
 source <(kubectl completion bash | sed 's/kubectl/k/g')
-alias k=kubectl
+# alias k=kubectl
 # complete -o default -F __start_kubectl k
 
 . "$HOME/.cargo/env"
 
-complete -C /Users/david/opt/bin/terraform terraform
+export KUSTOMIZE_DIR=$HOME/.kustomize

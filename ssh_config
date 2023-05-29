@@ -1,22 +1,29 @@
 KeepAlive yes
 ServerAliveInterval 30
 ServerAliveCountMax 6
+AddKeysToAgent yes
 
 Include work_config
 Include private_config
 
-Host *
-	IgnoreUnknown UseKeychain
-	AddKeysToAgent yes
-	UseKeychain yes
-	IdentityFile ~/.ssh/id_ed25519_work
+# Host *
+# 	IgnoreUnknown UseKeychain
+# 	AddKeysToAgent yes
+# 	UseKeychain yes
+# 	IdentityFile ~/.ssh/id_ed25519_work
 
 Host github.com
+	IgnoreUnknown UseKeychain
+	UseKeychain yes
 	HostName github.com
 	User git
 	IdentityFile ~/.ssh/id_ed25519_work
+	# IdentityFile ~/.ssh/id_rsa
 
-Host github.com-personal
-	HostName github.com
+Host davidgamba.github.gamba.ca
+	IgnoreUnknown UseKeychain
+	UseKeychain yes
+	# HostName github.com
 	User git
-	IdentityFile ~/.ssh/id_ed25519_personal
+	# IdentityFile ~/.ssh/id_ed25519_personal
+	IdentityFile ~/.ssh/id_rsa
