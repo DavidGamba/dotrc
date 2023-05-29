@@ -3,20 +3,20 @@ if not nvim_treesitter_status_ok then
   return
 end
 
-local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
-parser_config.cue = {
-  install_info = {
-    url = "https://github.com/eonpatapon/tree-sitter-cue",
-    files = {"src/parser.c", "src/scanner.c"},
-    branch = "main"
-  },
-  filetype = "cue",
-}
+-- local parser_config = require'nvim-treesitter.parsers'.get_parser_configs()
+-- parser_config.cue = {
+--   install_info = {
+--     url = "https://github.com/eonpatapon/tree-sitter-cue",
+--     files = {"src/parser.c", "src/scanner.c"},
+--     branch = "main"
+--   },
+--   filetype = "cue",
+-- }
 
 require'nvim-treesitter.configs'.setup {
 	highlight             = {
 		enable = true,
-		additional_vim_regex_highlighting = true, -- fixes spell check on comments only
+		additional_vim_regex_highlighting = false, -- fixes spell check on comments only
 	},
 	indent                = { enable = true },
 	incremental_selection = { enable = true },
@@ -33,14 +33,20 @@ require'nvim-treesitter.configs'.setup {
 		"yaml",
 		"json",
 		"hcl",
+		"terraform",
 		"toml",
 		-- "dockerfile",
 		"dot",
+		"diff",
 
 		"cue",
+		"hcl",
 
 		"python",
 		"typescript",
+
+		"proto",
+		"markdown",
 	}
 }
 

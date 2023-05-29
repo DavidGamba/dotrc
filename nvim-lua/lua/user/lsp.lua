@@ -19,6 +19,10 @@ if not lsp_signature_ok then
 end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
+capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+}
 
 vim.lsp.set_log_level("off")
 

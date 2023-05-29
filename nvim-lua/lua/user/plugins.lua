@@ -64,6 +64,8 @@ packer.startup(function(use)
 	-- use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
 
 	use 'kyazdani42/nvim-web-devicons'
+
+	use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 	--------------------------------------
 
 	--------------------------------------

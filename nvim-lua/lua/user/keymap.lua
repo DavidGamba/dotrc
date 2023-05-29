@@ -29,15 +29,20 @@ local map = function(mode, key, result)
 	})
 end
 
+-- No need to use shift key to run a command
 map('n', ';', ':')
+
+-- Save with C-s
 map('n', '<C-s>', ':w<CR>')
 -- vim.api.nvim_set_keymap('n', '<C-s>', ':w<CR>', { noremap = true, silent = false, })
 
 -- CD to current path
 map('n', '<leader>cd', ':cd %:p:h<CR>')
--- Copy current path
-map('n', 'cp', ':let @+ = expand("%")<CR>')
 
+-- Copy current path
+map('n', 'cp', ':let @+ = expand("%:p")<CR>')
+
+-- Open file manager
 vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
 
 -- map("v", "p", '"_dP') -- hold on to copied text for next paste operation
@@ -110,7 +115,7 @@ map('v', '>', '>gv')
 map('n', 'gD', vim.lsp.buf.declaration) -- go Declaration
 map('n', 'gd', vim.lsp.buf.definition) -- go definition
 map('n', '<C-]>', vim.lsp.buf.definition)
-map('n', 'K', vim.lsp.buf.hover)
+-- map('n', 'K', vim.lsp.buf.hover) -- ufo
 -- Not implemented in gopls
 -- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.peek_definition()<CR>', opts)
 
@@ -215,6 +220,13 @@ map('n', '<leader>b', ':JABSOpen<CR>')
 -- vim.cmd('map <leader>P <Plug>(miniyank-startPut)')
 -- vim.cmd('map <leader>n <Plug>(miniyank-cycle)')
 -- vim.cmd('map <leader>N <Plug>(miniyank-cycleback)')
+
+-- P pastes previous yank
+-- Go to begining of selection after yank, mark to n, go to end, mark to m
+-- vim.keymap.set('v', 'y', 'y`<mn`>mm', { desc = 'Save marks for visual paste' })
+
+-- Go to begining of selection, mark to j, go to end, mark to j, go to previous marks and visual yank, then go back, select and paste
+-- vim.keymap.set('n', 'pp', '<ESC>`<mh`>mj`nv`my`hv`jp', { desc = 'Paste previous paste' })
 
 ---
 vim.cmd('nmap s <Plug>(easymotion-s)')
