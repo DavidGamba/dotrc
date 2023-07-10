@@ -161,8 +161,16 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	switch runtime.GOOS {
 	case "darwin":
 		cg := CMDGroup{}
-		cg.cmd("python3 -m pip install --user --upgrade pynvim")
 		cg.cmd("brew install --HEAD neovim")
+		cg.cmd("brew install pyenv")
+		cg.cmd("pyenv install --skip-existing 3")
+		cg.cmd("pyenv global 3")
+
+		cg.cmdPipe("python -m venv ~/venvs/jedi && source ~/venvs/jedi/bin/activate && pip install jedi")
+		cg.cmdPipe("python -m venv ~/venvs/neovim && source ~/venvs/neovim/bin/activate && pip install neovim")
+		cg.cmdPipe("python -m venv ~/venvs/black && source ~/venvs/black/bin/activate && pip install black")
+		cg.cmdPipe("python -m venv ~/venvs/pylint && source ~/venvs/pylint/bin/activate && pip install pylint pylint-venv")
+
 		return cg.Error
 	}
 
@@ -354,6 +362,18 @@ func (cg *CMDGroup) cmd(command string) {
 		return
 	}
 	cg.Error = run.CMD(c...).Log().PrintErr().Stdin().Run()
+}
+
+func (cg *CMDGroup) cmdPipe(command string) {
+	if cg.Error != nil {
+		return
+	}
+	var c []string
+	c, cg.Error = fsmodtime.ExpandEnv([]string{command})
+	if cg.Error != nil {
+		return
+	}
+	cg.Error = run.CMD("bash", "-c", c[0]).Log().PrintErr().Stdin().Run()
 }
 
 func (cg *CMDGroup) cmdIgnore(command string) {
