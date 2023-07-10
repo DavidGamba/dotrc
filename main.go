@@ -241,6 +241,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
+		cg.cmd("brew install coreutils")                  // gnu core utils
 		cg.cmd("brew install jq")                         // json parsing
 		cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
 		cg.cmd("brew install koekeishiya/formulae/skhd")  // hotkey daemon
@@ -260,6 +261,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install wget")              // wget
 		cg.cmd("brew install yamllint")          // yaml linting
 		cg.cmd("brew install tree")              // tree command
+		cg.cmd("brew install sipcalc")           // ip range calculator
 
 		cg.cmd("brew install tree-sitter")         // tree-sitter
 		cg.cmd("brew install terraform-ls")        // terraform language server
