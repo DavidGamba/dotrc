@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -167,7 +166,7 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		return cg.Error
 	}
 
-	release, err := ioutil.ReadFile("/etc/os-release")
+	release, err := os.ReadFile("/etc/os-release")
 	if err != nil {
 		return err
 	}
