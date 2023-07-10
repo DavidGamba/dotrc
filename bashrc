@@ -79,6 +79,7 @@ if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
 fi
 
 path_prepend "$HOME/.local/bin" # Python binaries
+path_prepend "$HOME/.pyenv/shims"
 path_prepend "$HOME/.cargo/bin" # Rust binaries
 path_prepend "$HOME/go/bin"     # Go binaries
 path_prepend "/snap/bin"        # Snap binaries
