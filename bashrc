@@ -211,13 +211,13 @@ if [[ $(uname -r) =~ "microsoft" ]]; then
 			touch "$SSH_ENV"
 			chmod 600 "${SSH_ENV}"
 			/usr/bin/ssh-agent | sed 's/^echo/#echo/' >> "${SSH_ENV}"
-			. "${SSH_ENV}" > /dev/null
+			source "${SSH_ENV}" > /dev/null
 			/usr/bin/ssh-add
 	}
 
 	# Source SSH settings, if applicable
 	if [ -f "${SSH_ENV}" ]; then
-			. "${SSH_ENV}" > /dev/null
+			source "${SSH_ENV}" > /dev/null
 			kill -0 "$SSH_AGENT_PID" 2>/dev/null || {
 					start_agent
 			}
@@ -282,7 +282,7 @@ done
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
+  source /etc/bash_completion
 fi
 
 # brew install bash-completion@2
@@ -308,10 +308,10 @@ complete -r cd 2>/dev/null
 
 # local bash overrides defaults
 if [ -f "$HOME/local/bash_local.bash" ]; then
-    . "$HOME/local/bash_local.bash"
+  source "$HOME/local/bash_local.bash"
 fi
 if [ -f "$HOME/private-bin/private.bashrc" ]; then
-    . "$HOME/private-bin/private.bashrc"
+  source "$HOME/private-bin/private.bashrc"
 fi
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
@@ -342,6 +342,7 @@ source <(kubectl completion bash | sed 's/kubectl/k/g')
 # alias k=kubectl
 # complete -o default -F __start_kubectl k
 
-. "$HOME/.cargo/env"
+source "$HOME/.cargo/env"
+source "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
 export KUSTOMIZE_DIR=$HOME/.kustomize

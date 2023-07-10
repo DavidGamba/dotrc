@@ -30,7 +30,8 @@ func program(args []string) int {
 	opt.NewCommand("nvim", "Install Neovim").SetCommandFn(NeovimInstall)
 	opt.NewCommand("tmux", "Install TMUX").SetCommandFn(TMuxInstall)
 	opt.NewCommand("awscli", "Install AWS CLI v2").SetCommandFn(AWSCLIInstall)
-	opt.NewCommand("dev", "Setup dev environment: some cargo and golang tools").SetCommandFn(DevDeps)
+	dev := opt.NewCommand("dev", "Setup dev environment: some cargo and golang tools").SetCommandFn(DevDeps)
+	dev.Bool("fast", false, opt.Description("skip cargo and interactive install tools"))
 	opt.NewCommand("toolbox", "Setup toolbox").SetCommandFn(ToolBox)
 	opt.HelpCommand("help", opt.Alias("?"))
 	remaining, err := opt.Parse(args[1:])
@@ -205,15 +206,19 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 }
 
 func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
+	fast := opt.Value("fast").(bool)
+
 	os.Chdir(os.Getenv("HOME"))
 
-	out, err := run.CMD("curl", "https://sh.rustup.rs", "-sSf").Log().PrintErr().STDOutOutput()
-	if err != nil {
-		return err
-	}
-	err = run.CMD("sh").Log().PrintErr().In(out).Run()
-	if err != nil {
-		return err
+	if !fast {
+		out, err := run.CMD("curl", "https://sh.rustup.rs", "-sSf").Log().PrintErr().STDOutOutput()
+		if err != nil {
+			return err
+		}
+		err = run.CMD("sh").Log().PrintErr().In(out).Run()
+		if err != nil {
+			return err
+		}
 	}
 
 	cg := CMDGroup{}
@@ -237,31 +242,34 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmdIgnore("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
 	cg.cmd("git pull")
-	cg.cmd("$HOME/.fzf/install")
+	cg.cmd("$HOME/.fzf/install --all")
 
 	switch runtime.GOOS {
 	case "darwin":
-		cg.cmd("brew install coreutils")                  // gnu core utils
-		cg.cmd("brew install jq")                         // json parsing
-		cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
-		cg.cmd("brew install koekeishiya/formulae/skhd")  // hotkey daemon
-		cg.cmd("brew install --cask alt-tab")             // alt-tab replacement
-		cg.cmd("brew install --cask jumpcut")             // clipboard manager
-		cg.cmd("brew install xsv")                        // csv parsing
-
-		cg.cmd("brew install age")               // encryption
-		cg.cmd("brew install asciidoctor")       // asciidoc to html
+		cg.cmd("brew install coreutils")         // gnu core utils
+		cg.cmd("brew install jq")                // json parsing
 		cg.cmd("brew install bash")              // bash 5
 		cg.cmd("brew install bash-completion@2") // bash completion
-		cg.cmd("brew install gawk")              // GNU awk
-		cg.cmd("brew install graphviz")          // graphviz
-		cg.cmd("brew install gron")              // json parsing
-		cg.cmd("brew install nmap")              // network scanning
-		cg.cmd("brew install watch")             // watch command
-		cg.cmd("brew install wget")              // wget
-		cg.cmd("brew install yamllint")          // yaml linting
-		cg.cmd("brew install tree")              // tree command
-		cg.cmd("brew install sipcalc")           // ip range calculator
+		cg.cmd("brew install asdf")              // package manager
+
+		// cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
+		// cg.cmd("brew install koekeishiya/formulae/skhd") // hotkey daemon
+		cg.cmd("brew install --cask alt-tab") // alt-tab replacement
+		cg.cmd("brew install --cask jumpcut") // clipboard manager
+
+		cg.cmd("brew install gawk") // GNU awk
+		cg.cmd("brew install wget") // wget
+
+		cg.cmd("brew install xsv")         // csv parsing
+		cg.cmd("brew install age")         // encryption
+		cg.cmd("brew install asciidoctor") // asciidoc to html
+		cg.cmd("brew install graphviz")    // graphviz
+		cg.cmd("brew install gron")        // json parsing
+		cg.cmd("brew install nmap")        // network scanning
+		cg.cmd("brew install watch")       // watch command
+		cg.cmd("brew install yamllint")    // yaml linting
+		cg.cmd("brew install tree")        // tree command
+		cg.cmd("brew install sipcalc")     // ip range calculator
 
 		cg.cmd("brew install tree-sitter")         // tree-sitter
 		cg.cmd("brew install terraform-ls")        // terraform language server
