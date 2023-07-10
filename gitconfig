@@ -11,6 +11,7 @@
 	editor = /home/david/opt/bin/nvim
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
+	hooksPath = ~/dotrc/git-hooks
 
 # diffr: cargo install diffr
 # https://github.com/mookid/diffr

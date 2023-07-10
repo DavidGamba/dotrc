@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+if [[ $1 == "--about" ]]; then
+    echo "Sets up git-duet owners based on branch name"
+    exit 0
+fi
+
+# Do nothing if git-duet is not installed
+command -v git-duet >/dev/null 2>&1 || exit 0
+command -v git-solo >/dev/null 2>&1 || exit 0
+
+branch="$(git rev-parse --symbolic --abbrev-ref HEAD)"
+
+# Use git-duet if the branch name is "<initials1>-<initials2>/<branch-name>"
+# Use git-solo if the branch name is "<initals>/<branch name>"
+# Initials are assumed to be 2 or 3 characters long
+if [[ "${branch}" =~ ^([a-z0-9]{2,3})/.+ ]]; then
+  name="${BASH_REMATCH[1]}"
+  git-solo "${name}" || true
+elif [[ "${branch}" =~ ^([a-z0-9]{2,3})-([a-z0-9]{2,3})/.+ ]]; then
+  name1="${BASH_REMATCH[1]}"
+  name2="${BASH_REMATCH[2]}"
+  git-duet "${name1}" "${name2}" || true
+fi
