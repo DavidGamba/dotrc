@@ -20,8 +20,8 @@ end
 
 local capabilities = cmp_nvim_lsp.default_capabilities()
 capabilities.textDocument.foldingRange = {
-    dynamicRegistration = false,
-    lineFoldingOnly = true
+	dynamicRegistration = false,
+	lineFoldingOnly = true
 }
 
 vim.lsp.set_log_level("off")
@@ -41,9 +41,13 @@ local on_attach = function(client, bufnr)
 	end
 
 	if client.supports_method("textDocument/codeLens") then
-		vim.api.nvim_create_autocmd({ "CursorHold","InsertLeave" }, {
+		vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave" }, {
 			callback = vim.lsp.codelens.refresh,
 		})
+	end
+
+	if client.supports_method("textDocument/inlayHint") then
+		vim.lsp.buf.inlay_hint(0)
 	end
 
 	-- Set autocommands conditional on server_capabilities
@@ -61,7 +65,7 @@ local on_attach = function(client, bufnr)
 	end
 end
 
-vim.api.nvim_set_hl(0, 'LspCodeLens', {fg='#88C0D0', underline=true})
+vim.api.nvim_set_hl(0, 'LspCodeLens', { fg = '#88C0D0', underline = true })
 
 
 -- [lsp] typescript
@@ -96,6 +100,15 @@ lspconfig.gopls.setup {
 		gofumpt = false, -- true, -- turn on for new repos, gofmpt is good but also create code turmoils
 		buildFlags = { '-tags', 'integration' },
 		expandWorkspaceToModule = true,
+		hints = {
+			assignVariableTypes = true,
+			compositeLiteralFields = true,
+			compositeLiteralTypes = true,
+			constantValues = true,
+			functionTypeParameters = true,
+			parameterNames = true,
+			rangeVariableTypes = true,
+		},
 	},
 }
 
