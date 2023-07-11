@@ -131,7 +131,6 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("dotrc/gitignore", "$HOME/.gitignore")
 	cg.symlink("dotrc/gitconfig", "$HOME/.gitconfig")
 	cg.symlink("dotrc/hgrc", "$HOME/.hgrc")
-	cg.symlink("dotrc/nvimrc", "$HOME/.nvimrc")
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
@@ -275,6 +274,8 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install terraform-ls")        // terraform language server
 		cg.cmd("brew install lua-language-server") // lua language server
 		cg.cmd("brew install shellcheck")          // bash linting
+		cg.cmd("brew install gh")                  // github client
+		cg.cmd("brew install stern")               // kubernetes logs
 	}
 
 	return cg.Error
