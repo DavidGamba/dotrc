@@ -77,6 +77,8 @@ o.iskeyword :remove "_"
 -- set foldmethod=syntax
 o.foldmethod = "expr"
 vim.cmd('set foldexpr=nvim_treesitter#foldexpr()')
+o.foldlevel = 99
+o.foldlevelstart = 99
 o.foldnestmax = 3
 o.foldenable = false
 
