@@ -99,6 +99,8 @@
 	blob-log = log --all --find-object
 	delete-from-history = "!sh -c \"git filter-branch --force --index-filter 'git rm --cached --ignore-unmatch -- $1' --prune-empty HEAD\""
 
+	# https://stackoverflow.com/a/30529511
+	track = "!git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`"
 
 [help]
 #    autocorrect = 1
@@ -111,6 +113,7 @@
 [push]
 	# default = simple
 	default = current
+	autoSetupRemote = true
 
 [rebase]
 	autoStash = true
@@ -123,5 +126,3 @@
 	syntax-theme = GitHub
 	line-numbers = true
 	side-by-side = true
-[init]
-	templatedir = ~/.git_template
