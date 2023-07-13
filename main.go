@@ -270,12 +270,13 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install tree")        // tree command
 		cg.cmd("brew install sipcalc")     // ip range calculator
 
-		cg.cmd("brew install tree-sitter")         // tree-sitter
-		cg.cmd("brew install terraform-ls")        // terraform language server
-		cg.cmd("brew install lua-language-server") // lua language server
-		cg.cmd("brew install shellcheck")          // bash linting
-		cg.cmd("brew install gh")                  // github client
-		cg.cmd("brew install stern")               // kubernetes logs
+		cg.cmd("brew install tree-sitter")                // tree-sitter
+		cg.cmd("brew install terraform-ls")               // terraform language server
+		cg.cmd("brew install lua-language-server")        // lua language server
+		cg.cmd("brew install shellcheck")                 // bash linting
+		cg.cmd("brew install gh")                         // github client
+		cg.cmd("brew install stern")                      // kubernetes logs
+		cg.cmd("brew install minamijoyo/hcledit/hcledit") // terraform hcl edits
 	}
 
 	return cg.Error
@@ -320,35 +321,29 @@ func ToolBox(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg.clone("https://github.com/DavidGamba/dgtools.git", "$HOME/general/code/dgtools")
 
+	setupTool := func(name string) {
+		cg.symlink(fmt.Sprintf("$HOME/general/code/dgtools/%s/%s", name, name), fmt.Sprintf("$HOME/bin/%s", name))
+		cg.cmdDir("go build", fmt.Sprintf("$HOME/general/code/dgtools/%s", name))
+	}
+
 	cg.symlink("$HOME/general/code/dgtools/clitable/cmd/csvtable/csvtable", "$HOME/bin/csvtable")
 	cg.cmdDir("go build", "$HOME/general/code/dgtools/clitable/cmd/csvtable")
 
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/grepp")
-	cg.symlink("$HOME/general/code/dgtools/grepp/grepp", "$HOME/bin/grepp")
-
-	cg.symlink("$HOME/general/code/dgtools/ffind/ffind", "$HOME/bin/ffind")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/ffind")
-
-	cg.symlink("$HOME/general/code/dgtools/cli-bookmarks/cli-bookmarks", "$HOME/bin/cli-bookmarks")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/cli-bookmarks")
-
-	cg.symlink("$HOME/general/code/dgtools/joinlines/joinlines", "$HOME/bin/joinlines")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/joinlines")
-
-	cg.symlink("$HOME/general/code/dgtools/password-cache/password-cache", "$HOME/bin/password-cache")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/password-cache")
-
-	cg.symlink("$HOME/general/code/dgtools/yaml-parse/yaml-parse", "$HOME/bin/yaml-parse")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/yaml-parse")
-
-	cg.symlink("$HOME/general/code/dgtools/webserve/webserve", "$HOME/bin/webserve")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/webserve")
-
-	cg.symlink("$HOME/general/code/dgtools/diffdir/diffdir", "$HOME/bin/diffdir")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/diffdir")
-
-	cg.symlink("$HOME/general/code/dgtools/reverseproxy/reverseproxy", "$HOME/bin/reverseproxy")
-	cg.cmdDir("go build", "$HOME/general/code/dgtools/reverseproxy")
+	setupTool("cathtml")
+	setupTool("cli-bookmarks")
+	setupTool("diffdir")
+	setupTool("ffind")
+	setupTool("grepp")
+	setupTool("joinlines")
+	setupTool("json-parse")
+	setupTool("kcherry")
+	setupTool("password-cache")
+	setupTool("patch-seam")
+	setupTool("reverseproxy")
+	setupTool("tz")
+	setupTool("webserve")
+	setupTool("yaml-parse")
+	setupTool("yaml-seam")
 
 	cg.clone("https://github.com/DavidGamba/go-wardley.git", "$HOME/general/code/go-wardley")
 	cg.cmdDir("go build", "$HOME/general/code/go-wardley")

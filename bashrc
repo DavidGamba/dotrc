@@ -317,10 +317,12 @@ fi
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 complete -o default -C csvtable csvtable
+complete -o default -C cssh cssh
 complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
 complete -o default -C joinlines joinlines
+complete -o default -C json-parse json-parse
 complete -o default -C kcherry kcherry
 complete -o default -C password-cache password-cache
 complete -o default -C patch-seam patch-seam
