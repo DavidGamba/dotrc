@@ -110,6 +110,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.terraform.d/plugin-cache",
 		"$HOME/.config/bat",
 		"$HOME/.config/yamllint",
+		"$HOME/.kube",
 	})
 	if err != nil {
 		return err
@@ -123,7 +124,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	}
 
 	cg := CMDGroup{}
-	cg.symlink("dotrc/bashrc", "$HOME/.bashrc")
+	cg.symlink("$HOME/dotrc/bashrc", "$HOME/.bashrc")
+	cg.symlink("$HOME/dotrc/bash_profile", "$HOME/.bash_profile")
 	cg.symlink("dotrc/screenrc", "$HOME/.screenrc")
 	cg.symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
 	cg.symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
@@ -137,6 +139,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
+	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
 	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
 
@@ -245,11 +248,15 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
-		cg.cmd("brew install coreutils")         // gnu core utils
-		cg.cmd("brew install jq")                // json parsing
+		cg.cmd("brew install coreutils") // gnu core utils
+		cg.cmd("brew install jq")        // json parsing
+
 		cg.cmd("brew install bash")              // bash 5
 		cg.cmd("brew install bash-completion@2") // bash completion
-		cg.cmd("brew install asdf")              // package manager
+		// Add /opt/homebrew/bin/bash to /etc/shells then
+		// sudo chsh -s /opt/homebrew/bin/bash $USER
+
+		cg.cmd("brew install asdf") // package manager
 
 		// cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
 		// cg.cmd("brew install koekeishiya/formulae/skhd") // hotkey daemon
@@ -276,6 +283,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install shellcheck")                 // bash linting
 		cg.cmd("brew install gh")                         // github client
 		cg.cmd("brew install stern")                      // kubernetes logs
+		cg.cmd("brew install kubie")                      // kubernetes contexts
 		cg.cmd("brew install minamijoyo/hcledit/hcledit") // terraform hcl edits
 	}
 

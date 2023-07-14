@@ -102,6 +102,9 @@
 	# https://stackoverflow.com/a/30529511
 	track = "!git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD`"
 
+	# Change the remote of the repo to a custom DNS entry so that my .ssh config can use a different key for that repo
+	personal-repo = "!git config --local remote.origin.url $(git config --local --get remote.origin.url | sed -e 's/github.com/davidgamba.github.gamba.ca/')"
+
 [help]
 #    autocorrect = 1
 

@@ -1,3 +1,4 @@
 ---
+shell: bash
 prompt:
   disable: true

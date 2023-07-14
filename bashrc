@@ -76,6 +76,7 @@ if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
 	export JAVA_HOME=/usr/local/opt/openjdk/
 	export SHELL="/opt/homebrew/bin/bash"
 	path_prepend "/usr/local/opt/openjdk/bin"
+	path_prepend "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 fi
 
 path_prepend "$HOME/.local/bin" # Python binaries
