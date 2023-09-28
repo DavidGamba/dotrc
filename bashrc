@@ -34,65 +34,9 @@ shopt -s nocaseglob         # pathname expansion will be treated as case-insensi
 shopt -s no_empty_cmd_completion
 
 #-------------------------------------------------------------
-# PATH
-# Scripts modifying the path should used the path_append function to append
-# entries. These external entries not tracked in the bashrc will have lower priority.
+# Path
 #-------------------------------------------------------------
-function path_append() {
-	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-		return 0
-	fi
-	PATH=$PATH:$1
-}
-
-function path_prepend() {
-	if [[ "$PATH" =~ (^|:)"${1}"(:|$) ]]; then
-		return 0
-	fi
-	if [[ "$PATH" == "" ]]; then
-		PATH=$1
-		return 0
-	fi
-	PATH=$1:$PATH
-}
-
-# Clear the PATH to ensure the right ordering
-PATH=""
-# Lowest priority at the top
-
-if [[ $(/usr/bin/uname -r) =~ "microsoft" ]]; then
-	path_prepend "/mnt/c/tools/neovim/Neovim/bin"
-	path_prepend "/mnt/c/Users/David/AppData/Local/Programs/Microsoft VS Code/bin"
-	path_prepend "/mnt/c/Users/David/AppData/Local/Microsoft/WindowsApps"
-	path_prepend "/mnt/c/ProgramData/chocolatey/bin"
-	path_prepend "/mnt/c/WINDOWS/System32/OpenSSH/"
-	path_prepend "/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/"
-	path_prepend "/mnt/c/WINDOWS/System32/Wbem"
-	path_prepend "/mnt/c/WINDOWS"
-	path_prepend "/mnt/c/WINDOWS/system32"
-fi
-
-if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
-	export JAVA_HOME=/usr/local/opt/openjdk/
-	export SHELL="/opt/homebrew/bin/bash"
-	path_prepend "/usr/local/opt/openjdk/bin"
-	path_prepend "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
-fi
-
-path_prepend "$HOME/.local/bin" # Python binaries
-path_prepend "$HOME/.pyenv/shims"
-path_prepend "$HOME/.cargo/bin" # Rust binaries
-path_prepend "$HOME/go/bin"     # Go binaries
-path_prepend "/snap/bin"        # Snap binaries
-path_prepend "$HOME/local/bin"
-path_prepend "$HOME/opt/bin"
-path_prepend "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/go/bin"
-path_prepend "/opt/homebrew/bin"
-path_prepend "/opt/homebrew/opt/sqlite/bin"
-path_prepend "/opt/homebrew/opt/make/libexec/gnubin"
-path_prepend "$HOME/opt/n/bin"
-path_prepend "$HOME/bin"
-path_prepend "$HOME/private-bin"
+source "$HOME/dotrc/shell_func/path.sh"
 
 #-------------------------------------------------------------
 # Exports
@@ -120,84 +64,7 @@ export HISTCONTROl=ignoreboth
 #-------------------------------------------------------------
 # Aliases
 #-------------------------------------------------------------
-# Darwin = mac
-if [ `uname | grep Darwin` ]; then
-	# use coreutils: brew install coreutils
-	alias ll='gls -l --color=auto'
-	alias ls='gls -hF --color=auto'
-	alias la='gls -la --color=auto'
-	alias l='gls -CF --color=auto'
-
-	alias rm='grm'
-
-	alias chromium='/Applications/Chromium.app/Contents/MacOS/Chromium'
-else
-	alias ls='ls -hF --color=auto'
-	alias ll='ls -l --color=auto'
-	alias la='ls -la --color=auto'
-	alias l='ls -CF --color=auto'
-fi
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-#alias rm='rm -i'
-alias mv='mv -i'
-alias cp='cp -i'
-alias pong='ping -c4 www.google.com' 
-# alias emacs="emacs -nw"
-# Add an "alert" alias for long running commands.  Use like so:
-#   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-# to run banshee behind a proxy
-alias banshee='dbus-launch banshee'
-alias nautilus='nautilus --no-desktop'
-alias most='du -hsx * | sort -rh | head -15'
-alias df='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
-alias vim=nvim
-alias urldecode='python -c "import sys, urllib as ul; print ul.unquote_plus(sys.argv[1])"'
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1])"'
-# alias asciidoctor='docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor'
-alias path='PATH="${PATH//":$PWD"/}:$PWD"; echo $PATH'
-alias rg='rg -i --color=always'
-alias ccat='source-highlight --out-format=esc -o STDOUT -i'
-alias color='source-highlight --out-format=esc -o STDOUT -s'
-alias csvlook='csvlook -I | less -S'
-# alias csvtable='csvtable | less -S'
-alias asciicast2gif='docker run --rm -v $PWD:/data asciinema/asciicast2gif'
-alias myip="curl https://ifconfig.co"
-alias root="cd \$(git rev-parse --show-toplevel)"
-alias dotpng="dot -ograph.png -Tpng"
-
-# Terraform aliases
-alias .tinit='time ./terraform init'
-alias .tplan='time ./terraform plan -no-color -out tf.plan'
-alias .tapply='time ./terraform apply -input tf.plan && rm tf.plan'
-alias .tcopy='./terraform show -no-color tf.plan | copy'
-alias .tshow='./terraform show tf.plan'
-alias tinit='time terraform init'
-alias tplan='time terraform plan -no-color -out tf.plan'
-alias tapply='time terraform apply -input tf.plan && rm tf.plan'
-alias tcopy='terraform show -no-color tf.plan | copy'
-alias tshow='terraform show tf.plan'
-
-# kubernetes
-alias kcd='kubectl config set-context --current --namespace '
-alias kgc='kubectl config get-contexts'
-alias kuc='kubectl config use-context '
-
-if [[ $(uname -r) =~ "microsoft" ]]; then
-	alias copy='win32yank.exe -i'
-	alias copy-file='win32yank.exe -i <<<'
-	alias copy-path='pwd | tr -d "\n" | win32yank.exe -i'
-elif [[ $(uname) =~ "Darwin" ]]; then
-	alias copy='pbcopy'
-	alias copy-file='pbcopy <'
-	alias copy-path='pwd | tr -d "\n" | pbcopy'
-else
-	# alias copy-file="xsel -i -b < "
-	alias copy-file='xclip -selection clipboard'
-	alias copy-path='pwd | tr -d "\n" | xclip -selection clipboard'
-fi
+source "$HOME/dotrc/shell_func/alias.sh"
 
 #-------------------------------------------------------------
 # SSH agent on WSL
