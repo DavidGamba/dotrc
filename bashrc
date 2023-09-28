@@ -111,11 +111,11 @@ fi
 
 source ~/dotrc/shell_func/up.sh
 source ~/dotrc/shell_func/clear.sh
-source ~/dotrc/bash_func/man_colors.bash # Colored man pages and less output
-source ~/dotrc/bash_func/ps1.bash        # Custom PS1
+source ~/dotrc/shell_func/man_colors.bash # Colored man pages and less output
+source ~/dotrc/shell_func/ps1.bash        # Custom PS1
 source ~/dotrc/shell_func/cdd.sh
-source ~/dotrc/bash_func/cli-bookmarks.bash
-source ~/dotrc/bash_func/ls_colors.bash
+source ~/dotrc/shell_func/cli-bookmarks.bash
+source ~/dotrc/shell_func/ls_colors.bash
 
 if [ -f /etc/arch-release ]; then
     source ~/dotrc/bash_func/arch
