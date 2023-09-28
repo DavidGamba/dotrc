@@ -126,6 +126,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg := CMDGroup{}
 	cg.symlink("$HOME/dotrc/bashrc", "$HOME/.bashrc")
 	cg.symlink("$HOME/dotrc/bash_profile", "$HOME/.bash_profile")
+	cg.symlink("$HOME/dotrc/zprofile", "$HOME/.zprofile")
+	cg.symlink("$HOME/dotrc/zshrc", "$HOME/.zshrc")
 	cg.symlink("dotrc/screenrc", "$HOME/.screenrc")
 	cg.symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
 	cg.symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
@@ -274,6 +276,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install nmap")        // network scanning
 		cg.cmd("brew install watch")       // watch command
 		cg.cmd("brew install yamllint")    // yaml linting
+		cg.cmd("brew install jsonlint")    // json linting
 		cg.cmd("brew install tree")        // tree command
 		cg.cmd("brew install sipcalc")     // ip range calculator
 
