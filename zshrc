@@ -2,6 +2,7 @@
 # setopt (man zshoptions)
 #-------------------------------------------------------------
 setopt No_Beep
+setopt PROMPT_SUBST # Enable expansion in the prompt.
 
 #-------------------------------------------------------------
 # Path
@@ -25,6 +26,7 @@ source "$HOME/dotrc/shell_func/alias.sh"
 autoload -U +X compinit && compinit
 autoload -U +X bashcompinit && bashcompinit
 
+source ~/dotrc/shell_func/ps1.zsh
 source ~/dotrc/shell_func/up.sh
 source ~/dotrc/shell_func/clear.sh
 source ~/dotrc/shell_func/cdd.sh
