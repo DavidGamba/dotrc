@@ -109,10 +109,11 @@ elif [ -e /usr/java/default ]; then
   export JAVA_HOME=/usr/java/default
 fi
 
-source ~/dotrc/bash_func/up
+source ~/dotrc/shell_func/up.sh
+source ~/dotrc/shell_func/clear.sh
 source ~/dotrc/bash_func/man_colors.bash # Colored man pages and less output
 source ~/dotrc/bash_func/ps1.bash        # Custom PS1
-source ~/dotrc/bash_func/cdd
+source ~/dotrc/shell_func/cdd.sh
 source ~/dotrc/bash_func/cli-bookmarks.bash
 source ~/dotrc/bash_func/ls_colors.bash
 
@@ -184,8 +185,9 @@ fi
 
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-complete -o default -C csvtable csvtable
+complete -o default -C bt bt
 complete -o default -C cssh cssh
+complete -o default -C csvtable csvtable
 complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
