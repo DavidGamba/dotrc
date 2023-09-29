@@ -1,21 +1,25 @@
 function ps1_git_branch {
+	local orange="f14e32"
 	local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 	if [[ -n $branch ]]; then
-		echo -ne " $branch "
+		# echo -ne " %S%k%F{#$orange} %s%k%F{#$orange}%k%F{#0388a6} $branch"
+		echo -ne " %F{#$orange} %F{#0388a6} $branch"
 	fi
 }
 
 function k8s_ps1 {
-	echo -ne "󱃾 "
-	kubectl config view --minify --output 'jsonpath={.contexts[].name} {..namespace}' 2>/dev/null
+	local blue="326CE5"
+	# echo -ne " %S%k%F{#$blue} 󱃾 %s%k%F{#$blue}%k "
+	echo -ne "%F{#$blue} 󱃾 "
+	kubectl config view --minify --output 'jsonpath={.contexts[].name}/{..namespace}' 2>/dev/null
 }
 
 function kubie_shell {
-	[[ -n $KUBIE_ACTIVE ]] && echo -ne " 🐱 "
+	[[ -n $KUBIE_ACTIVE ]] && echo -ne " 🐱"
 }
 
 function aws_shell {
-	[[ -n $AWS_OKTA_PROFILE ]] && echo -ne "☁  $AWS_OKTA_PROFILE"
+	[[ -n $AWS_OKTA_PROFILE ]] && echo -ne " %F{#FF9900}󰅠 %F{#d37e00}$AWS_OKTA_PROFILE"
 }
 
 function ps1 {
@@ -60,8 +64,8 @@ function ps1 {
 		builtin local ps2_start_mark=$'%{\e]133;A;k=s\a%}'
 		builtin local cmd_start_mark=$'%{\e]133;C\a%}'
 
-		PS1=${ps1_start_mark}$'%F{36}%m %F{2;36}%D %* %F{36}%~%F{0} %(?.👌.⛔ 🙄 ⛔) %F{36}$(ps1_git_branch)%F{32}$(k8s_ps1)%F{34}$(kubie_shell)%F{33}$(aws_shell)%F{0}
-'${ps2_start_mark}'%F{34}%(!.#.$)%F{0} '${cmd_start_mark}
+		PS1=${ps1_start_mark}$'%F{36}%m %F{2;36}%D %* %F{#44c9c9}%~%F{0} %(?.👌.⛔ 🙄 ⛔)$(ps1_git_branch)$(k8s_ps1)$(kubie_shell)$(aws_shell)
+'${ps2_start_mark}'%F{#8360d1}%(!.#.$)%F{0} '${cmd_start_mark}
 }
 
 # precmd () { RET=$?; stty sane; tput rmacs; history -a; git_repo; k8s_ps1}
