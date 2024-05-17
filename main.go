@@ -108,6 +108,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.ssh",
 		"$HOME/.aws",
 		"$HOME/.terraform.d/plugin-cache",
+		"$HOME/.config/zsh",
 		"$HOME/.config/bat",
 		"$HOME/.config/yamllint",
 		"$HOME/.kube",
@@ -128,6 +129,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/bash_profile", "$HOME/.bash_profile")
 	cg.symlink("$HOME/dotrc/zprofile", "$HOME/.zprofile")
 	cg.symlink("$HOME/dotrc/zshrc", "$HOME/.zshrc")
+	cg.symlink("$HOME/dotrc/zshrc", "$HOME/.config/zsh/.zshrc")
 	cg.symlink("dotrc/screenrc", "$HOME/.screenrc")
 	cg.symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
 	cg.symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
