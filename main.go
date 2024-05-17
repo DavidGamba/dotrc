@@ -261,6 +261,9 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
+		cg.cmd("brew install kitty")                 // kitty terminal
+		cg.cmd("kitty +kitten themes Kaolin Breeze") // set kitty theme
+
 		cg.cmd("brew install coreutils") // gnu core utils
 		cg.cmd("brew install jq")        // json parsing
 
@@ -299,6 +302,8 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install stern")                      // kubernetes logs
 		cg.cmd("brew install kubie")                      // kubernetes contexts
 		cg.cmd("brew install minamijoyo/hcledit/hcledit") // terraform hcl edits
+
+		cg.cmd("brew install golangci-lint") // golang linter
 	}
 
 	return cg.Error
