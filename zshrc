@@ -76,6 +76,7 @@ source ~/dotrc/shell_func/up.sh
 source ~/dotrc/shell_func/clear.sh
 source ~/dotrc/shell_func/cdd.sh
 source ~/dotrc/shell_func/cli-bookmarks.bash
+source ~/dotrc/shell_func/yazi.sh
 alias cd='cdd'
 # Use bash built in completion for cd to allow for filenames to be used
 complete -r cd 2>/dev/null

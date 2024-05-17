@@ -266,6 +266,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 		cg.cmd("brew install coreutils") // gnu core utils
 		cg.cmd("brew install jq")        // json parsing
+		cg.cmd("brew install yazi")      // command line file manager
 
 		cg.cmd("brew install bash")              // bash 5
 		cg.cmd("brew install bash-completion@2") // bash completion
