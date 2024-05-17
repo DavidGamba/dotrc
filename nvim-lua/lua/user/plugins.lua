@@ -225,11 +225,12 @@ packer.startup(function(use)
 	-- use 'tpope/vim-vinegar'
 	-- :NERDTreeToggle
 	-- use 'scrooloose/nerdtree'
+	use 'stevearc/oil.nvim'
 	use {
 		'refractalize/oil-git-status.nvim',
 
 		after = {
-			"oil.nvim",
+			"stevearc/oil.nvim",
 		}
 	}
 

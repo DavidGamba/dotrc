@@ -183,7 +183,7 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		cg.cmd("pyenv global 3")
 
 		cg.cmdPipe("python -m venv $HOME/venvs/jedi && source $HOME/venvs/jedi/bin/activate && pip install jedi")
-		cg.cmdPipe("python -m venv $HOME/venvs/neovim && source $HOME/venvs/neovim/bin/activate && pip install neovim")
+		cg.cmdPipe("python -m venv $HOME/venvs/neovim && source $HOME/venvs/neovim/bin/activate && pip install pynvim")
 		cg.cmdPipe("python -m venv $HOME/venvs/black && source $HOME/venvs/black/bin/activate && pip install black")
 		cg.cmdPipe("python -m venv $HOME/venvs/pylint && source $HOME/venvs/pylint/bin/activate && pip install pylint pylint-venv")
 
