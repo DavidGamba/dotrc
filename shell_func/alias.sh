@@ -1,19 +1,19 @@
 # Darwin = mac
 if [ `uname | grep Darwin` ]; then
 	# use coreutils: brew install coreutils
-	alias ll='gls -l --color=auto'
-	alias ls='gls -hF --color=auto'
-	alias la='gls -la --color=auto'
-	alias l='gls -CF --color=auto'
+	alias ll='gls -l --color=auto --hyperlink=auto'
+	alias ls='gls -hF --color=auto --hyperlink=auto'
+	alias la='gls -la --color=auto --hyperlink=auto'
+	alias l='gls -CF --color=auto --hyperlink=auto'
 
 	alias rm='grm'
 
 	alias chromium='/Applications/Chromium.app/Contents/MacOS/Chromium'
 else
-	alias ls='ls -hF --color=auto'
-	alias ll='ls -l --color=auto'
-	alias la='ls -la --color=auto'
-	alias l='ls -CF --color=auto'
+	alias ls='ls -hF --color=auto --hyperlink=auto'
+	alias ll='ls -l --color=auto --hyperlink=auto'
+	alias la='ls -la --color=auto --hyperlink=auto'
+	alias l='ls -CF --color=auto --hyperlink=auto'
 fi
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -37,6 +37,7 @@ alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.ar
 # alias asciidoctor='docker run --rm -v $(pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor'
 alias path='PATH="${PATH//":$PWD"/}:$PWD"; echo $PATH'
 alias rg='rg -i --color=always'
+alias hg='kitty +kitten hyperlinked_grep'
 alias ccat='source-highlight --out-format=esc -o STDOUT -i'
 alias color='source-highlight --out-format=esc -o STDOUT -s'
 alias csvlook='csvlook -I | less -S'

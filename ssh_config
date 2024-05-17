@@ -6,7 +6,9 @@ AddKeysToAgent yes
 Include work_config
 Include private_config
 
-# Host *
+Host *
+	SetEnv TERM=xterm
+# SetEnv TERM=xterm-direct
 # 	IgnoreUnknown UseKeychain
 # 	AddKeysToAgent yes
 # 	UseKeychain yes

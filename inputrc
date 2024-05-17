@@ -27,7 +27,8 @@ $if mode=vi
 
 set keymap vi-insert
 Control-w: "dBxi "
-Control-l: clear-screen
+# Control-l: 'printf "\\033[H\\033[22J"\n'
+Control-l: 'clear\n'
 
 # colemak
 # set keymap vi-command

@@ -12,3 +12,6 @@ tf.plan
 tf.apply
 go.work
 bake.so
+.tf.init
+.tf.plan*
+.tf.apply*

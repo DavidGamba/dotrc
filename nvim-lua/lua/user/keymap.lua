@@ -112,53 +112,54 @@ end
 map('v', '<', '<gv')
 map('v', '>', '>gv')
 
-map('n', 'gD', vim.lsp.buf.declaration) -- go Declaration
-map('n', 'gd', vim.lsp.buf.definition) -- go definition
-map('n', '<C-]>', vim.lsp.buf.definition)
--- map('n', 'K', vim.lsp.buf.hover) -- ufo
--- Not implemented in gopls
--- vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.peek_definition()<CR>', opts)
+-- Global mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float)
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist)
+vim.keymap.set('n', 'gld', vim.diagnostic.setloclist) -- go list diagnostic
 
-map('n', 'gh', vim.lsp.buf.hover) -- go hover
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
-map('n', 'gli', vim.lsp.buf.implementation) -- go list imlementation
-
-map('n', 'gH', vim.lsp.buf.signature_help) -- go signature
-
-map('n', 'glt', vim.lsp.buf.type_definition) -- go list type
-
-map('n', '<F2>', vim.lsp.buf.rename) -- Rename with same keymapping as vscode
-
-map('n', 'glr', vim.lsp.buf.references) -- go list references
-
-map('n', 'gld', vim.diagnostic.setloclist) -- go list diagnostic
-map('n', '[d', vim.diagnostic.goto_prev)
-map('n', ']d', vim.diagnostic.goto_next)
-map('n', '<leader>e', vim.diagnostic.open_float)
-map('n', '<leader>q', vim.diagnostic.setloclist)
-
-map('n', 'ga', vim.lsp.buf.code_action) -- go action
-map('v', 'ga', ':lua vim.lsp.buf.range_code_action()<CR>')
-map('n', 'ge', vim.lsp.codelens.run) -- go exec
-
-map('n', '=', vim.lsp.buf.format)
-
--- go calls incoming
--- map('n', 'gci', '<cmd>lua vim.lsp.buf.incoming_calls()<CR>')
-
--- go calls outgoing
--- map('n', 'gco', '<cmd>lua vim.lsp.buf.outgoing_calls()<CR>')
-
--- go symbols
-map('n', 'gs', vim.lsp.buf.document_symbol)
-map('n', 'gS', vim.lsp.buf.workspace_symbol)
-
--- go workspace
-map('n', 'gwl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end)
-map('n', 'gwa', vim.lsp.buf.add_workspace_folder)
-map('n', 'gwr', vim.lsp.buf.remove_workspace_folder)
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', '<C-]>', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gh', vim.lsp.buf.hover, opts) -- go hover
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts) -- go implementation
+    vim.keymap.set('n', 'gH', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', 'gwa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', 'gwr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', 'gwl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', 'gs', vim.lsp.buf.document_symbol, opts)
+    vim.keymap.set('n', 'gS', vim.lsp.buf.workspace_symbol, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', 'glt', vim.lsp.buf.type_definition, opts) -- go list type
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set({ 'n', 'v' }, 'gca', vim.lsp.buf.code_action, opts) -- go code action
+    vim.keymap.set('n', 'ge', vim.lsp.codelens.run, opts) -- go exec
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', 'glr', vim.lsp.buf.references, opts) -- go list references
+    vim.keymap.set('n', '=', vim.lsp.buf.format, opts)
+    vim.keymap.set('n', '<leader>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
 
 -- telescope
 -- Default mappings:

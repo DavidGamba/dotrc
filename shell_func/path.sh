@@ -39,7 +39,6 @@ fi
 
 if [[ $(/usr/bin/uname) =~ "Darwin" ]]; then
 	export JAVA_HOME=/usr/local/opt/openjdk/
-	export SHELL="/opt/homebrew/bin/bash"
 	path_prepend "/usr/local/opt/openjdk/bin"
 	path_prepend "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
 fi
@@ -58,6 +57,7 @@ path_prepend "/opt/homebrew/opt/postgresql@15/bin/"
 path_prepend "/opt/homebrew/bin"
 path_prepend "/opt/homebrew/opt/sqlite/bin"
 path_prepend "/opt/homebrew/opt/make/libexec/gnubin"
+path_prepend "/opt/homebrew/opt/less/bin"
 path_prepend "$HOME/opt/n/bin"
 path_prepend "$HOME/bin"
 path_prepend "$HOME/private-bin"

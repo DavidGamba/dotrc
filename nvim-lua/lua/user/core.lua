@@ -1,7 +1,6 @@
 local o = vim.opt
 
 o.fileencoding = "utf-8" -- the encoding written to a file
-o.mouse = "a"
 
 -- Allow changing to another file with unsaved changes on the current file.
 -- Also required by toggleterm
@@ -26,8 +25,7 @@ o.autowriteall = true -- Write file on Make
 o.undofile = true
 o.backupdir = "."
 o.inccommand = "split"
-
-o.diffopt = { "internal", "filler", "closeoff", "algorithm:minimal" }
+o.diffopt = { "internal", "filler", "closeoff", "algorithm:minimal", "linematch:60" }
 o.completeopt = { "menu", "menuone", "noselect" }
 o.shortmess :append "c"
 
@@ -65,9 +63,9 @@ o.number = true
 o.textwidth = 0
 
 o.sidescroll = 30 -- Jump several characters to the side instead of waiting one at a time.
-o.scrolloff = 3
+o.scrolloff = 7
 
-o.wrap = false
+o.wrap = true
 o.linebreak = true -- Visually break long lines at 'breakat' character
 o.whichwrap = "b,s,<,>"
 o.iskeyword :remove "-"

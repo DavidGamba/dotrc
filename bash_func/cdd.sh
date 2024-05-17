@@ -26,11 +26,27 @@ function cdd()
 		# $ cd qa
 		# will change dir to /home/david/qa/a/b
 		local dir
-		dir=$(cd-helper -q "$*")
+		dir=$(__cdd_find_in_path "$*")
+		# >&2 echo "found: $dir"
 		retval=$?
-		>&2 echo "found: '${dir/$HOME/~}'"
 		if [[ $retval -ne 1 ]]; then
-			cd $dir
+			local rel
+			if [[ $(uname) =~ "Darwin" ]]; then
+				rel=$(echo "$PWD" | sed -E "s#^$dir/[^/]+##")
+			else
+				rel=$(echo "$PWD" | sed "s#^$dir/[^/]\+##")
+			fi
+			# >&2 echo "pwd $PWD, dir $dir, rel $rel"
+			# >&2 echo "$dir/$1/$rel"
+			if [[ -d "$dir/$1/$rel" ]]; then
+				cd "$dir/$1/$rel"
+			elif [ -d $dir/*$1/$rel ]; then
+				cd $dir/*$1/$rel
+			elif [ -d $dir/$1*/$rel ]; then
+				cd $dir/$1*/$rel
+			else
+				cd $dir/$1/$rel
+			fi
 		else
 			cd "$*"
 		fi
@@ -40,34 +56,29 @@ function cdd()
 # Returns the top level dir
 # Input can be either the full dirname or its prefix or suffix
 # For this to work, the prefix or suffix glob must return a single result.
-function __cdd_find_in_path() {
+function __cdd_find_in_path()
+{
 	local dir
 	dir="../$(dirname "$1")"
 	local base
 	base=$(basename "$1")
 
-	>&2 echo "searching for $1, recursing to $dir, $dir/*$base*"
+	# >&2 echo "searching for $1, recursing to $dir, $dir/*$base*"
 	if [[ -d "../$1" ]]; then
-		>&2 echo "found ../$1"
 		realpath "$dir"
 		return 0
 	elif [ -d $dir/*$base ]; then
-		>&2 echo "found ../*$1"
 		# suffix
 		realpath "$dir"
 		return 0
 	elif [ -d $dir/$base* ]; then
-		>&2 echo "found ../$1*"
 		# prefix
 		realpath "$dir"
 		return 0
 	else
-		>&2 echo "not found"
 		if [[ $(realpath "$dir") == "/" ]]; then
-			>&2 echo "reached root, not found"
 			return 1
 		fi
-		>&2 echo "recurse"
 		__cdd_find_in_path "../$1"
 	fi
 }

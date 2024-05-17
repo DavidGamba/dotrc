@@ -139,6 +139,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/nvim-lua", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
+	cg.symlink("$HOME/dotrc/kitty-open-actions.conf", "$HOME/.config/kitty/open-actions.conf")
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
@@ -161,20 +162,28 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	version := "0.8.0"
 	Logger.Printf("NVIM %s\n", version)
 
-	os.Chdir(os.Getenv("HOME") + "/opt")
+	os.Chdir(filepath.Join(os.Getenv("HOME"), "opt"))
 
 	switch runtime.GOOS {
 	case "darwin":
 		cg := CMDGroup{}
-		cg.cmd("brew install --HEAD neovim")
+
+		// cg.cmd("brew install --HEAD neovim")
+		cg.cmdIgnore("rm nvim-macos-arm64.tar.gz")
+		cg.cmdIgnore("rm -rf nvim-macos-arm64-old")
+		cg.cmdIgnore("mv nvim-macos-arm64 nvim-macos-arm64-old")
+		cg.cmd("curl -LO https://github.com/neovim/neovim/releases/download/nightly/nvim-macos-arm64.tar.gz")
+		cg.cmdIgnore("tar -xvzf nvim-macos-arm64.tar.gz")
+		cg.symlink("$HOME/opt/nvim-macos-arm64/bin/nvim", "$HOME/opt/bin/nvim")
+
 		cg.cmd("brew install pyenv")
 		cg.cmd("pyenv install --skip-existing 3")
 		cg.cmd("pyenv global 3")
 
-		cg.cmdPipe("python -m venv ~/venvs/jedi && source ~/venvs/jedi/bin/activate && pip install jedi")
-		cg.cmdPipe("python -m venv ~/venvs/neovim && source ~/venvs/neovim/bin/activate && pip install neovim")
-		cg.cmdPipe("python -m venv ~/venvs/black && source ~/venvs/black/bin/activate && pip install black")
-		cg.cmdPipe("python -m venv ~/venvs/pylint && source ~/venvs/pylint/bin/activate && pip install pylint pylint-venv")
+		cg.cmdPipe("python -m venv $HOME/venvs/jedi && source $HOME/venvs/jedi/bin/activate && pip install jedi")
+		cg.cmdPipe("python -m venv $HOME/venvs/neovim && source $HOME/venvs/neovim/bin/activate && pip install neovim")
+		cg.cmdPipe("python -m venv $HOME/venvs/black && source $HOME/venvs/black/bin/activate && pip install black")
+		cg.cmdPipe("python -m venv $HOME/venvs/pylint && source $HOME/venvs/pylint/bin/activate && pip install pylint pylint-venv")
 
 		return cg.Error
 	}
@@ -234,7 +243,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	cg.cmd("cargo install diffr")         // diff tool
 	cg.cmd("cargo install git-delta")     // diff tool
-	cg.cmd("cargo install ripgrep")       // grep tool
+	cg.cmd("cargo install ripgrep")       // rg grep tool
 	cg.cmd("cargo install tealdeer")      // man page summaries
 	cg.cmd("cargo install code-minimap")  // code minimap for vim
 	cg.cmd("cargo install fd-find")       // find tool

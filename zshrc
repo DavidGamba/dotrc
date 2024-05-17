@@ -4,6 +4,8 @@
 setopt No_Beep
 setopt PROMPT_SUBST # Enable expansion in the prompt.
 setopt INC_APPEND_HISTORY_TIME # Save to history immediately but don't immediately share with other shells.
+setopt HIST_IGNORE_ALL_DUPS
+setopt EXTENDED_HISTORY
 
 #-------------------------------------------------------------
 # Vi mode
@@ -52,11 +54,8 @@ export PAGER="less"
 export LESS="-I -j6 -M -R -X"
 
 # History Stuff
-export HISTTIMEFORMAT="%H:%M > "
-export HISTIGNORE="&:[bf]g:clear:exit"
 export HISTSIZE=9000000
-export HISTFILESIZE=$HISTSIZE
-export HISTCONTROl=ignoreboth
+export SAVEHIST=8000000
 
 # Get help working
 export HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help
@@ -82,14 +81,17 @@ alias cd='cdd'
 complete -r cd 2>/dev/null
 
 complete -o default -C bt bt
+complete -o default -C clip clip
 complete -o default -C cssh cssh
 complete -o default -C csvtable csvtable
 complete -o default -C diffdir diffdir
 complete -o default -C ffind ffind
 complete -o default -C grepp grepp
+complete -o default -C imgset imgset
 complete -o default -C joinlines joinlines
 complete -o default -C json-parse json-parse
 complete -o default -C kcherry kcherry
+complete -o default -C mermaid mermaid
 complete -o default -C password-cache password-cache
 complete -o default -C patch-seam patch-seam
 complete -o default -C reverseproxy reverseproxy
@@ -105,4 +107,12 @@ if [ -f "$HOME/private-bin/private.zshrc" ]; then
   source "$HOME/private-bin/private.zshrc"
 fi
 
+. $(brew --prefix asdf)/libexec/asdf.sh
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/DGAMBARI/opt/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/DGAMBARI/opt/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/DGAMBARI/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/DGAMBARI/opt/google-cloud-sdk/completion.zsh.inc'; fi

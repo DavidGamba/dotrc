@@ -171,10 +171,15 @@ packer.startup(function(use)
 	--------------------------------------
 	use {
 		"nvim-treesitter/nvim-treesitter",
-    run = function()
-      pcall(require('nvim-treesitter.install').update { with_sync = true })
-    end
+		run = function()
+			pcall(require('nvim-treesitter.install').update { with_sync = true })
+		end
 	}
+	use({
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		after = "nvim-treesitter",
+		requires = "nvim-treesitter/nvim-treesitter",
+	})
 	use 'nvim-treesitter/nvim-treesitter-context'
 	--------------------------------------
 
@@ -197,6 +202,10 @@ packer.startup(function(use)
 	-- use 'wincent/scalpel'
 	
 	use 'ziontee113/SelectEase'
+
+	use 'echasnovski/mini.nvim'
+
+	use 'mg979/vim-visual-multi'
 	--------------------------------------
 
 	--------------------------------------
@@ -216,15 +225,16 @@ packer.startup(function(use)
 	-- use 'tpope/vim-vinegar'
 	-- :NERDTreeToggle
 	-- use 'scrooloose/nerdtree'
-	use 'stevearc/oil.nvim'
+	use {
+		'refractalize/oil-git-status.nvim',
+
+		after = {
+			"oil.nvim",
+		}
+	}
 
 	-- use 'airblade/vim-gitgutter'
-	use {
-		'lewis6991/gitsigns.nvim',
-		config = function()
-			require('gitsigns').setup()
-		end
-	}
+	use 'lewis6991/gitsigns.nvim'
 	-- use {
 	-- 	'lewis6991/gitsigns.nvim',
 	-- 	requires = {
@@ -259,6 +269,7 @@ packer.startup(function(use)
 	-- :FSRead
 	-- :FSClear
 	-- :FSToggle
+	vim.g.flow_strength = 0.7
 	use 'nullchilly/fsread.nvim'
 
 	-- Autoclose
@@ -278,6 +289,8 @@ packer.startup(function(use)
 	--------------------------------------
 	use { 'hashivim/vim-terraform' }
 	use { 'suoto/vim-antlr', ft = { 'antlr4' } }
+
+	use { 'towolf/vim-helm' }
 	--------------------------------------
 
 	use { 'lewis6991/spellsitter.nvim' }
@@ -285,7 +298,7 @@ packer.startup(function(use)
 	--------------------------------------
 	-- Images
 	--------------------------------------
-	use {'edluffy/hologram.nvim'}
+	use {'edluffy/hologram.nvim', ft = {'md', 'asciidoc'}}
 
   -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
   local has_plugins, plugins = pcall(require, 'custom.plugins')

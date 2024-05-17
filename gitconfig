@@ -7,11 +7,11 @@
 
 [core]
 	#pager = less -FRX
-	pager = delta
+	pager = delta --side-by-side --line-numbers
 	editor = /home/david/opt/bin/nvim
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
-	hooksPath = ~/dotrc/git-hooks
+	hooksPath = ~/.git_hooks
 
 # diffr: cargo install diffr
 # https://github.com/mookid/diffr
@@ -54,6 +54,7 @@
 	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
 	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
 
+	llg = -c core.pager=less lg
 	lg = log --date=format:'%Y-%m-%d %H:%M' --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ad, %an)%Creset %n%b' --no-prefix
 	date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
 	st = status --short --branch --untracked-files=no
@@ -61,8 +62,8 @@
 	ds = diff --minimal --staged --find-copies
 	dsw = diff --minimal --staged --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	d  = diff --minimal --no-prefix --relative --find-copies
-	dl = -c core.pager=less d
-	diffl = -c core.pager=less diff
+	dl = -c core.pager=delta d
+	diffl = -c core.pager=delta diff
 	wd = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dw = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dws = diff --minimal --no-prefix --relative --word-diff --word-diff-regex='\\s' --find-copies
@@ -105,6 +106,10 @@
 	# Change the remote of the repo to a custom DNS entry so that my .ssh config can use a different key for that repo
 	personal-repo = "!git config --local remote.origin.url $(git config --local --get remote.origin.url | sed -e 's/github.com/davidgamba.github.gamba.ca/')"
 
+	# Find default-branch: master or main
+	default-branch = "!git remote show origin | sed -n '/HEAD branch/s/.*: //p'"
+	rebase-local = "!default=$(git default-branch); for branch in $(git for-each-ref --format=\"%(refname:lstrip=2)\" refs/heads/); do echo $branch; git rebase origin/$default $branch || git rebase --abort; done; git co $default;"
+
 [help]
 #    autocorrect = 1
 
@@ -127,5 +132,3 @@
 [delta]
 	navigate = true
 	syntax-theme = GitHub
-	line-numbers = true
-	side-by-side = true

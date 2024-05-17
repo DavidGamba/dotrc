@@ -11,7 +11,9 @@ function k8s_ps1 {
 	local blue="326CE5"
 	# echo -ne " %S%k%F{#$blue} 󱃾 %s%k%F{#$blue}%k "
 	echo -ne "%F{#$blue} 󱃾 "
-	kubectl config view --minify --output 'jsonpath={.contexts[].name}/{..namespace}' 2>/dev/null
+	# This is too slow!
+	# kubectl config view --minify --output 'jsonpath={.contexts[].name}/{..namespace}' 2>/dev/null
+	kgetcontext 2>/dev/null
 }
 
 function kubie_shell {

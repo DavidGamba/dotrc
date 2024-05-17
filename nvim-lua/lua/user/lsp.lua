@@ -27,8 +27,6 @@ capabilities.textDocument.foldingRange = {
 vim.lsp.set_log_level("off")
 
 local on_attach = function(client, bufnr)
-	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
 	lsp_signature.on_attach({
 		bind = true, -- This is mandatory, otherwise border config won't get registered.
 		handler_opts = {
@@ -40,14 +38,15 @@ local on_attach = function(client, bufnr)
 		navic.attach(client, bufnr)
 	end
 
-	if client.supports_method("textDocument/codeLens") then
+	if client.server_capabilities.code_lens then
 		vim.api.nvim_create_autocmd({ "CursorHold", "InsertLeave" }, {
 			callback = vim.lsp.codelens.refresh,
 		})
+		vim.api.nvim_set_hl(0, 'LspCodeLens', { fg = '#88C0D0', underline = true })
 	end
 
 	if client.supports_method("textDocument/inlayHint") then
-		vim.lsp.buf.inlay_hint(0)
+		vim.lsp.inlay_hint(0, false)
 	end
 
 	-- Set autocommands conditional on server_capabilities
@@ -64,8 +63,6 @@ local on_attach = function(client, bufnr)
 	]], false)
 	end
 end
-
-vim.api.nvim_set_hl(0, 'LspCodeLens', { fg = '#88C0D0', underline = true })
 
 
 -- [lsp] typescript
@@ -143,6 +140,21 @@ lspconfig.terraformls.setup {
 	filetypes = { 'terraform', 'tf', 'tfvars' },
 }
 
+
+local cuepls_capabilities = cmp_nvim_lsp.default_capabilities()
+cuepls_capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = false
+}
+cuepls_capabilities.textDocument.hover = {
+}
+
+lspconfig.dagger.setup {
+	capabilities = cuepls_capabilities,
+	on_attach = on_attach,
+	cmd = { 'cuepls' }
+}
+
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.tf", "*.tfvars" },
 	callback = function() vim.lsp.buf.format { async = true } end
@@ -150,5 +162,10 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	pattern = { "*.go" },
+	callback = function() vim.lsp.buf.format { async = true } end
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = { "*.cue" },
 	callback = function() vim.lsp.buf.format { async = true } end
 })

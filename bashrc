@@ -218,3 +218,4 @@ source "$HOME/.cargo/env"
 source "/opt/homebrew/opt/asdf/libexec/asdf.sh"
 
 export KUSTOMIZE_DIR=$HOME/.kustomize
+. "$HOME/.cargo/env"
