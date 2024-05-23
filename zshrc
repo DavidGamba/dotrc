@@ -52,6 +52,7 @@ export GIT_EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
 export LESS="-I -j6 -M -R -X"
+export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
 # History Stuff
 export HISTSIZE=9000000
