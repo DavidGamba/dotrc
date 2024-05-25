@@ -37,14 +37,14 @@ set("n", "<leader>d", ":bp<bar>sp<bar>bn<bar>bd<CR>")
 -- test(wordhello)
 set("i", "<c-u>", "<esc>lxepi")
 
--- Toggle hlsearch if it's on, otherwise just do "enter"
-set("n", "<CR>", function()
+-- Toggle hlsearch if it's on, otherwise just do "j"
+set("n", "j", function()
   ---@diagnostic disable-next-line: undefined-field
   if vim.opt.hlsearch:get() then
     vim.cmd.nohl()
-    return ""
+    return "j"
   else
-    return "<CR>"
+    return "j"
   end
 end, { expr = true })
 
@@ -52,3 +52,7 @@ end, { expr = true })
 -- the float when I navigate to the error - so I override them.
 set("n", "]d", vim.diagnostic.goto_next)
 set("n", "[d", vim.diagnostic.goto_prev)
+
+-- Encode/decode base64 (k -> kubernetes)
+set("v", "[k", "c<c-r>=system('base64 --decode', @\")<cr><esc>")
+set("v", "]k", "c<c-r>=system('base64', @\")<cr><esc>")
