@@ -52,6 +52,7 @@ export GIT_EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less"
 export LESS="-I -j6 -M -R -X"
+export XDG_CONFIG_HOME="$HOME/.config"
 export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
 # History Stuff
