@@ -110,6 +110,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.terraform.d/plugin-cache",
 		"$HOME/.config/zsh",
 		"$HOME/.config/bat",
+		"$HOME/.config/lazygit",
+		"$HOME/.config/gitui",
 		"$HOME/.config/yamllint",
 		"$HOME/.kube",
 	})
@@ -140,6 +142,8 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/lazy.nvim", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
+	cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/.config/lazygit/config.yml")
+	cg.symlink("$HOME/dotrc/gitui-key_bindings.ron", "$HOME/.config/gitui/key_bindings.ron")
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("$HOME/dotrc/kitty-open-actions.conf", "$HOME/.config/kitty/open-actions.conf")
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
@@ -147,15 +151,6 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
 	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
-
-	switch runtime.GOOS {
-	case "darwin":
-		_ = os.Mkdir(os.ExpandEnv("$HOME/Library/Application Support/lazygit"), 0755)
-		cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/Library/Application Support/lazygit/config.yml")
-	default:
-		_ = os.Mkdir(os.ExpandEnv("$HOME/.config/lazygit"), 0755)
-		cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/.config/lazygit/config.yml")
-	}
 
 	return err
 }
