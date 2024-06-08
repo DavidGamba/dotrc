@@ -28,6 +28,13 @@ set("v", "<", "<gv")
 set("v", ">", ">gv")
 
 -- Remove trailing spaces
+-- https://bit.ly/3g6vYIW
+function _G.preserve(cmd)
+  cmd = string.format("keepjumps keeppatterns execute %q", cmd)
+  local original_cursor = vim.fn.winsaveview()
+  vim.api.nvim_command(cmd)
+  vim.fn.winrestview(original_cursor)
+end
 set("n", "_$", [[:lua preserve('%s/\\s\\+$//e')<CR>]])
 
 -- Buffer delete

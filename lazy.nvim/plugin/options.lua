@@ -51,6 +51,7 @@ opt.listchars:append "tab:˲ "
 opt.listchars:append "trail:·"
 opt.listchars:append "extends:»"
 opt.listchars:append "precedes:«"
+opt.cursorline = true
 
 -- vim.cmd("set listchars=tab:˲\\ ,trail:·,extends:»,precedes:«") -- Unprintable chars mapping
 -- ▸ ˲ ˃ ˍ

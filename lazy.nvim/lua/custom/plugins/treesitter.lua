@@ -1,12 +1,29 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
-    dependencies = {},
-    build = ":TSUpdate",
-    branch = "main",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    branch = "master",
     lazy = false,
+    build = ":TSUpdate",
     config = function()
-      require("custom.treesitter").setup()
+      require("nvim-treesitter.configs").setup {
+        ensure_install = "maintained",
+        auto_install = true,
+
+        textobjects = {
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>a"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["<leader>A"] = "@parameter.inner",
+            },
+          },
+        },
+      }
     end,
   },
 }
