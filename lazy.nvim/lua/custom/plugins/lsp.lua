@@ -30,11 +30,29 @@ return {
           dynamicRegistration = false,
           lineFoldingOnly = true,
         }
+        capabilities.textDocument.foldingRange = nil
+      end
+
+      local cuepls_capabilities = nil
+      if pcall(require, "cmp_nvim_lsp") then
+        cuepls_capabilities = require("cmp_nvim_lsp").default_capabilities()
+        -- TODO: can't figure out how to disable foldingRange for cuepls
+        cuepls_capabilities.textDocument.foldingRange = {
+          dynamicRegistration = false,
+          lineFoldingOnly = true,
+        }
+        cuepls_capabilities.textDocument.hover = {}
       end
 
       local lspconfig = require "lspconfig"
 
       local servers = {
+
+        dagger = {
+          capabilities = cuepls_capabilities,
+          cmd = { "cuepls" },
+        },
+
         bashls = true,
         gopls = {
           settings = {
@@ -135,9 +153,11 @@ return {
         if config == true then
           config = {}
         end
-        config = vim.tbl_deep_extend("force", {}, {
-          capabilities = capabilities,
-        }, config)
+        if name ~= "dagger" then
+          config = vim.tbl_deep_extend("force", {}, {
+            capabilities = capabilities,
+          }, config)
+        end
 
         lspconfig[name].setup(config)
       end
