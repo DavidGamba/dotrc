@@ -11,7 +11,7 @@ add({
 })
 
 -- require("nvim-treesitter.query_predicates")
-require("nvim-treesitter.install").compilers = { "zig" }
+-- require("nvim-treesitter.install").compilers = { "zig" }
 require("nvim-treesitter.configs").setup({
 
 	ensure_installed = {

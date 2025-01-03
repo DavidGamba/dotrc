@@ -46,9 +46,11 @@ require("user.treesitter") -- treesitter
 require("user.mini-ai") -- extra text objects
 require("user.mini-pairs") -- auto pairs
 require("user.mini-surround") -- surround
+require("user.mini-splitjoin") -- split join lines
 require("user.ts-comments") -- comments for extra languages
 -- TODO: Update blink tag version when updating
 require("user.blink") -- completions
 
 -- Editor
 require("user.grug-far") -- search and replace
+require("user.telescope") -- search
