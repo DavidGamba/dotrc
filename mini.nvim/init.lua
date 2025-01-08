@@ -28,6 +28,9 @@ require("user.keymaps") -- key maps
 -- UI
 require("user.colorscheme")
 require("user.lualine") -- status line
+require("user.smear-cursor") -- cursor motion shadow
+require("user.barbecue") -- navic context
+require("user.treesitter-context") -- fn context
 
 -- Utilities for plugins
 require("user.snacks") -- utilities
@@ -41,6 +44,7 @@ require("user.conform") -- formatter
 require("user.nvim-lint") -- linter
 require("user.lspconfig") -- lsp
 require("user.treesitter") -- treesitter
+require("user.copilot") -- copilot
 
 -- Coding
 require("user.mini-ai") -- extra text objects
@@ -50,7 +54,11 @@ require("user.mini-splitjoin") -- split join lines
 require("user.ts-comments") -- comments for extra languages
 -- TODO: Update blink tag version when updating
 require("user.blink") -- completions
+require("user.yanky") -- yank ring
 
 -- Editor
 require("user.grug-far") -- search and replace
 require("user.telescope") -- search
+
+-- Utilities
+require("user.persistence") -- session management

@@ -5,6 +5,7 @@ add({
 	depends = {
 		"rafamadriz/friendly-snippets",
 		"saghen/blink.compat",
+		"giuxtaposition/blink-cmp-copilot",
 	},
 	checkout = "v0.9.0",
 })
@@ -46,8 +47,16 @@ require("blink.cmp").setup({
 	sources = {
 		-- adding any nvim-cmp sources here will enable them
 		-- with blink.compat
-		default = { "lsp", "path", "snippets", "buffer" },
+		default = { "lsp", "path", "snippets", "buffer", "copilot" },
 		cmdline = {},
+		providers = {
+			copilot = {
+				name = "copilot",
+				module = "blink-cmp-copilot",
+				score_offset = 100,
+				async = true,
+			},
+		},
 	},
 
 	keymap = {
