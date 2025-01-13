@@ -120,3 +120,6 @@ if [ -f '/Users/DGAMBARI/opt/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/DG
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/DGAMBARI/opt/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/DGAMBARI/opt/google-cloud-sdk/completion.zsh.inc'; fi
+
+source <(jumper shell zsh)
+source <(switcher init zsh)
