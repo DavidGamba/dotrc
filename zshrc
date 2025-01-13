@@ -58,6 +58,7 @@ export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 # History Stuff
 export HISTSIZE=9000000
 export SAVEHIST=8000000
+export HISTFILE="$HOME/.zsh_history"
 
 # Get help working
 export HELPDIR=/usr/share/zsh/"${ZSH_VERSION}"/help

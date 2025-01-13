@@ -15,3 +15,6 @@ bake.so
 .tf.init
 .tf.plan*
 .tf.apply*
+.tf.check*
+**/bakefiles/bake
+**/bakefiles/generated_bake.go
