@@ -140,7 +140,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("dotrc/gitconfig", "$HOME/.gitconfig")
 	cg.symlink("dotrc/hgrc", "$HOME/.hgrc")
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
-	cg.symlink("$HOME/dotrc/lazy.nvim", "$HOME/.config/nvim")
+	cg.symlink("$HOME/dotrc/mini.nvim", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/.config/lazygit/config.yml")
 	cg.symlink("$HOME/dotrc/gitui-key_bindings.ron", "$HOME/.config/gitui/key_bindings.ron")

@@ -66,8 +66,8 @@ function ps1 {
 		builtin local ps2_start_mark=$'%{\e]133;A;k=s\a%}'
 		builtin local cmd_start_mark=$'%{\e]133;C\a%}'
 
-		PS1=${ps1_start_mark}$'%F{36}%m %F{2;36}%D %* %F{#44c9c9}%~%F{0} %(?.👌.⛔ 🙄 ⛔)$(ps1_git_branch)$(k8s_ps1)$(kubie_shell)$(aws_shell)
-'${ps2_start_mark}'%F{#8360d1}%(!.#.$)%F{0} '${cmd_start_mark}
+		PS1=${ps1_start_mark}$'%F{36}%m %F{2;36}%D %* %F{#44c9c9}%~%f %(?.👌.⛔ 🙄 ⛔)$(ps1_git_branch)$(k8s_ps1)$(kubie_shell)$(aws_shell)
+'${ps2_start_mark}'%F{#8360d1}%(!.#.$)%f '${cmd_start_mark}
 }
 
 # precmd () { RET=$?; stty sane; tput rmacs; history -a; git_repo; k8s_ps1}
