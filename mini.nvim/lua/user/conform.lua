@@ -7,7 +7,7 @@ add({
 require("conform").setup({
 	format_on_save = {
 		-- These options will be passed to conform.format()
-		timeout_ms = 500,
+		timeout_ms = 3000,
 		lsp_format = "fallback",
 	},
 	default_format_opts = {
@@ -18,7 +18,15 @@ require("conform").setup({
 	},
 	formatters_by_ft = {
 		lua = { "stylua" },
-		fish = { "fish_indent" },
 		sh = { "shfmt" },
+		cue = { "cue" },
+		terraform = { "terraform_fmt" },
+	},
+	formatters = {
+		cue = {
+			command = "cue",
+			args = { "fmt", "$FILENAME" },
+			stdin = false,
+		},
 	},
 })

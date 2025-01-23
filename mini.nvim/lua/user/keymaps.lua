@@ -79,6 +79,7 @@ map("v", "[k", "c<c-r>=system('base64 --decode', @\")<cr><esc>", { desc = "base6
 map("v", "]k", "c<c-r>=system('base64', @\")<cr><esc>", { desc = "base64 encode" })
 
 map("v", "<c-c>", '"*y', { desc = "Copy to system clipboard" })
+map("i", "<c-v>", '<esc>"*pi', { desc = "Paste from system clipboard" })
 
 map("n", "<leader>ur", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", { desc = "Redraw / Clear hlsearch / Diff Update" })
 
