@@ -17,7 +17,7 @@ local opts = {
 			{ "<leader>g", group = "git" },
 			{ "<leader>gh", group = "hunks" },
 			{ "<leader>q", group = "quit/session" },
-			{ "<leader>s", group = "search" },
+			{ "<leader>s", group = "search/snippets" },
 			{ "<leader>t", group = "telescope" },
 			{ "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
 			{ "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },

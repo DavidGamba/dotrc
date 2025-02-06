@@ -9,6 +9,8 @@ local lspconfig = require("lspconfig")
 -- require("lspconfig").setup({})
 
 lspconfig.gopls.setup({})
+lspconfig.terraformls.setup({})
+lspconfig.cue.setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
