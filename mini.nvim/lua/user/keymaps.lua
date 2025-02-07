@@ -41,6 +41,9 @@ map("n", "<C-Left>", ":vertical resize -5<CR>")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
+map("n", "j", "gj")
+map("n", "k", "gk")
+
 -- Remove trailing spaces
 -- https://bit.ly/3g6vYIW
 function _G.preserve(cmd)

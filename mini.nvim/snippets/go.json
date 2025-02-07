@@ -64,6 +64,14 @@
     ],
     "prefix": "maincmd"
   },
+  "iferr": {
+    "body": [
+      "if err != nil {",
+      "\treturn fmt.Errorf(\"failed to $0: %w\", err)",
+      "}"
+    ],
+    "prefix": "iferr"
+  },
   "main": {
     "body": [
       "package main",
@@ -130,9 +138,9 @@
       "\treturn nil",
       "}"
     ],
-    "description": "single level script",
     "prefix": [
       "main"
-    ]
+    ],
+    "description": "single level script"
   }
 }

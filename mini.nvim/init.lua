@@ -57,6 +57,7 @@ require("user.blink") -- completions
 require("user.yanky") -- yank ring
 -- require("user.decipher") -- encode/decode
 require("user.scissors") -- snippets manager
+require("user.dap") -- Debugging
 
 -- Editor
 require("user.grug-far") -- search and replace
