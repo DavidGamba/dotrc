@@ -55,13 +55,14 @@ require("user.ts-comments") -- comments for extra languages
 -- TODO: Update blink tag version when updating
 require("user.blink") -- completions
 require("user.yanky") -- yank ring
--- require("user.decipher") -- encode/decode
+require("user.decipher") -- encode/decode
 require("user.scissors") -- snippets manager
 require("user.dap") -- Debugging
 
 -- Editor
 require("user.grug-far") -- search and replace
 require("user.telescope") -- search
+require("user.linediff") -- diff blocks
 
 -- Utilities
 require("user.persistence") -- session management

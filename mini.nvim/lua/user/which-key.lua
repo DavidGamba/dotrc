@@ -12,6 +12,7 @@ local opts = {
 			{ "<leader><tab>", group = "tabs" },
 			{ "<leader>c", group = "code" },
 			{ "<leader>d", group = "debug" },
+			{ "<leader>e", group = "encode/decode" },
 			{ "<leader>dp", group = "profiler" },
 			{ "<leader>f", group = "file/find" },
 			{ "<leader>g", group = "git" },

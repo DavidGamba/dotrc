@@ -1,4 +1,42 @@
 {
+  "iferr": {
+    "body": [
+      "if err != nil {",
+      "\treturn fmt.Errorf(\"failed to $0: %w\", err)",
+      "}"
+    ],
+    "prefix": "iferr"
+  },
+  "command": {
+    "body": [
+      "// ${1:command} -",
+      "func $1(ctx context.Context, opt *getoptions.GetOpt, args []string) error {",
+      "\tLogger.Printf(\"$1\")",
+      "\t$0",
+      "\treturn nil",
+      "}"
+    ],
+    "prefix": "command"
+  },
+  "checkFile": {
+    "body": [
+      "if _, err := os.Stat($1); os.IsNotExist(err) {",
+      "  ${2:// file does not exist}",
+      "\t$0",
+      "}"
+    ],
+    "prefix": "checkFile"
+  },
+  "open": {
+    "prefix": "open",
+    "body": [
+      "${1:fh}, err := os.Open($2)",
+      "if err != nil {",
+      "\t${3:return err}",
+      "}",
+      "$0"
+    ]
+  },
   "maincmd": {
     "body": [
       "package main",
@@ -63,14 +101,6 @@
       "}"
     ],
     "prefix": "maincmd"
-  },
-  "iferr": {
-    "body": [
-      "if err != nil {",
-      "\treturn fmt.Errorf(\"failed to $0: %w\", err)",
-      "}"
-    ],
-    "prefix": "iferr"
   },
   "main": {
     "body": [
@@ -138,9 +168,52 @@
       "\treturn nil",
       "}"
     ],
+    "description": "single level script",
     "prefix": [
       "main"
+    ]
+  },
+  "subcommand": {
+    "body": [
+      "package \\${1:packagename}",
+      "",
+      "import (",
+      "\t\"log\"",
+      "\t\"os\"",
+      "",
+      "\t\"github.com/DavidGamba/go-getoptions\"",
+      ")",
+      "",
+      "var Logger = log.New(os.Stderr, \"\", log.LstdFlags)",
+      "",
+      "func NewCommand(parent *getoptions.GetOpt) *getoptions.GetOpt {",
+      "\topt := parent.NewCommand(\"\\$1\", \"\\$1 related tasks\")",
+      "\treturn opt",
+      "}",
+      "endsnippet",
+      "",
+      "snippet newsubcommand",
+      "func \\${1:subcommandname}CMD(parent *getoptions.GetOpt) *getoptions.GetOpt {",
+      "\topt := parent.NewCommand(\"`!p snip.rv = t[1].lower()`\", \"\")",
+      "\topt.SetCommandFn(\\$1Run)",
+      "\treturn opt",
+      "}",
+      "",
+      "func \\$1Run(ctx context.Context, opt *getoptions.GetOpt, args []string) error {",
+      "\t\\$0",
+      "\treturn nil",
+      "}"
     ],
-    "description": "single level script"
+    "prefix": "subcommand"
+  },
+  "NewCommand": {
+    "body": [
+      "func $1Command(parent *getoptions.GetOpt) *getoptions.GetOpt {",
+      "\topt := parent.NewCommand(\"$2\", \"$2 related tasks\")",
+      "\topt.SetCommandFn($1Run)",
+      "\treturn opt",
+      "}"
+    ],
+    "prefix": "NewCommand"
   }
 }
