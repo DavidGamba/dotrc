@@ -15,6 +15,8 @@ if not vim.loop.fs_stat(mini_path) then
 	vim.cmd('echo "Installed `mini.nvim`" | redraw')
 end
 
+-- Update with :DepsUpdate
+
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
 
@@ -53,6 +55,7 @@ require("user.mini-surround") -- surround
 require("user.mini-splitjoin") -- split join lines
 require("user.ts-comments") -- comments for extra languages
 -- TODO: Update blink tag version when updating
+-- ./lua/user/blink.lua
 require("user.blink") -- completions
 require("user.yanky") -- yank ring
 require("user.decipher") -- encode/decode

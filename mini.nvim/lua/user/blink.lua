@@ -1,13 +1,14 @@
 local add = MiniDeps.add
 
 add({
+	-- https://github.com/saghen/blink.cmp
 	source = "saghen/blink.cmp",
 	depends = {
 		"rafamadriz/friendly-snippets",
 		"saghen/blink.compat",
 		"giuxtaposition/blink-cmp-copilot",
 	},
-	checkout = "v0.9.0",
+	checkout = "v0.12.4",
 })
 
 require("blink.cmp").setup({
@@ -42,13 +43,12 @@ require("blink.cmp").setup({
 	},
 
 	-- experimental signature help support
-	-- signature = { enabled = true },
+	signature = { enabled = true },
 
 	sources = {
 		-- adding any nvim-cmp sources here will enable them
 		-- with blink.compat
 		default = { "lsp", "path", "snippets", "buffer", "copilot" },
-		cmdline = {},
 		providers = {
 			copilot = {
 				name = "copilot",
