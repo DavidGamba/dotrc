@@ -111,7 +111,8 @@ if [ -f "$HOME/private-bin/private.zshrc" ]; then
   source "$HOME/private-bin/private.zshrc"
 fi
 
-. $(brew --prefix asdf)/libexec/asdf.sh
+export ASDF_DATA_DIR="$HOME/.asdf"
+export PATH="$ASDF_DATA_DIR/shims:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
