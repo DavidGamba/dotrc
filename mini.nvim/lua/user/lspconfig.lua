@@ -62,8 +62,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, { buffer = 0, desc = "List workspace folders" })
 
 		-- document
-		vim.keymap.set("n", "gs", vim.lsp.buf.document_symbol, { buffer = 0, desc = "Document Symbol" })
-		vim.keymap.set("n", "gS", vim.lsp.buf.workspace_symbol, { buffer = 0, desc = "Workspace Symbol" })
+		vim.keymap.set("n", "gws", vim.lsp.buf.document_symbol, { buffer = 0, desc = "Document Symbol" })
+		vim.keymap.set("n", "gwS", vim.lsp.buf.workspace_symbol, { buffer = 0, desc = "Workspace Symbol" })
 
 		vim.keymap.set("n", "=", vim.lsp.buf.format, { buffer = 0, desc = "Format" })
 		vim.keymap.set("n", "<leader>f", function()

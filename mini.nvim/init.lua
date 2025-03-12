@@ -61,6 +61,8 @@ require("user.yanky") -- yank ring
 require("user.decipher") -- encode/decode
 require("user.scissors") -- snippets manager
 require("user.dap") -- Debugging
+require("user.neotest") -- Testing
+require("user.coverage") -- Testing coverage
 
 -- Editor
 require("user.grug-far") -- search and replace
@@ -69,3 +71,14 @@ require("user.linediff") -- diff blocks
 
 -- Utilities
 require("user.persistence") -- session management
+
+-- TODO:
+--
+-- vim-abolish:
+-- Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
+--
+-- folding:
+-- "kevinhwang91/nvim-ufo",
+--
+-- images:
+-- "3rd/image.nvim",

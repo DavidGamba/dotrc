@@ -1,5 +1,7 @@
 local map = vim.keymap.set
 
+map({ "n", "x" }, "s", "<nop>") -- use s for surround
+
 -- No need to use shift key to run a command
 map("n", ";", ":")
 

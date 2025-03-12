@@ -87,6 +87,15 @@ require("nvim-treesitter.configs").setup({
 	},
 
 	textobjects = {
+		swap = {
+			enable = true,
+			swap_next = {
+				["<leader>a"] = "@parameter.inner",
+			},
+			swap_previous = {
+				["<leader>A"] = "@parameter.inner",
+			},
+		},
 		move = {
 			enable = true,
 			goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer", ["]a"] = "@parameter.inner" },

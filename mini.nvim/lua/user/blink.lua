@@ -22,6 +22,9 @@ require("blink.cmp").setup({
 		nerd_font_variant = "mono",
 	},
 	completion = {
+		keyword = {
+			range = "prefix",
+		},
 		accept = {
 			-- experimental auto-brackets support
 			auto_brackets = {
@@ -44,6 +47,10 @@ require("blink.cmp").setup({
 
 	-- experimental signature help support
 	signature = { enabled = true },
+
+	cmdline = {
+		enabled = false,
+	},
 
 	sources = {
 		-- adding any nvim-cmp sources here will enable them

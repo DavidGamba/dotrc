@@ -53,9 +53,10 @@ vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find exist
 
 local map = vim.keymap.set
 
-map("n", "<leader>td", function()
-	require("telescope.builtin").lsp_definitions({ reuse_win = true })
-end, { desc = "Goto Definition" })
+-- Not needed anymore
+-- map("n", "<leader>td", function()
+-- 	require("telescope.builtin").lsp_definitions({ reuse_win = true })
+-- end, { desc = "Goto Definition" })
 
 map("n", "<leader>tr", "<cmd>Telescope lsp_references<cr>", { desc = "References", nowait = true })
 
