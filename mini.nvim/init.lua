@@ -30,7 +30,7 @@ require("user.keymaps") -- key maps
 -- UI
 require("user.colorscheme")
 require("user.lualine") -- status line
-require("user.smear-cursor") -- cursor motion shadow
+-- require("user.smear-cursor") -- cursor motion shadow/animation
 require("user.barbecue") -- navic context
 require("user.treesitter-context") -- fn context
 

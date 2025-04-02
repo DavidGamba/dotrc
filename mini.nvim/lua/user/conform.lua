@@ -21,6 +21,8 @@ require("conform").setup({
 		sh = { "shfmt" },
 		cue = { "cue" },
 		terraform = { "terraform_fmt" },
+		json = { "jq" },
+		yaml = { "yq" },
 	},
 	formatters = {
 		cue = {
