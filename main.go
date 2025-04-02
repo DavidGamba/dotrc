@@ -23,6 +23,8 @@ func main() {
 	os.Exit(program(os.Args))
 }
 
+// defaults -currentHost write -g AppleFontSmoothing -int 0
+
 func program(args []string) int {
 	opt := getoptions.New()
 	opt.Bool("quiet", false)
@@ -173,14 +175,14 @@ func NeovimInstall(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		cg.cmdIgnore("tar -xvzf nvim-macos-arm64.tar.gz")
 		cg.symlink("$HOME/opt/nvim-macos-arm64/bin/nvim", "$HOME/opt/bin/nvim")
 
-		cg.cmd("brew install pyenv")
-		cg.cmd("pyenv install --skip-existing 3")
-		cg.cmd("pyenv global 3")
-
-		cg.cmdPipe("python -m venv $HOME/venvs/jedi && source $HOME/venvs/jedi/bin/activate && pip install jedi")
-		cg.cmdPipe("python -m venv $HOME/venvs/neovim && source $HOME/venvs/neovim/bin/activate && pip install pynvim")
-		cg.cmdPipe("python -m venv $HOME/venvs/black && source $HOME/venvs/black/bin/activate && pip install black")
-		cg.cmdPipe("python -m venv $HOME/venvs/pylint && source $HOME/venvs/pylint/bin/activate && pip install pylint pylint-venv")
+		// All my plugins are in lua now
+		// cg.cmd("brew install pyenv")
+		// cg.cmd("pyenv install --skip-existing 3")
+		// cg.cmd("pyenv global 3")
+		// cg.cmdPipe("python -m venv $HOME/venvs/jedi && source $HOME/venvs/jedi/bin/activate && pip install jedi")
+		// cg.cmdPipe("python -m venv $HOME/venvs/neovim && source $HOME/venvs/neovim/bin/activate && pip install pynvim")
+		// cg.cmdPipe("python -m venv $HOME/venvs/black && source $HOME/venvs/black/bin/activate && pip install black")
+		// cg.cmdPipe("python -m venv $HOME/venvs/pylint && source $HOME/venvs/pylint/bin/activate && pip install pylint pylint-venv")
 
 		return cg.Error
 	}
@@ -237,7 +239,9 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("go install github.com/jesseduffield/lazygit@latest")     // git cli gui
 	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master") // data selector
 	cg.cmd("go install github.com/sachaos/viddy@latest")             // watch command with rewind and other options
+	cg.cmd("go install mvdan.cc/sh/v3/cmd/shfmt@latest")             // shell formatter
 
+	cg.cmd("cargo install viddy")         // watch command with rewind and other options
 	cg.cmd("cargo install diffr")         // diff tool
 	cg.cmd("cargo install git-delta")     // diff tool
 	cg.cmd("cargo install ripgrep")       // rg grep tool
