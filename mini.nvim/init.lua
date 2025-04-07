@@ -19,66 +19,72 @@ end
 
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
+local now, later = MiniDeps.now, MiniDeps.later
 
 vim.g.mapleader = " "
 
-require("user.options") -- vim options
-require("user.which-key") -- key setup with descriptions
-require("user.oil") -- file manager
-require("user.keymaps") -- key maps
+now(function()
+	require("user.options") -- vim options
+	require("user.keymaps") -- key maps
+	require("user.colorscheme")
+	require("user.lualine") -- status line
+	require("user.treesitter") -- treesitter
 
--- UI
-require("user.colorscheme")
-require("user.lualine") -- status line
--- require("user.smear-cursor") -- cursor motion shadow/animation
-require("user.barbecue") -- navic context
-require("user.treesitter-context") -- fn context
+	-- Utilities
+	require("user.persistence") -- session management
+end)
 
--- Utilities for plugins
-require("user.snacks") -- utilities
+later(function()
+	require("user.oil") -- file manager
 
--- Git
-require("user.gitsigns")
+	-- UI
+	require("user.which-key") -- key setup with descriptions
+	-- require("user.smear-cursor") -- cursor motion shadow/animation
+	require("user.barbecue") -- navic context
+	require("user.treesitter-context") -- fn context
 
--- LSP
-require("user.mason") -- lsp, dap and linter package manager
-require("user.conform") -- formatter
-require("user.nvim-lint") -- linter
-require("user.lspconfig") -- lsp
-require("user.treesitter") -- treesitter
-require("user.copilot") -- copilot
+	-- Utilities for plugins
+	require("user.snacks") -- utilities
 
--- Coding
-require("user.mini-ai") -- extra text objects
-require("user.mini-pairs") -- auto pairs
-require("user.mini-surround") -- surround
-require("user.mini-splitjoin") -- split join lines
-require("user.ts-comments") -- comments for extra languages
--- TODO: Update blink tag version when updating
--- ./lua/user/blink.lua
-require("user.blink") -- completions
-require("user.yanky") -- yank ring
-require("user.decipher") -- encode/decode
-require("user.scissors") -- snippets manager
-require("user.dap") -- Debugging
-require("user.neotest") -- Testing
-require("user.coverage") -- Testing coverage
+	-- Git
+	require("user.gitsigns")
 
--- Editor
-require("user.grug-far") -- search and replace
-require("user.telescope") -- search
-require("user.linediff") -- diff blocks
+	-- LSP
+	require("user.mason") -- lsp, dap and linter package manager
+	require("user.conform") -- formatter
+	require("user.nvim-lint") -- linter
+	require("user.lspconfig") -- lsp
+	require("user.copilot") -- copilot
 
--- Utilities
-require("user.persistence") -- session management
+	-- Coding
+	require("user.mini-ai") -- extra text objects
+	require("user.mini-pairs") -- auto pairs
+	require("user.mini-surround") -- surround
+	require("user.mini-splitjoin") -- split join lines
+	require("user.ts-comments") -- comments for extra languages
+	-- TODO: Update blink tag version when updating
+	-- ./lua/user/blink.lua
+	require("user.blink") -- completions
+	require("user.yanky") -- yank ring
+	require("user.decipher") -- encode/decode
+	require("user.scissors") -- snippets manager
+	require("user.dap") -- Debugging
+	require("user.neotest") -- Testing
+	require("user.coverage") -- Testing coverage
 
--- TODO:
---
--- vim-abolish:
--- Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
---
--- folding:
--- "kevinhwang91/nvim-ufo",
---
--- images:
--- "3rd/image.nvim",
+	-- Editor
+	require("user.grug-far") -- search and replace
+	require("user.telescope") -- search
+	require("user.linediff") -- diff blocks
+
+	-- TODO:
+	--
+	-- vim-abolish:
+	-- Provides CoeRce MixedCase (crm), CoeRce camelCase (crc), CoeRce snake_case (crs), and CoeRce UPPER_CASE (cru)
+	--
+	-- folding:
+	-- "kevinhwang91/nvim-ufo",
+	--
+	-- images:
+	-- "3rd/image.nvim",
+end)
