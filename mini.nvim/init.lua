@@ -24,11 +24,15 @@ local now, later = MiniDeps.now, MiniDeps.later
 vim.g.mapleader = " "
 
 now(function()
+	require("user.record-key") -- show key presses
 	require("user.options") -- vim options
 	require("user.keymaps") -- key maps
 	require("user.colorscheme")
 	require("user.lualine") -- status line
 	require("user.treesitter") -- treesitter
+	require("user.barbecue") -- navic context
+	require("user.treesitter-context") -- fn context
+	require("user.lspconfig") -- lsp
 
 	-- Utilities
 	require("user.persistence") -- session management
@@ -40,8 +44,7 @@ later(function()
 	-- UI
 	require("user.which-key") -- key setup with descriptions
 	-- require("user.smear-cursor") -- cursor motion shadow/animation
-	require("user.barbecue") -- navic context
-	require("user.treesitter-context") -- fn context
+	require("user.record-key") -- show key presses
 
 	-- Utilities for plugins
 	require("user.snacks") -- utilities
@@ -53,7 +56,6 @@ later(function()
 	require("user.mason") -- lsp, dap and linter package manager
 	require("user.conform") -- formatter
 	require("user.nvim-lint") -- linter
-	require("user.lspconfig") -- lsp
 	require("user.copilot") -- copilot
 
 	-- Coding

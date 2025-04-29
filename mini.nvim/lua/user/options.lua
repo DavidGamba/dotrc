@@ -90,3 +90,12 @@ opt.updatetime = 300 -- faster completion (4000ms default)
 opt.spell = true
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
+
+vim.api.nvim_create_autocmd("BufRead", {
+	group = vim.api.nvim_create_augroup("detect_d2", { clear = true }),
+	desc = "Set filetype for *.d2 files",
+	pattern = { "*.d2" },
+	callback = function()
+		vim.cmd("set filetype=d2")
+	end,
+})
