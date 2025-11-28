@@ -6,8 +6,9 @@
     path = ~/work/.gitconfig
 
 [core]
-	#pager = less -FRX
-	pager = delta --side-by-side --line-numbers
+	pager = less -FRX
+	; pager = moar --quit-if-one-screen -no-clear-on-exit
+	; pager = delta --side-by-side --line-numbers
 	editor = /home/david/opt/bin/nvim
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
@@ -15,6 +16,8 @@
 
 # diffr: cargo install diffr
 # https://github.com/mookid/diffr
+# difft: brew install difftastic
+# https://github.com/Wilfred/difftastic
 [pager]
 	#diff = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
 	#show = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
@@ -22,7 +25,7 @@
 
 [interactive]
 	#diffFilter = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0
-	diffFilter = delta --color-only --features=interactive
+	# diffFilter = delta --color-only --features=interactive
 	# diffFilter = diff-highlight
 
 [color]
@@ -39,23 +42,24 @@
 	prompt = true
 [mergetool "vimdiff"]
 	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+[merge "mergiraf"]
+    name = mergiraf
+    driver = mergiraf merge --git %O %A %B -s %S -x %X -y %Y -p %P -l %L
 
 [diff]
 	noprefix = true
 	colorMoved = default
+	external = difft
 
 [branch]
 	sort = -committerdate
-
-[commit]
-	template = ~/dotrc/git-commit-template
 
 [alias]
 	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
 	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
 
 	llg = -c core.pager=less lg
-	lg = log --date=format:'%Y-%m-%d %H:%M' --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ad, %an)%Creset %n%b' --no-prefix
+	lg = log --date=format:'%Y-%m-%d %H:%M' --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ad, %an)%Creset %n%b' --no-prefix --ext-diff
 	date = log --pretty=tformat:'%C(yellow)%h %Creset %Cred%s%Creset %Cgreen%d%Creset %Cgreen(%ai, %ae, %ci, %ce)%Creset %n%b' --no-prefix
 	st = status --short --branch --untracked-files=no
 	stu = status --short --branch
@@ -79,7 +83,7 @@
 	resetauthor = commit --amend --reset-author --no-edit
 	resetauthor-sha = rebase -x 'git commit --amend --reset-author --no-edit' -i
 	rebaseroot = rebase -i --root
-	s = show --relative
+	s = show --relative --ext-diff
 	sw = show --relative --word-diff-regex=.
 	sws = show --relative --word-diff-regex=\\s
 	diffx = diff --no-index --no-prefix --relative --minimal --find-copies --color
@@ -131,4 +135,6 @@
 
 [delta]
 	navigate = true
-	syntax-theme = GitHub
+	# delta --show-syntax-themes
+	syntax-theme = zenburn
+	true-color = always
