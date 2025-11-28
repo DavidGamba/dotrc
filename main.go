@@ -102,20 +102,21 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	os.Chdir(os.Getenv("HOME"))
 
 	dirs, err := fsmodtime.ExpandEnv([]string{
-		"$HOME/opt/bin",
-		"$HOME/mnt",
+		"$HOME/.aws",
+		"$HOME/.config/bat",
+		"$HOME/.config/git",
+		"$HOME/.config/gitui",
+		"$HOME/.config/lazygit",
+		"$HOME/.config/yamllint",
+		"$HOME/.config/zsh",
+		"$HOME/.kube",
+		"$HOME/.ssh",
+		"$HOME/.terraform.d/plugin-cache",
 		"$HOME/general/code",
 		"$HOME/general/projects",
+		"$HOME/mnt",
+		"$HOME/opt/bin",
 		"$HOME/work",
-		"$HOME/.ssh",
-		"$HOME/.aws",
-		"$HOME/.terraform.d/plugin-cache",
-		"$HOME/.config/zsh",
-		"$HOME/.config/bat",
-		"$HOME/.config/lazygit",
-		"$HOME/.config/gitui",
-		"$HOME/.config/yamllint",
-		"$HOME/.kube",
 	})
 	if err != nil {
 		return err
@@ -134,13 +135,14 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/zprofile", "$HOME/.zprofile")
 	cg.symlink("$HOME/dotrc/zshrc", "$HOME/.zshrc")
 	cg.symlink("$HOME/dotrc/zshrc", "$HOME/.config/zsh/.zshrc")
-	cg.symlink("dotrc/screenrc", "$HOME/.screenrc")
-	cg.symlink("dotrc/tmux.conf", "$HOME/.tmux.conf")
-	cg.symlink("dotrc/perltidyrc", "$HOME/.perltidyrc")
-	cg.symlink("dotrc/inputrc", "$HOME/.inputrc")
-	cg.symlink("dotrc/gitignore", "$HOME/.gitignore")
-	cg.symlink("dotrc/gitconfig", "$HOME/.gitconfig")
-	cg.symlink("dotrc/hgrc", "$HOME/.hgrc")
+	cg.symlink("$HOME/dotrc/screenrc", "$HOME/.screenrc")
+	cg.symlink("$HOME/dotrc/tmux.conf", "$HOME/.tmux.conf")
+	cg.symlink("$HOME/dotrc/perltidyrc", "$HOME/.perltidyrc")
+	cg.symlink("$HOME/dotrc/inputrc", "$HOME/.inputrc")
+	cg.symlink("$HOME/dotrc/gitignore", "$HOME/.gitignore")
+	cg.symlink("$HOME/dotrc/gitconfig", "$HOME/.gitconfig")
+	cg.symlink("$HOME/dotrc/gitattributes", "$HOME/.config/git/attributes")
+	cg.symlink("$HOME/dotrc/hgrc", "$HOME/.hgrc")
 	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
 	cg.symlink("$HOME/dotrc/mini.nvim", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
@@ -149,7 +151,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/kitty.conf", "$HOME/.config/kitty/kitty.conf")
 	cg.symlink("$HOME/dotrc/kitty-open-actions.conf", "$HOME/.config/kitty/open-actions.conf")
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
-	cg.symlink("dotrc/terraformrc", "$HOME/.terraformrc")
+	cg.symlink("$HOME/dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
 	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
