@@ -27,6 +27,7 @@ setopt AUTO_LIST
 setopt AUTO_MENU
 # setopt COMPLETE_IN_WORD
 # setopt ALWAYS_TO_END
+setopt NO_AUTO_REMOVE_SLASH
 
 # '^D' list completions
 
@@ -50,8 +51,11 @@ export ZSHELL="true"
 export EDITOR="nvim"
 export GIT_EDITOR="nvim"
 export VISUAL="nvim"
-export PAGER="less"
-export LESS="-I -j6 -M -R -X"
+# export PAGER="less"
+# export LESS="-I -j6 -M -R -X"
+export PAGER="moor"
+alias less='moor'
+export MOAR='--quit-if-one-screen'
 export XDG_CONFIG_HOME="$HOME/.config"
 export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
 
@@ -80,6 +84,7 @@ source ~/dotrc/shell_func/clear.sh
 source ~/dotrc/shell_func/cdd.sh
 source ~/dotrc/shell_func/cli-bookmarks.bash
 source ~/dotrc/shell_func/yazi.sh
+source ~/dotrc/shell_func/kubectl-aliases.sh
 alias cd='cdd'
 # Use bash built in completion for cd to allow for filenames to be used
 complete -r cd 2>/dev/null
@@ -95,10 +100,12 @@ complete -o default -C imgset imgset
 complete -o default -C joinlines joinlines
 complete -o default -C json-parse json-parse
 complete -o default -C kcherry kcherry
+complete -o default -C kdecode kdecode
 complete -o default -C mermaid mermaid
 complete -o default -C password-cache password-cache
 complete -o default -C patch-seam patch-seam
 complete -o default -C reverseproxy reverseproxy
+complete -o default -C tz tz
 complete -o default -C wardley wardley
 complete -o default -C webserve webserve
 complete -o default -C yaml-parse yaml-parse
