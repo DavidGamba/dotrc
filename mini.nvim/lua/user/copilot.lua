@@ -2,11 +2,22 @@ local add = MiniDeps.add
 
 add({
 	source = "zbirenbaum/copilot.lua",
+	depends = {
+		"copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
+	},
 })
 
 require("copilot").setup({
+	nes = {
+		enabled = false,
+		keymap = {
+			accept_and_goto = "<leader>p",
+			accept = false,
+			dismiss = "<Esc>",
+		},
+	},
 	suggestion = {
-		auto_trigger = true,
+		auto_trigger = false,
 	},
 })
 

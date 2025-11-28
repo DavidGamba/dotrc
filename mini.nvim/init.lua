@@ -16,6 +16,8 @@ if not vim.loop.fs_stat(mini_path) then
 end
 
 -- Update with :DepsUpdate
+-- TODO: Update blink tag version when updating
+-- ./lua/user/blink.lua
 
 -- Set up 'mini.deps' (customize to your liking)
 require("mini.deps").setup({ path = { package = path_package } })
@@ -51,12 +53,14 @@ later(function()
 
 	-- Git
 	require("user.gitsigns")
+	require("user.mini-git")
 
 	-- LSP
 	require("user.mason") -- lsp, dap and linter package manager
-	require("user.conform") -- formatter
+	require("user.conform") -- formatter, disable with :FormatToggle
 	require("user.nvim-lint") -- linter
 	require("user.copilot") -- copilot
+	require("user.sidekick") -- AI agent UI
 
 	-- Coding
 	require("user.mini-ai") -- extra text objects
@@ -78,6 +82,7 @@ later(function()
 	require("user.grug-far") -- search and replace
 	require("user.telescope") -- search
 	require("user.linediff") -- diff blocks
+	require("user.dart") -- buffer pining on tabline
 
 	-- TODO:
 	--

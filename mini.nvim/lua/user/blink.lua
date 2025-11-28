@@ -8,7 +8,7 @@ add({
 		"saghen/blink.compat",
 		"giuxtaposition/blink-cmp-copilot",
 	},
-	checkout = "v1.1.1",
+	checkout = "v1.7.0",
 })
 
 require("blink.cmp").setup({
@@ -67,5 +67,15 @@ require("blink.cmp").setup({
 	keymap = {
 		preset = "enter",
 		["<C-y>"] = { "select_and_accept" },
+		-- ["<Tab>"] = {
+		-- 	"snippet_forward",
+		-- 	function() -- sidekick next edit suggestion
+		-- 		return require("sidekick").nes_jump_or_apply()
+		-- 	end,
+		-- 	function() -- if you are using Neovim's native inline completions
+		-- 		return vim.lsp.inline_completion.get()
+		-- 	end,
+		-- 	"fallback",
+		-- },
 	},
 })

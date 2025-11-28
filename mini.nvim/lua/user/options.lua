@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+opt.shell = "zsh" -- terminal shell
+
 -- opt.fileencoding = "utf-8" -- the encoding written to a file
 
 -- Allow changing to another file with unsaved changes on the current file.
@@ -53,6 +55,8 @@ opt.listchars:append("extends:»")
 opt.listchars:append("precedes:«")
 opt.cursorline = true
 
+opt.winborder = "rounded"
+
 -- vim.cmd("set listchars=tab:˲\\ ,trail:·,extends:»,precedes:«") -- Unprintable chars mapping
 -- ▸ ˲ ˃ ˍ
 
@@ -98,4 +102,15 @@ vim.api.nvim_create_autocmd("BufRead", {
 	callback = function()
 		vim.cmd("set filetype=d2")
 	end,
+})
+
+vim.diagnostic.config({
+	-- Use the default configuration
+	virtual_lines = true,
+
+	-- Alternatively, customize specific options
+	virtual_lines = {
+		-- Only show virtual line diagnostics for the current cursor line
+		current_line = true,
+	},
 })

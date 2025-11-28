@@ -5,11 +5,51 @@ add({
 	depends = { "nvim-tree/nvim-web-devicons" },
 })
 
-require("oil").setup({
+add({
+	source = "refractalize/oil-git-status.nvim",
+	depends = { "stevearc/oil.nvim" },
+})
+
+local oil = require("oil")
+
+oil.setup({
+	win_options = {
+		signcolumn = "yes:2",
+	},
 	columns = { "icon" },
 	keymaps = {
-		-- ["<C-h>"] = false,
-		-- ["<M-h>"] = "actions.select_split",
+		-- Don't use motions I use for window management for splits
+		["<C-h>"] = false,
+		["<C-l>"] = false,
+		-- Splits
+		["<C-s>"] = { "actions.select", opts = { horizontal = true } },
+		["<C-v>"] = { "actions.select", opts = { vertical = true } },
+		["<leader>ga"] = function()
+			local cwd = oil.get_current_dir()
+			local entry = oil.get_cursor_entry()
+			if cwd and entry then
+				local pos = vim.fn.getcurpos()
+				local line = pos[2]
+				local col = pos[3]
+				vim.fn.jobstart({ "git", "add", string.format("%s/%s", cwd, entry.name) })
+				oil.open(cwd)
+				print("Cursor Position: Line " .. line .. ", Column " .. col)
+				vim.fn.cursor(line, 0)
+			end
+		end,
+		["<leader>gr"] = function()
+			local cwd = oil.get_current_dir()
+			local entry = oil.get_cursor_entry()
+			if cwd and entry then
+				local pos = vim.fn.getcurpos()
+				local line = pos[2]
+				local col = pos[3]
+				vim.fn.jobstart({ "git", "reset", string.format("%s/%s", cwd, entry.name) })
+				oil.open(cwd)
+				print("Cursor Position: Line " .. line .. ", Column " .. col)
+				vim.fn.cursor(line, 0)
+			end
+		end,
 	},
 	view_options = {
 		show_hidden = true,
@@ -28,6 +68,8 @@ require("oil").setup({
 		end,
 	},
 })
+
+require("oil-git-status").setup()
 
 -- Open parent directory in current window
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })

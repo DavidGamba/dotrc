@@ -1,12 +1,14 @@
 local map = vim.keymap.set
 
+map({ "t" }, "\\e", "<c-\\><c-n><c-w><c-p>", { desc = "Escape Terminal Mode and go to previous window" })
+
 map({ "n", "x" }, "s", "<nop>") -- use s for surround
 
 -- No need to use shift key to run a command
 map("n", ";", ":")
 
 -- Save with C-s
-map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+map({ "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- Copy current path
 map("n", "cp", ':let @+ = expand("%:p")<CR>', { desc = "Copy current path" })

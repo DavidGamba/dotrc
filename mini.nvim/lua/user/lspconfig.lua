@@ -5,17 +5,23 @@ add({
 	depends = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
 })
 
-local lspconfig = require("lspconfig")
--- require("lspconfig").setup({})
+vim.lsp.config("cue", {
+	cmd = { "cue-0.15.0-dev", "lsp", "serve" },
+})
+vim.lsp.enable("cue")
+vim.lsp.enable("gopls")
+vim.lsp.config("terraformls", {})
+vim.lsp.enable("terraformls")
 
-lspconfig.gopls.setup({})
-lspconfig.terraformls.setup({})
-lspconfig.cue.setup({})
+vim.lsp.config("copilot", {})
+vim.lsp.enable("copilot")
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local bufnr = args.buf
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
+	callback = function(ev)
+		local client = assert(vim.lsp.get_client_by_id(ev.data.client_id), "must have valid client")
+		if client:supports_method("textDocument/completion") then
+			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+		end
 
 		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
 
@@ -62,6 +68,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, { buffer = 0, desc = "List workspace folders" })
 
 		-- document
+		vim.keymap.set("n", "g0", vim.lsp.buf.document_symbol, { buffer = 0, desc = "Document Symbol" })
 		vim.keymap.set("n", "gws", vim.lsp.buf.document_symbol, { buffer = 0, desc = "Document Symbol" })
 		vim.keymap.set("n", "gwS", vim.lsp.buf.workspace_symbol, { buffer = 0, desc = "Workspace Symbol" })
 
