@@ -8,7 +8,7 @@ add({
 		"saghen/blink.compat",
 		"giuxtaposition/blink-cmp-copilot",
 	},
-	checkout = "v1.7.0",
+	checkout = "v1.9.1",
 })
 
 require("blink.cmp").setup({
