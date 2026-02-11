@@ -84,6 +84,10 @@ later(function()
 	require("user.linediff") -- diff blocks
 	require("user.dart") -- buffer pining on tabline
 
+	-- Terminal
+	-- :CommandExecute command ${selection:sh}
+	require("user.command") -- run a command in a terminal
+
 	-- TODO:
 	--
 	-- vim-abolish:
