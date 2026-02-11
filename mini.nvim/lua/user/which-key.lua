@@ -17,6 +17,7 @@ local opts = {
 			{ "<leader>f", group = "file/find" },
 			{ "<leader>g", group = "git" },
 			{ "<leader>gh", group = "hunks" },
+			{ "<leader>l", group = "line/linter" },
 			{ "<leader>q", group = "quit/session" },
 			{ "<leader>s", group = "search/snippets" },
 			{ "<leader>t", group = "telescope" },
