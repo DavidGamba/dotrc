@@ -101,8 +101,16 @@ vim.api.nvim_create_autocmd("BufRead", {
 	pattern = { "*.d2" },
 	callback = function()
 		vim.cmd("set filetype=d2")
+		vim.opt.commentstring = "# %s"
 	end,
 })
+
+-- vim.api.nvim_create_autocmd("FileType", {
+-- 	pattern = "d2",
+-- 	callback = function()
+-- 		vim.opt.commentstring = "# %s"
+-- 	end,
+-- })
 
 vim.diagnostic.config({
 	-- Use the default configuration
