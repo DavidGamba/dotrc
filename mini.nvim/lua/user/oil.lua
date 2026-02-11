@@ -12,12 +12,16 @@ add({
 
 local oil = require("oil")
 
+local oil_git_status = require("oil-git-status")
+
 oil.setup({
 	win_options = {
 		signcolumn = "yes:2",
 	},
 	columns = { "icon" },
 	keymaps = {
+		-- Show help with g?
+		["<esc>"] = { "actions.refresh" },
 		-- Don't use motions I use for window management for splits
 		["<C-h>"] = false,
 		["<C-l>"] = false,
@@ -32,9 +36,18 @@ oil.setup({
 				local line = pos[2]
 				local col = pos[3]
 				vim.fn.jobstart({ "git", "add", string.format("%s/%s", cwd, entry.name) })
-				oil.open(cwd)
-				print("Cursor Position: Line " .. line .. ", Column " .. col)
-				vim.fn.cursor(line, 0)
+				-- Alternative way to refresh oil view natively
+				-- vim.api.nvim_create_autocmd("User", {
+				-- 	pattern = "OilEnter",
+				-- 	once = true,
+				-- 	callback = function()
+				-- 		vim.schedule(function()
+				-- 			vim.fn.cursor(line, 0)
+				-- 		end)
+				-- 	end,
+				-- })
+				-- oil.open(cwd)
+				oil_git_status.refresh_buffer(0)
 			end
 		end,
 		["<leader>gr"] = function()
@@ -45,9 +58,18 @@ oil.setup({
 				local line = pos[2]
 				local col = pos[3]
 				vim.fn.jobstart({ "git", "reset", string.format("%s/%s", cwd, entry.name) })
-				oil.open(cwd)
-				print("Cursor Position: Line " .. line .. ", Column " .. col)
-				vim.fn.cursor(line, 0)
+				-- Alternative way to refresh oil view natively
+				-- vim.api.nvim_create_autocmd("User", {
+				-- 	pattern = "OilEnter",
+				-- 	once = true,
+				-- 	callback = function()
+				-- 		vim.schedule(function()
+				-- 			vim.fn.cursor(line, 0)
+				-- 		end)
+				-- 	end,
+				-- })
+				-- oil.open(cwd)
+				oil_git_status.refresh_buffer(0)
 			end
 		end,
 	},
@@ -67,9 +89,10 @@ oil.setup({
 			return false
 		end,
 	},
+	watch_for_changes = true,
 })
 
-require("oil-git-status").setup()
+oil_git_status.setup()
 
 -- Open parent directory in current window
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
