@@ -10,8 +10,8 @@ vim.lsp.config("cue", {
 })
 vim.lsp.enable("cue")
 vim.lsp.enable("gopls")
--- vim.lsp.config("terraformls", {})
--- vim.lsp.enable("terraformls")
+vim.lsp.config("terraformls", {})
+vim.lsp.enable("terraformls")
 
 vim.lsp.config("copilot", {})
 vim.lsp.enable("copilot")

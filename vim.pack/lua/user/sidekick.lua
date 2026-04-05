@@ -5,11 +5,11 @@ vim.pack.add({
 require("sidekick").setup({
 	keys = {
 		{
-			"<tab>",
+			"<c-.>",
 			function()
 				-- if there is a next edit, jump to it, otherwise apply it if any
 				if not require("sidekick").nes_jump_or_apply() then
-					return "<Tab>" -- fallback to normal tab
+					return "<c-.>" -- fallback to normal keybind
 				end
 			end,
 			expr = true,
@@ -42,10 +42,16 @@ require("sidekick").setup({
 	},
 })
 
-vim.keymap.set({ "n" }, "<tab>", function()
+-- vim.keymap.set({ "n" }, "<tab>", function()
+-- 	-- if there is a next edit, jump to it, otherwise apply it if any
+-- 	if not require("sidekick").nes_jump_or_apply() then
+-- 		return "<Tab>" -- fallback to normal tab
+-- 	end
+-- end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
+vim.keymap.set({ "n", "x", "i", "t" }, "<c-.>", function()
 	-- if there is a next edit, jump to it, otherwise apply it if any
 	if not require("sidekick").nes_jump_or_apply() then
-		return "<Tab>" -- fallback to normal tab
+		return "<c-.>" -- fallback to normal keybind
 	end
 end, { expr = true, desc = "Goto/Apply Next Edit Suggestion" })
 vim.keymap.set({ "n" }, "<leader>ra", function()
@@ -54,6 +60,6 @@ end, { desc = "Sidekick Toggle CLI", remap = true })
 vim.keymap.set({ "n" }, "<leader>rs", function()
 	require("sidekick.cli").select()
 end, { desc = "Sidekick Select CLI", remap = true })
-vim.keymap.set({ "n", "x", "i", "t" }, "<c-.>", function()
-	require("sidekick.cli").focus()
-end, { desc = "Sidekick Switch Focus", remap = true })
+-- vim.keymap.set({ "n", "x", "i", "t" }, "<c-.>", function()
+-- 	require("sidekick.cli").focus()
+-- end, { desc = "Sidekick Switch Focus", remap = true })
