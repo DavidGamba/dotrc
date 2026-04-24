@@ -6,7 +6,7 @@ vim.pack.add({
 })
 
 vim.lsp.config("cue", {
-	cmd = { "cue-0.16.0-dev", "lsp", "serve" },
+	cmd = { "cue-tip", "lsp", "serve" },
 })
 vim.lsp.enable("cue")
 vim.lsp.enable("gopls")
@@ -16,11 +16,18 @@ vim.lsp.enable("terraformls")
 vim.lsp.config("copilot", {})
 vim.lsp.enable("copilot")
 
+vim.lsp.config("bashls", {})
+vim.lsp.enable("bashls")
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		local client = assert(vim.lsp.get_client_by_id(ev.data.client_id), "must have valid client")
 		if client:supports_method("textDocument/completion") then
 			vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+		end
+
+		if client then
+			client.server_capabilities.semanticTokensProvider = nil
 		end
 
 		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"

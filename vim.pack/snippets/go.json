@@ -175,7 +175,7 @@
   },
   "subcommand": {
     "body": [
-      "package \\${1:packagename}",
+      "package ${1:packagename}",
       "",
       "import (",
       "\t\"log\"",
@@ -187,12 +187,15 @@
       "var Logger = log.New(os.Stderr, \"\", log.LstdFlags)",
       "",
       "func NewCommand(parent *getoptions.GetOpt) *getoptions.GetOpt {",
-      "\topt := parent.NewCommand(\"\\$1\", \"\\$1 related tasks\")",
+      "\topt := parent.NewCommand(\"$1\", \"$1 related tasks\")",
+      "\topt.SetCommandFn(\\$1Run)",
       "\treturn opt",
-      "}",
-      "endsnippet",
-      "",
-      "snippet newsubcommand",
+      "}"
+    ],
+    "prefix": "subcommand"
+  },
+  "newsubcommand": {
+    "body": [
       "func \\${1:subcommandname}CMD(parent *getoptions.GetOpt) *getoptions.GetOpt {",
       "\topt := parent.NewCommand(\"`!p snip.rv = t[1].lower()`\", \"\")",
       "\topt.SetCommandFn(\\$1Run)",
@@ -204,7 +207,7 @@
       "\treturn nil",
       "}"
     ],
-    "prefix": "subcommand"
+    "prefix": "newsubcommand"
   },
   "NewCommand": {
     "body": [
