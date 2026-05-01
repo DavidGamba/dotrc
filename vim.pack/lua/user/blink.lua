@@ -65,7 +65,7 @@ require("blink.cmp").setup({
 	},
 
 	keymap = {
-		preset = "enter",
+		preset = "default",
 		["<C-y>"] = { "select_and_accept" },
 		-- ["<Tab>"] = {
 		-- 	"snippet_forward",
