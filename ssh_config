@@ -1,31 +1,31 @@
 KeepAlive yes
 ServerAliveInterval 30
 ServerAliveCountMax 6
-AddKeysToAgent yes
 
 Include work_config
 Include private_config
 
 Host *
 	SetEnv TERM=xterm
-# SetEnv TERM=xterm-direct
-# 	IgnoreUnknown UseKeychain
-# 	AddKeysToAgent yes
-# 	UseKeychain yes
-# 	IdentityFile ~/.ssh/id_ed25519_work
+	IgnoreUnknown UseKeychain
+	AddKeysToAgent yes
+	UseKeychain yes
 
 Host github.com
-	IgnoreUnknown UseKeychain
-	UseKeychain yes
 	HostName github.com
 	User git
 	IdentityFile ~/.ssh/id_ed25519_work
-	# IdentityFile ~/.ssh/id_rsa
 
 Host davidgamba.github.gamba.ca
-	IgnoreUnknown UseKeychain
-	UseKeychain yes
-	# HostName github.com
 	User git
-	# IdentityFile ~/.ssh/id_ed25519_personal
-	IdentityFile ~/.ssh/id_rsa
+	IdentityFile ~/.ssh/id_ed25519_personal
+
+# ssh-keygen -t ed25519 -a 128 -C <work_email> -f ~/.ssh/id_ed25519_work
+# ssh-add --apple-use-keychain ~/.ssh/id_ed25519_work
+#
+# ssh-keygen -t ed25519 -a 128 -C davidgamba@gmail.com -f ~/.ssh/id_ed25519_personal
+# ssh-add --apple-use-keychain ~/.ssh/id_ed25519_personal
+#
+# -a specifies the number of KDF (key derivation function) rounds used.
+# Increased resistance to brute-force password cracking (should the keys be stolen).
+# The default is 16 rounds.
