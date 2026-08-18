@@ -6,6 +6,8 @@ require("snacks").setup({
 	gitbrowse = { enabled = true },
 	rename = { enabled = true },
 	words = { enabled = true },
+	image = { enabled = true },
+	gh = { enabled = true },
 })
 
 local map = vim.keymap.set
@@ -29,3 +31,13 @@ map({ "n", "x" }, "<leader>gY", function()
 		notify = false,
 	})
 end, { desc = "Git Browse (copy)" })
+
+-- GH
+map("n", "<leader>gp", function()
+	Snacks.picker.gh_pr()
+end, { desc = "GitHub Pull Requests (Open)" })
+
+-- image
+map("n", "<leader>ih", function()
+	Snacks.image.hover()
+end, { desc = "Image Hover" })

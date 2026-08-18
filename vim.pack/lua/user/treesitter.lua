@@ -1,19 +1,19 @@
-vim.pack.add({
-	"https://github.com/nvim-treesitter/nvim-treesitter",
-	"https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
-})
-
-vim.api.nvim_create_autocmd("PackChanged", {
-	callback = function(ev)
-		local name, kind = ev.data.spec.name, ev.data.kind
-		if name == "nvim-treesitter" and (kind == "update" or kind == "install") then
-			if not ev.data.active then
-				vim.cmd.packadd("nvim-treesitter")
-			end
-			vim.cmd("TSUpdate")
-		end
-	end,
-})
+-- vim.pack.add({
+-- 	"https://github.com/nvim-treesitter/nvim-treesitter",
+-- 	"https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+-- })
+--
+-- vim.api.nvim_create_autocmd("PackChanged", {
+-- 	callback = function(ev)
+-- 		local name, kind = ev.data.spec.name, ev.data.kind
+-- 		if name == "nvim-treesitter" and (kind == "update" or kind == "install") then
+-- 			if not ev.data.active then
+-- 				vim.cmd.packadd("nvim-treesitter")
+-- 			end
+-- 			vim.cmd("TSUpdate")
+-- 		end
+-- 	end,
+-- })
 
 -- require("nvim-treesitter.configs").setup({
 --
@@ -50,60 +50,78 @@ vim.api.nvim_create_autocmd("PackChanged", {
 -- 	},
 -- })
 
-require("nvim-treesitter").install({
-	"bash",
-	"css",
-	"csv",
-	"cue",
-	"diff",
-	"dot",
-	"embedded_template",
-	"git_config",
-	"git_rebase",
-	"gitattributes",
-	"gitcommit",
-	"gitignore",
-	"gnuplot",
-	"go",
-	"gomod",
-	"gosum",
-	"gotmpl",
-	"gowork",
-	"graphql",
-	"groovy",
-	"hcl",
-	"helm",
-	"hjson",
-	"html",
-	"http",
-	"ini",
-	"java",
-	"javascript",
-	"jq",
-	"jsdoc",
-	"json",
-	"kotlin",
-	"lua",
-	"make",
-	"markdown",
-	"markdown_inline",
-	"mermaid",
-	"nix",
-	"pem",
-	"proto",
-	"python",
-	"regex",
-	"rego",
-	"ruby",
-	"rust",
-	"sql",
-	"terraform",
-	"toml",
-	"tsv",
-	"typescript",
-	"vim",
-	"vimdoc",
-	"vue",
-	"xml",
-	"yaml",
+-- require("nvim-treesitter").install({
+-- 	"bash",
+-- 	"css",
+-- 	"csv",
+-- 	"cue",
+-- 	"diff",
+-- 	"dot",
+-- 	"embedded_template",
+-- 	"git_config",
+-- 	"git_rebase",
+-- 	"gitattributes",
+-- 	"gitcommit",
+-- 	"gitignore",
+-- 	"gnuplot",
+-- 	"go",
+-- 	"gomod",
+-- 	"gosum",
+-- 	"gotmpl",
+-- 	"gowork",
+-- 	"graphql",
+-- 	"groovy",
+-- 	"hcl",
+-- 	"helm",
+-- 	"hjson",
+-- 	"html",
+-- 	"http",
+-- 	"ini",
+-- 	"java",
+-- 	"javascript",
+-- 	"jq",
+-- 	"jsdoc",
+-- 	"json",
+-- 	"kotlin",
+-- 	"lua",
+-- 	"make",
+-- 	"markdown",
+-- 	"markdown_inline",
+-- 	"mermaid",
+-- 	"nix",
+-- 	"pem",
+-- 	"proto",
+-- 	"python",
+-- 	"regex",
+-- 	"rego",
+-- 	"ruby",
+-- 	"rust",
+-- 	"sql",
+-- 	"terraform",
+-- 	"toml",
+-- 	"tsv",
+-- 	"typescript",
+-- 	"vim",
+-- 	"vimdoc",
+-- 	"vue",
+-- 	"xml",
+-- 	"yaml",
+-- })
+
+vim.pack.add({ "https://github.com/romus204/tree-sitter-manager.nvim" })
+
+require("tree-sitter-manager").setup({
+	use_repo_queries = true,
+	auto_install = true,
+	highlight = true,
+	-- Use built-in Neovim treesitter parsers
+	noauto_install = {
+		"c",
+		"lua",
+		"markdown",
+		"markdown_inline",
+		"query",
+		"vim",
+		"vimdoc",
+	},
 })

@@ -19,7 +19,7 @@ require("user.colorscheme")
 require("user.lualine") -- status line
 require("user.treesitter") -- treesitter
 require("user.barbecue") -- navic context
-require("user.treesitter-context") -- fn context
+-- require("user.treesitter-context") -- fn context
 
 -- Utilities
 require("user.persistence") -- session management
@@ -39,14 +39,15 @@ require("user.snacks") -- utilities
 -- Git
 require("user.gitsigns")
 require("user.mini-git")
+require("user.guh")
 
 -- LSP
-require("user.mason") -- lsp, dap and linter package manager
+require("user.mason") -- lsp, dap and linter package manager :MasonInstallAll
 require("user.lspconfig") -- lsp (requires mason)
 require("user.conform") -- formatter, disable with :FormatToggle
 require("user.nvim-lint") -- linter
-require("user.copilot") -- copilot
-require("user.sidekick") -- AI agent UI (completions)
+-- require("user.copilot") -- copilot
+require("user.sidekick") -- AI agent UI (completions). <c-.> go to next completion. <leader>ra toggle cli. \e exit terminal and go back.
 
 -- Coding
 require("user.mini-ai") -- extra text objects
@@ -56,7 +57,7 @@ require("user.mini-splitjoin") -- split join lines
 require("user.ts-comments") -- comments for extra languages
 -- TODO: Update tag version when updating
 -- ./lua/user/blink.lua
-require("user.blink") -- completions
+require("user.blink") -- completions. <c-i> trigger completion. <c-y> accept completion.
 require("user.yanky") -- yank ring
 require("user.decipher") -- encode/decode
 require("user.dap") -- Debugging (requires mason)

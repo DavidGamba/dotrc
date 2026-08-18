@@ -2,7 +2,7 @@ vim.pack.add({
 	-- deps
 	"https://github.com/rafamadriz/friendly-snippets",
 	"https://github.com/saghen/blink.compat",
-	"https://github.com/giuxtaposition/blink-cmp-copilot",
+	-- "https://github.com/giuxtaposition/blink-cmp-copilot",
 })
 vim.pack.add({
 	{
@@ -24,7 +24,7 @@ require("blink.cmp").setup({
 		accept = {
 			-- experimental auto-brackets support
 			auto_brackets = {
-				enabled = true,
+				enabled = false,
 			},
 		},
 		menu = {
@@ -53,7 +53,8 @@ require("blink.cmp").setup({
 	sources = {
 		-- adding any nvim-cmp sources here will enable them
 		-- with blink.compat
-		default = { "lsp", "path", "snippets", "buffer", "copilot" },
+		-- default = { "lsp", "path", "snippets", "buffer", "copilot" },
+		default = { "lsp", "path", "snippets", "buffer" },
 		providers = {
 			copilot = {
 				name = "copilot",
@@ -77,5 +78,11 @@ require("blink.cmp").setup({
 		-- 	end,
 		-- 	"fallback",
 		-- },
+		["<C-i>"] = { "show", "show_documentation", "hide_documentation" },
+		["<Up>"] = { "select_prev", "fallback" },
+		["<Down>"] = { "select_next", "fallback" },
+		["<C-p>"] = { "select_prev", "fallback" },
+		["<C-n>"] = { "select_next", "fallback" },
+		["<C-i>"] = { "snippet_forward", "fallback" },
 	},
 })
