@@ -87,7 +87,7 @@ func checkSelf(ctx context.Context) error {
 		if err != nil {
 			return fmt.Errorf("failed to rebuild itself: %w", err)
 		}
-		return fmt.Errorf("source files changed so the binary was rebuilt: plese run again")
+		return fmt.Errorf("source files changed so the binary was rebuilt: please run again")
 	}
 	err = os.Chdir(wd)
 	if err != nil {
@@ -107,6 +107,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 		"$HOME/.config/git",
 		"$HOME/.config/gitui",
 		"$HOME/.config/lazygit",
+		"$HOME/.config/opencode",
 		"$HOME/.config/yamllint",
 		"$HOME/.config/zsh",
 		"$HOME/.kube",
@@ -143,8 +144,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/gitconfig", "$HOME/.gitconfig")
 	cg.symlink("$HOME/dotrc/gitattributes", "$HOME/.config/git/attributes")
 	cg.symlink("$HOME/dotrc/hgrc", "$HOME/.hgrc")
-	cg.symlink("$HOME/dotrc/ssh_config", "$HOME/.ssh/config")
-	cg.symlink("$HOME/dotrc/mini.nvim", "$HOME/.config/nvim")
+	cg.symlink("$HOME/dotrc/vim.pack", "$HOME/.config/nvim")
 	cg.symlink("$HOME/dotrc/bat.config", "$HOME/.config/bat/config")
 	cg.symlink("$HOME/dotrc/lazygit-config.yml", "$HOME/.config/lazygit/config.yml")
 	cg.symlink("$HOME/dotrc/gitui-key_bindings.ron", "$HOME/.config/gitui/key_bindings.ron")
@@ -153,6 +153,7 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("$HOME/dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
+	cg.symlink("$HOME/dotrc/opencode.json", "$HOME/.config/opencode/opencode.json")
 	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
 
