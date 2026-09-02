@@ -265,7 +265,8 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	case "darwin":
 		cg.cmd("brew install kitty") // kitty terminal
 
-		cg.cmd("brew install --cask font-symbols-only-nerd-font") // font
+		cg.cmd("brew install --cask font-symbols-only-nerd-font")   // font
+		cg.cmd("brew install --cask font-jetbrains-mono-nerd-font") // font
 
 		cg.cmd("brew install coreutils") // gnu core utils
 		cg.cmd("brew install jq")        // json parsing
