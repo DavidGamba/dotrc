@@ -2,13 +2,14 @@
 	name = David Gamba
 	email = davidgamba@gmail.com
 
+[commit]
+	template = ~/dotrc/git-commit-template
+
 [includeIf "gitdir:~/work/"]
     path = ~/work/.gitconfig
 
 [core]
 	pager = less -FRX
-	; pager = moar --quit-if-one-screen -no-clear-on-exit
-	; pager = delta --side-by-side --line-numbers
 	editor = /home/david/opt/bin/nvim
 	excludesfile = ~/.gitignore
 	whitespace=-indent-with-non-tab,trailing-space,cr-at-eol,tab-in-indent
@@ -19,12 +20,19 @@
 # difft: brew install difftastic
 # https://github.com/Wilfred/difftastic
 [pager]
-	#diff = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
-	#show = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
-	#log  = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0 | less -FRXsu --tabs=4
+	##############################################################################
+	# I am managing pagers under the ~/bin/git-pager script to allow selecting them on demand.
+	# For example:
+	#   git pager diffr log -p
+	#   git pager delta log -p
+	#   git pager bat log -p
+	#   git pager moar log -p
+	#   git pager sem log -p
+	#   git pager difft log -p
+	#   git pager none log -p
+	##############################################################################
 
 [interactive]
-	#diffFilter = diffr --colors refine-added:foreground:0,43,54:nobold:background:78,154,6 --colors refine-removed:foreground:0,43,54:nobold:background:204,0,0
 	# diffFilter = delta --color-only --features=interactive
 	# diffFilter = diff-highlight
 
@@ -49,12 +57,21 @@
 [diff]
 	noprefix = true
 	colorMoved = default
-	external = difft
+	; external = difft
+
+[difftool "sem"]
+	name = "sem"
+	cmd = sem-diff-wrapper "$LOCAL" "$REMOTE"
 
 [branch]
 	sort = -committerdate
 
 [alias]
+	# ~/bin/git-pager
+	# git pager <tool> log -p
+	# ~/bin/git-xshow
+	# git xshow [<tool>]
+
 	# from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
 	alias=!git config -l | grep -v alias.alias | grep ^alias | cut -c 7- | sort
 
@@ -68,6 +85,7 @@
 	d  = diff --minimal --no-prefix --relative --find-copies
 	dl = -c core.pager=delta d
 	diffl = -c core.pager=delta diff
+	difft = -c core.pager=difft diff
 	wd = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dw = diff --minimal --no-prefix --relative --word-diff --word-diff-regex=. --find-copies
 	dws = diff --minimal --no-prefix --relative --word-diff --word-diff-regex='\\s' --find-copies
@@ -99,6 +117,7 @@
 	merge-show = "!sh -c 'merge=$(git merge-find $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 	merge-log = "!f() { git log --stat \"$1^..$1\"; }; f"
 	pushset = "!sh -c 'git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD 2>/dev/null)'"
+	pushfl = 'git push --force-with-lease'
 
 	most = "!sh -c 'git rev-list --objects --all | git cat-file --batch-check=\"%(objecttype) %(objectname) %(objectsize) %(rest)\" | sed -n \"s/^blob //p\" | sort --numeric-sort --key=2 | $(command -v gnumfmt || echo numfmt) --field=2 --to=iec-i --suffix=B --padding=7 --round=nearest'"
 	blob-log = log --all --find-object
