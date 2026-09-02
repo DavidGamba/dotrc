@@ -241,7 +241,6 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("go install github.com/philpennock/character@latest")     // emoji picker
 	cg.cmd("go install github.com/jesseduffield/lazygit@latest")     // git cli gui
 	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master") // data selector
-	cg.cmd("go install github.com/sachaos/viddy@latest")             // watch command with rewind and other options
 	cg.cmd("go install mvdan.cc/sh/v3/cmd/shfmt@latest")             // shell formatter
 
 	cg.cmd("cargo install viddy")         // watch command with rewind and other options
@@ -255,6 +254,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	cg.cmd("cargo install watchexec-cli") // watch and run command
 	cg.cmd("cargo install --locked bat")  // cat replacement
 	cg.cmd("cargo install tuc")           // cut replacement
+	cg.cmd("cargo install viddy")         // watch command with rewind and other options
 
 	cg.cmdIgnore("git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf")
 	os.Chdir(filepath.Join(os.Getenv("HOME"), ".fzf"))
@@ -263,8 +263,9 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 	switch runtime.GOOS {
 	case "darwin":
-		cg.cmd("brew install kitty")                 // kitty terminal
-		cg.cmd("kitty +kitten themes Kaolin Breeze") // set kitty theme
+		cg.cmd("brew install kitty") // kitty terminal
+
+		cg.cmd("brew install --cask font-symbols-only-nerd-font") // font
 
 		cg.cmd("brew install coreutils") // gnu core utils
 		cg.cmd("brew install jq")        // json parsing
@@ -298,14 +299,17 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install tree")        // tree command
 		cg.cmd("brew install sipcalc")     // ip range calculator
 
-		cg.cmd("brew install tree-sitter")                // tree-sitter
-		cg.cmd("brew install terraform-ls")               // terraform language server
-		cg.cmd("brew install lua-language-server")        // lua language server
-		cg.cmd("brew install shellcheck")                 // bash linting
-		cg.cmd("brew install gh")                         // github client
-		cg.cmd("brew install stern")                      // kubernetes logs
-		cg.cmd("brew install kubie")                      // kubernetes contexts
-		cg.cmd("brew install minamijoyo/hcledit/hcledit") // terraform hcl edits
+		cg.cmd("brew install tree-sitter")                   // tree-sitter
+		cg.cmd("brew install terraform-ls")                  // terraform language server
+		cg.cmd("brew install lua-language-server")           // lua language server
+		cg.cmd("brew install shellcheck")                    // bash linting
+		cg.cmd("brew install gh")                            // github client
+		cg.cmd("brew install stern")                         // kubernetes logs
+		cg.cmd("brew install kubie")                         // kubernetes contexts
+		cg.cmd("brew install minamijoyo/hcledit/hcledit")    // terraform hcl edits
+		cg.cmd("brew install homerours/tap/jumper")          // ranked dir jumper
+		cg.cmd("brew install danielfoehrkn/switch/switcher") // k8s config switcher
+		cg.cmd("brew install moor")                          // pager
 
 		cg.cmd("brew install golangci-lint") // golang linter
 	}
