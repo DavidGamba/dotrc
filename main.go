@@ -153,7 +153,6 @@ func DotRCSymlinks(ctx context.Context, opt *getoptions.GetOpt, args []string) e
 	cg.symlink("$HOME/dotrc/yamllint.config.yaml", "$HOME/.config/yamllint/config")
 	cg.symlink("$HOME/dotrc/terraformrc", "$HOME/.terraformrc")
 	cg.symlink("$HOME/dotrc/kubie.yaml", "$HOME/.kube/kubie.yaml")
-	cg.symlink("$HOME/dotrc/opencode.json", "$HOME/.config/opencode/opencode.json")
 	// cg.symlink("dotrc/yabai/yabairc", "$HOME/.yabairc")
 	// cg.symlink("dotrc/yabai/skhdrc", "$HOME/.skhdrc")
 
@@ -279,6 +278,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		// sudo chsh -s /opt/homebrew/bin/bash $USER
 
 		cg.cmd("brew install asdf") // package manager
+		cg.cmd("brew install uv")   // package manager
 
 		// cg.cmd("brew install koekeishiya/formulae/yabai") // tiling window manager
 		// cg.cmd("brew install koekeishiya/formulae/skhd") // hotkey daemon
@@ -301,6 +301,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 		cg.cmd("brew install sipcalc")     // ip range calculator
 
 		cg.cmd("brew install tree-sitter")                   // tree-sitter
+		cg.cmd("brew install tree-sitter-cli")               // tree-sitter
 		cg.cmd("brew install terraform-ls")                  // terraform language server
 		cg.cmd("brew install lua-language-server")           // lua language server
 		cg.cmd("brew install shellcheck")                    // bash linting
