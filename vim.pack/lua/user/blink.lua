@@ -2,7 +2,7 @@ vim.pack.add({
 	-- deps
 	"https://github.com/rafamadriz/friendly-snippets",
 	"https://github.com/saghen/blink.compat",
-	-- "https://github.com/giuxtaposition/blink-cmp-copilot",
+	"https://github.com/giuxtaposition/blink-cmp-copilot",
 })
 vim.pack.add({
 	{
@@ -53,8 +53,8 @@ require("blink.cmp").setup({
 	sources = {
 		-- adding any nvim-cmp sources here will enable them
 		-- with blink.compat
-		-- default = { "lsp", "path", "snippets", "buffer", "copilot" },
-		default = { "lsp", "path", "snippets", "buffer" },
+		default = { "lsp", "path", "snippets", "buffer", "copilot" },
+		-- default = { "lsp", "path", "snippets", "buffer" },
 		providers = {
 			copilot = {
 				name = "copilot",
@@ -67,22 +67,20 @@ require("blink.cmp").setup({
 
 	keymap = {
 		preset = "default",
-		["<C-y>"] = { "select_and_accept" },
-		-- ["<Tab>"] = {
-		-- 	"snippet_forward",
-		-- 	function() -- sidekick next edit suggestion
-		-- 		return require("sidekick").nes_jump_or_apply()
-		-- 	end,
-		-- 	function() -- if you are using Neovim's native inline completions
-		-- 		return vim.lsp.inline_completion.get()
-		-- 	end,
-		-- 	"fallback",
-		-- },
-		["<C-i>"] = { "show", "show_documentation", "hide_documentation" },
+		["<C-e>"] = { "hide", "fallback" },
+		["<C-y>"] = { "select_and_accept", "fallback" },
+
 		["<Up>"] = { "select_prev", "fallback" },
 		["<Down>"] = { "select_next", "fallback" },
-		["<C-p>"] = { "select_prev", "fallback" },
-		["<C-n>"] = { "select_next", "fallback" },
-		["<C-i>"] = { "snippet_forward", "fallback" },
+		["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+		["<C-n>"] = { "select_next", "fallback_to_mappings" },
+
+		["<C-b>"] = { "scroll_documentation_up", "fallback" },
+		["<C-f>"] = { "scroll_documentation_down", "fallback" },
+
+		["<Tab>"] = { "snippet_forward", "fallback" },
+		["<S-Tab>"] = { "snippet_backward", "fallback" },
+
+		["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
 	},
 })

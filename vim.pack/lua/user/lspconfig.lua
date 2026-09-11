@@ -16,6 +16,9 @@ vim.lsp.enable("terraformls")
 vim.lsp.config("copilot", {})
 vim.lsp.enable("copilot")
 
+vim.lsp.config("copilot_ls", {})
+vim.lsp.enable("copilot_ls")
+
 vim.lsp.config("bashls", {})
 vim.lsp.enable("bashls")
 

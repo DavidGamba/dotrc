@@ -46,8 +46,8 @@ require("user.mason") -- lsp, dap and linter package manager :MasonInstallAll
 require("user.lspconfig") -- lsp (requires mason)
 require("user.conform") -- formatter, disable with :FormatToggle
 require("user.nvim-lint") -- linter
--- require("user.copilot") -- copilot
-require("user.sidekick") -- AI agent UI (completions). <c-.> go to next completion. <leader>ra toggle cli. \e exit terminal and go back.
+require("user.copilot") -- copilot
+-- require("user.sidekick") -- AI agent UI (completions). <c-.> go to next completion. <leader>ra toggle cli. \e exit terminal and go back.
 
 -- Coding
 require("user.mini-ai") -- extra text objects
