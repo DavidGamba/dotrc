@@ -16,5 +16,6 @@ bake.so
 .tf.plan*
 .tf.apply*
 .tf.check*
+.tf.lock
 **/bakefiles/bake
 **/bakefiles/generated_bake.go
