@@ -1,5 +1,5 @@
 # Darwin = mac
-if [ `uname | grep Darwin` ]; then
+if [ $(uname | grep Darwin) ]; then
 	# use coreutils: brew install coreutils
 	alias ll='gls -l --color=auto --hyperlink=auto'
 	alias ls='gls -hF --color=auto --hyperlink=auto'
@@ -21,7 +21,7 @@ alias egrep='egrep --color=auto'
 #alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
-alias pong='ping -c4 www.google.com' 
+alias pong='ping -c4 www.google.com'
 # alias emacs="emacs -nw"
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -59,11 +59,6 @@ alias tapply='time terraform apply -input tf.plan && rm tf.plan'
 alias tcopy='terraform show -no-color tf.plan | copy'
 alias tshow='terraform show tf.plan'
 
-# kubernetes
-alias kcd='kubectl config set-context --current --namespace '
-alias kgc='kubectl config get-contexts'
-alias kuc='kubectl config use-context '
-
 if [[ $(uname -r) =~ "microsoft" ]]; then
 	alias copy='win32yank.exe -i'
 	alias copy-file='win32yank.exe -i <<<'
@@ -77,3 +72,6 @@ else
 	alias copy-file='xclip -selection clipboard'
 	alias copy-path='pwd | tr -d "\n" | xclip -selection clipboard'
 fi
+
+alias serie='serie -p kitty'
+alias kdashboard='lfk'
