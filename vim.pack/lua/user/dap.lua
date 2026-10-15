@@ -67,6 +67,12 @@ local keys = {
     { "<leader>dT", function() require("dap").terminate() end, desc = "Terminate" },
     { "<leader>dt", function() require('dap-go').debug_test() end, desc = "Debug Go Test" },
     { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+
+		-- TODO: Update function to do this only in active debug session
+    -- { "<Down>", function() require("dap").step_over() end, desc = "Step Over" },
+    -- { "<Right>", function() require("dap").step_into() end, desc = "Step Into" },
+    -- { "<Left>", function() require("dap").step_out() end, desc = "Step Out" },
+    -- { "<Up>", function() require("dap").restart_frame() end, desc = "Restart Frame" },
 }
 
 for _, v in ipairs(keys) do

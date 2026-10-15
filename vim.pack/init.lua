@@ -6,8 +6,13 @@
 -- ./lua/user/blink.lua
 -- TODO: Update tag version when updating
 -- ./lua/user/telescope.lua
+-- Run: :MasonInstallAll to update deps
+-- RUN: :TSManager
+--
+-- Reload: :restart
 
 vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 ------
 -- now
@@ -32,6 +37,7 @@ require("user.oil") -- file manager
 -- UI
 require("user.which-key") -- key setup with descriptions
 require("user.smear-cursor") -- cursor motion shadow/animation
+require("user.neoscroll") -- smooth scrolling
 
 -- Utilities for plugins
 require("user.snacks") -- utilities
@@ -68,8 +74,10 @@ require("user.grug-far") -- search and replace
 -- TODO: Update tag version when updating
 -- ./lua/user/telescope.lua
 require("user.telescope") -- search
+require("user.fzf-lua") -- search
 require("user.scissors") -- snippets manager (depends on telescope)
 require("user.linediff") -- diff blocks :Linediff
+require("user.codediff") -- diff file :CodeDiff
 require("user.dart") -- buffer pining on tabline ;; ;a ;p
 
 -- Terminal

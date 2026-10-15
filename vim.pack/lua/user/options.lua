@@ -65,6 +65,7 @@ opt.expandtab = false
 opt.shiftwidth = 2
 opt.softtabstop = 2
 opt.number = true
+opt.relativenumber = false
 opt.textwidth = 0
 
 opt.sidescroll = 30 -- Jump several characters to the side instead of waiting one at a time.
@@ -95,6 +96,9 @@ opt.spell = true
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 
+-- Raise dialog if you close unsaved buffer (prevent mistakes)
+opt.confirm = true
+
 vim.api.nvim_create_autocmd("BufRead", {
 	group = vim.api.nvim_create_augroup("detect_d2", { clear = true }),
 	desc = "Set filetype for *.d2 files",
@@ -113,6 +117,13 @@ vim.api.nvim_create_autocmd("BufRead", {
 -- })
 
 vim.diagnostic.config({
+	severity_sort = true,
+	update_in_insert = false, -- don't update while typing
+	jump = {float = true},
+	float = {
+		source = 'if_many',
+		current_line = true,
+	},
 	-- Use the default configuration
 	virtual_lines = true,
 

@@ -6,7 +6,8 @@ vim.pack.add({
 })
 
 vim.lsp.config("cue", {
-	cmd = { "cue-tip", "lsp", "serve" },
+	-- cmd = { "cue-tip", "lsp", "serve" },
+	cmd = { "cue", "lsp", "serve" },
 })
 vim.lsp.enable("cue")
 vim.lsp.enable("gopls")
@@ -33,17 +34,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			client.server_capabilities.semanticTokensProvider = nil
 		end
 
-		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-
 		vim.keymap.set("n", "<leader>cl", "<cmd>LspInfo<cr>", { buffer = 0, desc = "Lsp Info" })
 
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = 0, desc = "definition" })
-		vim.keymap.set("n", "<C-]>", vim.lsp.buf.definition, { buffer = 0, desc = "definition" })
 		vim.keymap.set("n", "grr", vim.lsp.buf.references, { buffer = 0, desc = "references" })
 		vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = 0, desc = "Implementation" }) -- go implementation
 		vim.keymap.set("n", "gy", vim.lsp.buf.type_definition, { buffer = 0, desc = "T[y]pe Definition" }) -- go list type
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0, desc = "Declaration" })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0, desc = "Hover" })
 		vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0, desc = "Signature Help" })
 		vim.keymap.set("i", "<c-k>", vim.lsp.buf.signature_help, { buffer = 0, desc = "Signature Help" })
 
@@ -83,7 +80,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gwS", vim.lsp.buf.workspace_symbol, { buffer = 0, desc = "Workspace Symbol" })
 
 		vim.keymap.set("n", "=", vim.lsp.buf.format, { buffer = 0, desc = "Format" })
-		vim.keymap.set("n", "<leader>f", function()
+		vim.keymap.set("n", "<leader>cf", function()
 			vim.lsp.buf.format({ async = true })
 		end, { buffer = 0, desc = "Format" })
 	end,

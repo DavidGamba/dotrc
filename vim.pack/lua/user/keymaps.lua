@@ -19,6 +19,18 @@ map({ "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- Copy current path
 map("n", "cp", ':let @+ = expand("%:p")<CR>', { desc = "Copy current path" })
+-- Copy to clipboard shortcuts
+vim.keymap.set('n', '<leader>cp', function()
+	local path = vim.fn.expand('%:p')
+	vim.fn.setreg('+', path)
+	vim.notify('Copied: ' .. path)
+end, { desc = 'Copy absolute path' })
+
+vim.keymap.set('n', '<leader>cP', function()
+	local path = vim.fn.expand('%')
+	vim.fn.setreg('+', path)
+	vim.notify('Copied: ' .. path)
+end, { desc = 'Copy relative path' })
 
 -- Move visually selected text up and down
 map("x", "J", ":move '>+1<CR>gv-gv")
@@ -123,6 +135,7 @@ local diagnostic_goto = function(next, severity)
 		go({ severity = severity })
 	end
 end
+-- Use sd for Teleport search diagnostic
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
 map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
