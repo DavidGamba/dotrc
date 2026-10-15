@@ -236,11 +236,12 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 	}
 
 	cg := CMDGroup{}
-	cg.cmd("go install golang.org/x/tools/gopls@latest")             // golang language server
-	cg.cmd("go install github.com/philpennock/character@latest")     // emoji picker
-	cg.cmd("go install github.com/jesseduffield/lazygit@latest")     // git cli gui
-	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master") // data selector
-	cg.cmd("go install mvdan.cc/sh/v3/cmd/shfmt@latest")             // shell formatter
+	cg.cmd("go install golang.org/x/tools/gopls@latest")                                      // golang language server
+	cg.cmd("go install github.com/philpennock/character@latest")                              // emoji picker
+	cg.cmd("go install github.com/jesseduffield/lazygit@latest")                              // git cli gui
+	cg.cmd("go install github.com/tomwright/dasel/cmd/dasel@master")                          // data selector
+	cg.cmd("go install mvdan.cc/sh/v3/cmd/shfmt@latest")                                      // shell formatter
+	cg.cmd("go install github.com/buildkite/terminal-to-html/v3/cmd/terminal-to-html@latest") // ascii to html converter
 
 	cg.cmd("cargo install viddy")         // watch command with rewind and other options
 	cg.cmd("cargo install diffr")         // diff tool
@@ -269,6 +270,7 @@ func DevDeps(ctx context.Context, opt *getoptions.GetOpt, args []string) error {
 
 		cg.cmd("brew install coreutils") // gnu core utils
 		cg.cmd("brew install jq")        // json parsing
+		cg.cmd("brew install yq")        // yaml parsing
 		cg.cmd("brew install yazi")      // command line file manager
 		cg.cmd("brew install fzf")       // fuzzy finder
 
